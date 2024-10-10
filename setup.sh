@@ -4,6 +4,8 @@
 APT_APPS=(
   git
   neovim
+  go
+  ulauncher
   curl
   pandoc
   npm
@@ -15,6 +17,7 @@ APT_APPS=(
   pipx
   dotnet
   veracrypt
+  tree
 )
 
 # Define the list of snap packages to install
@@ -22,6 +25,7 @@ SNAP_APPS=(
   spotify
   node
   discord
+  go --classic
   vscode --classic
   # Add more Snap-based applications here
 )
