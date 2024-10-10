@@ -9,7 +9,6 @@ source "$(dirname "$0")/colors.sh"
 APT_APPS=(
   git
   neovim
-  go
   ulauncher
   curl
   pandoc
@@ -18,18 +17,27 @@ APT_APPS=(
   btop
   python3-pip
   flatpak
-  docker
   pipx
-  dotnet
-  veracrypt
   tree
   wget
   zsh
 )
 
+
+# Initialize counter
+count=0
+total=${#APT_APPS[@]}
+
+# Install necessary APT applications
 for app in "${APT_APPS[@]}"; do
     colored_echo $BLUE "Installing $app with APT..."
-    if ! sudo apt install -y "$app"; then
+    if sudo apt install -y "$app"; then
+        ((count++))  # Increment counter on successful installation
+    else
         colored_echo $RED "Error: Failed to install $app."
     fi
 done
+
+# Output the count
+echo "$count/$total APT packages downloaded."
+echo "$count"  # Print the count for the main setup script

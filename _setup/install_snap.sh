@@ -14,10 +14,21 @@ SNAP_APPS=(
   "code --classic"
 )
 
+
+# Initialize counter
+count=0
+total=${#SNAP_APPS[@]}
+
 # Install Snap packages
 for snap_app in "${SNAP_APPS[@]}"; do
     colored_echo $BLUE "Installing $snap_app with Snap..."
-    if ! sudo snap install $snap_app; then
+    if sudo snap install $snap_app; then
+        ((count++))  # Increment counter on successful installation
+    else
         colored_echo $RED "Error: Failed to install $snap_app."
     fi
 done
+
+# Output the count
+echo "$count/$total Snap packages downloaded."
+echo "$count"  # Print the count for the main setup script
