@@ -17,14 +17,23 @@ install_deb_from_url() {
   local deb_file=$(basename "$url")
 
   colored_echo $BLUE "Downloading $deb_file from $url..."
-  wget -q "$url" -O "$deb_file"
+  if ! wget -q "$url" -O "$deb_file"; then
+      colored_echo $RED "Error: Failed to download $deb_file. Please check the URL."
+      exit 1  # Exit the script with an error status
+  fi
 
   colored_echo $BLUE "Making $deb_file executable..."
   chmod +x "$deb_file"
 
   colored_echo $BLUE "Installing $deb_file..."
-  sudo dpkg -i "$deb_file"
-  sudo apt-get install -f -y  # Fix any missing dependencies
+  if ! sudo dpkg -i "$deb_file"; then
+      colored_echo $RED "Error: Failed to install $deb_file. Fixing dependencies..."
+      sudo apt-get install -f -y  # Attempt to fix any missing dependencies
+      if [ $? -ne 0 ]; then
+          colored_echo $RED "Error: Could not fix dependencies for $deb_file."
+          exit 1  # Exit the script with an error status
+      fi
+  fi
 
   # Clean up the downloaded .deb file
   colored_echo $BLUE "Cleaning up $deb_file..."

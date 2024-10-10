@@ -17,5 +17,8 @@ SNAP_APPS=(
 # Install Snap packages
 for snap_app in "${SNAP_APPS[@]}"; do
     colored_echo $BLUE "Installing $snap_app with Snap..."
-    sudo snap install "$snap_app"
+    if ! sudo snap install $snap_app; then
+        colored_echo $RED "Error: Failed to install $snap_app."
+        exit 1  # Exit the script with an error status
+    fi
 done

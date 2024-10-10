@@ -5,6 +5,10 @@
 # Source the color definitions and echo function
 source "$(dirname "$0")/_setup/colors.sh"
 
+# Define GitHub username and email
+GITHUB_USERNAME="johannes67890"  # Replace with your GitHub username
+GITHUB_EMAIL="johannes@orager.dk"  # Replace with your GitHub email
+
 # Update and upgrade the system
 tput sc # Save cursor position
 colored_echo $BLUE "Updating and upgrading system..."
@@ -48,6 +52,14 @@ tput sc # Save cursor position
 colored_echo $BLUE "Stowing dotfiles..."
 tput rc # Restore cursor position
 bash _setup/stow_dotfiles.sh
+
+# Configure global Git username and email
+tput sc # Save cursor position
+colored_echo $BLUE "Configuring global Git username and email..."
+tput rc # Restore cursor position
+git config --global user.name "$GITHUB_USERNAME"
+git config --global user.email "$GITHUB_EMAIL"
+
 
 # Set zsh as the default shell for the user
 tput sc # Save cursor position

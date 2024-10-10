@@ -27,8 +27,10 @@ APT_APPS=(
   zsh
 )
 
-# Install necessary APT applications
 for app in "${APT_APPS[@]}"; do
     colored_echo $BLUE "Installing $app with APT..."
-    sudo apt install -y "$app"
+    if ! sudo apt install -y "$app"; then
+        colored_echo $RED "Error: Failed to install $app."
+        exit 1  # Exit the script with an error status
+    fi
 done
