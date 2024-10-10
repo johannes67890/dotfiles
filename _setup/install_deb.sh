@@ -19,7 +19,6 @@ install_deb_from_url() {
   colored_echo $BLUE "Downloading $deb_file from $url..."
   if ! wget -q "$url" -O "$deb_file"; then
       colored_echo $RED "Error: Failed to download $deb_file. Please check the URL."
-      exit 1  # Exit the script with an error status
   fi
 
   colored_echo $BLUE "Making $deb_file executable..."
@@ -31,7 +30,6 @@ install_deb_from_url() {
       sudo apt-get install -f -y  # Attempt to fix any missing dependencies
       if [ $? -ne 0 ]; then
           colored_echo $RED "Error: Could not fix dependencies for $deb_file."
-          exit 1  # Exit the script with an error status
       fi
   fi
 

@@ -31,6 +31,5 @@ for app in "${APT_APPS[@]}"; do
     colored_echo $BLUE "Installing $app with APT..."
     if ! sudo apt install -y "$app"; then
         colored_echo $RED "Error: Failed to install $app."
-        exit 1  # Exit the script with an error status
     fi
 done

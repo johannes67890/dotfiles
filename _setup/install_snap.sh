@@ -8,7 +8,7 @@ source "$(dirname "$0")/colors.sh"
 # Define the list of snap packages to install
 SNAP_APPS=(
   "spotify"
-  "node"
+  "node --classic"
   "discord"
   "go --classic"
   "code --classic"
@@ -19,6 +19,5 @@ for snap_app in "${SNAP_APPS[@]}"; do
     colored_echo $BLUE "Installing $snap_app with Snap..."
     if ! sudo snap install $snap_app; then
         colored_echo $RED "Error: Failed to install $snap_app."
-        exit 1  # Exit the script with an error status
     fi
 done
