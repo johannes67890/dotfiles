@@ -11,7 +11,7 @@ SNAP_APPS=(
   node
   discord
   go --classic
-  vscode --classic
+  code --classic
 )
 
 # Install Snap packages
