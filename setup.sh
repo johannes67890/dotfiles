@@ -62,13 +62,15 @@ git config --global user.email "$GITHUB_EMAIL"
 
 colored_echo $GREEN "Setup complete! Please log out and back in for the changes to take effect."
 
-# Summary of installs
-colored_echo $GREEN "Downloaded $snap_count Snap packages"
-colored_echo $GREEN "Downloaded $apt_count APT packages"
-colored_echo $GREEN "Downloaded $deb_count .deb packages"
 
 # Set zsh as the default shell for the user
 tput sc # Save cursor position
 colored_echo $BLUE "Setting zsh as the default shell..."
 tput rc # Restore cursor position
 chsh -s $(which zsh)
+
+# Summary of installs
+colored_echo $GREEN "Downloaded $snap_count Snap packages"
+colored_echo $GREEN "Downloaded $apt_count APT packages"
+colored_echo $GREEN "Downloaded $deb_count .deb packages"
+

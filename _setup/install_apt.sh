@@ -35,7 +35,6 @@ for app in "${APT_APPS[@]}"; do
         ((count++))  # Increment counter on successful installation
     else
         colored_echo $RED "Error: Failed to install $app."
-        exit 1  # Exit the script with an error status
     fi
 done
 

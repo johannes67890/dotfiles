@@ -15,7 +15,6 @@ STOW_APPS=(
 )
 
 # Backup or remove conflicting files, including .config/user settings
-backup_or_remove_conflicts() {
     for app in "${STOW_APPS[@]}"; do
         colored_echo $BLUE "Checking for conflicts in $app..."
         # List all files that would be linked by stow
@@ -41,7 +40,4 @@ backup_or_remove_conflicts() {
         colored_echo $YELLOW "Removing old Ubuntu user settings in ~/.config/user..."
         rm -rf "$HOME/.config/user"
     fi
-}
 
-# Call the function to check for conflicts
-backup_or_remove_conflicts
