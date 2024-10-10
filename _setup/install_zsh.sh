@@ -31,6 +31,7 @@ ZSH_PLUGINS=(
         colored_echo $BLUE "Installing Oh My Zsh..."
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
         colored_echo $GREEN "Oh My Zsh installed successfully."
+        colored_echo $YELLOW "You might need to re-run the script to install Zsh plugins."
     else
         colored_echo $GREEN "Oh My Zsh is already installed."
     fi
