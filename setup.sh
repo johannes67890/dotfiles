@@ -1,91 +1,58 @@
 #!/bin/bash
 
-# Define the list of apt packages to install
-APT_APPS=(
-  git
-  neovim
-  go
-  ulauncher
-  curl
-  pandoc
-  npm
-  nodejs
-  btop
-  python3-pip
-  flatpak
-  docker
-  pipx
-  dotnet
-  veracrypt
-  tree
-  wget
-  zsh
-)
+# Main setup script
 
-# Define the list of snap packages to install
-SNAP_APPS=(
-  spotify
-  node
-  discord
-  go --classic
-  vscode --classic
-  # Add more Snap-based applications here
-)
+# Source the color definitions and echo function
+source "$(dirname "$0")/_setup/colors.sh"
 
-# Update and upgrade system
-echo "Updating and upgrading system..."
+# Update and upgrade the system
+tput sc # Save cursor position
+colored_echo $BLUE "Updating and upgrading system..."
+tput rc # Restore cursor position
 sudo apt update && sudo apt upgrade -y
 
-# Install the necessary APT applications
-echo "Installing APT-based applications..."
-for app in "${APT_APPS[@]}"; do
-  echo "Installing $app with APT..."
-  sudo apt install -y $app
-done
+# Install necessary APT applications
+tput sc # Save cursor position
+colored_echo $BLUE "Installing APT-based applications..."
+tput rc # Restore cursor position
+bash _setup/install_apt.sh
 
-# Install Google Chrome
-echo "Installing Google Chrome..."
-wget -q -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome.deb
-sudo apt-get install -f -y  # Install dependencies if needed
-rm google-chrome.deb  # Clean up
+# Download and install all .deb packages
+tput sc # Save cursor position
+colored_echo $BLUE "Installing .deb packages..."
+tput rc # Restore cursor position
+bash _setup/install_deb.sh
 
-# Install snap if not installed
+# Install Snap if not already installed
 if ! command -v snap &> /dev/null; then
-  echo "Snap is not installed. Installing Snap..."
-  sudo apt install snapd -y
+    colored_echo $YELLOW "Snap is not installed. Installing Snap..."
+    sudo apt install snapd -y
 else
-  echo "Snap is already installed."
+    colored_echo $GREEN "Snap is already installed."
 fi
 
 # Install Snap packages
-echo "Installing Snap-based applications..."
-for snap_app in "${SNAP_APPS[@]}"; do
-  echo "Installing $snap_app with Snap..."
-  sudo snap install $snap_app
-done
+tput sc # Save cursor position
+colored_echo $BLUE "Installing Snap-based applications..."
+tput rc # Restore cursor position
+bash _setup/install_snap.sh
 
-# Install GNU Stow if not already installed
-if ! command -v stow &> /dev/null; then
-  echo "GNU Stow is not installed. Installing it..."
-  sudo apt install stow -y
-else
-  echo "GNU Stow is already installed."
-fi
-
-# Set zsh as the default shell for the user
-echo "Setting zsh as the default shell..."
-chsh -s $(which zsh)
+# Backup or remove conflicting files, including .config/user settings
+tput sc # Save cursor position
+colored_echo $BLUE "Checking for file conflicts before stowing..."
+tput rc # Restore cursor position
+bash _setup/backup_conflicts.sh
 
 # Stow dotfiles
-echo "Stowing dotfiles..."
-cd ~/dotfiles
+tput sc # Save cursor position
+colored_echo $BLUE "Stowing dotfiles..."
+tput rc # Restore cursor position
+bash _setup/stow_dotfiles.sh
 
-stow bash
-stow neovim
-stow git
-stow alacritty
-# Add more stow commands for other applications as needed
+# Set zsh as the default shell for the user
+tput sc # Save cursor position
+colored_echo $BLUE "Setting zsh as the default shell..."
+tput rc # Restore cursor position
+chsh -s $(which zsh)
 
-echo "Setup complete!"
-
+colored_echo $GREEN "Setup complete! Please log out and back in for the changes to take effect."
