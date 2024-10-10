@@ -18,6 +18,8 @@ APT_APPS=(
   dotnet
   veracrypt
   tree
+  wget
+  zsh
 )
 
 # Define the list of snap packages to install
@@ -41,6 +43,13 @@ for app in "${APT_APPS[@]}"; do
   sudo apt install -y $app
 done
 
+# Install Google Chrome
+echo "Installing Google Chrome..."
+wget -q -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome.deb
+sudo apt-get install -f -y  # Install dependencies if needed
+rm google-chrome.deb  # Clean up
+
 # Install snap if not installed
 if ! command -v snap &> /dev/null; then
   echo "Snap is not installed. Installing Snap..."
@@ -63,6 +72,10 @@ if ! command -v stow &> /dev/null; then
 else
   echo "GNU Stow is already installed."
 fi
+
+# Set zsh as the default shell for the user
+echo "Setting zsh as the default shell..."
+chsh -s $(which zsh)
 
 # Stow dotfiles
 echo "Stowing dotfiles..."
