@@ -9,6 +9,12 @@ source "$(dirname "$0")/_setup/colors.sh"
 GITHUB_USERNAME="johannes67890"  # Replace with your GitHub username
 GITHUB_EMAIL="johannes@orager.dk"  # Replace with your GitHub email
 
+# Update and upgrade the system
+tput sc # Save cursor position
+colored_echo $BLUE "Updating and upgrading system..."
+tput rc # Restore cursor position
+sudo apt-get update && sudo apt-get upgrade -y
+
 # Install necessary APT applications
 tput sc # Save cursor position
 colored_echo $BLUE "Installing APT-based applications..."
@@ -24,7 +30,7 @@ deb_count=$(bash _setup/install_deb.sh)
 # Install Snap if not already installed
 if ! command -v snap &> /dev/null; then
     colored_echo $YELLOW "Snap is not installed. Installing Snap..."
-    sudo apt install snapd -y
+    sudo apt-get install snapd -y
 else
     colored_echo $GREEN "Snap is already installed."
 fi

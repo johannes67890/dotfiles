@@ -31,10 +31,11 @@ total=${#APT_APPS[@]}
 # Install necessary APT applications
 for app in "${APT_APPS[@]}"; do
     colored_echo $BLUE "Installing $app with APT..."
-    if sudo apt install -y "$app"; then
+    if sudo apt-get install -y "$app"; then
         ((count++))  # Increment counter on successful installation
     else
         colored_echo $RED "Error: Failed to install $app."
+        exit 1  # Exit the script with an error status
     fi
 done
 
