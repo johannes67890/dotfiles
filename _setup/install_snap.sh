@@ -7,11 +7,11 @@ source "$(dirname "$0")/colors.sh"
 
 # Define the list of snap packages to install
 SNAP_APPS=(
-  spotify
-  node
-  discord
-  go --classic
-  code --classic
+  "spotify"
+  "node"
+  "discord"
+  "go --classic"
+  "code --classic"
 )
 
 # Install Snap packages
