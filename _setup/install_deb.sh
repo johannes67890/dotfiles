@@ -7,8 +7,7 @@ source "$(dirname "$0")/colors.sh"
 
 # Define .deb package URLs
 DEB_URLS=(
-  https://launchpad.net/veracrypt/trunk/1.26.14/+download/veracrypt-console-1.26.14-Ubuntu-24.04-amd64.deb
-  # Add more URLs as needed
+ https://launchpad.net/veracrypt/trunk/1.26.14/+download/veracrypt-1.26.14-Ubuntu-24.04-amd64.deb
 )
 
 # Initialize counter
@@ -37,11 +36,10 @@ install_deb_from_url() {
       fi
 
       # Clean up the downloaded .deb file
-      colored_echo $BLUE "Cleaning up $deb_file..."
+      colored_echo $GREEN "Installed $deb_file, Cleaning up ..."
       rm "$deb_file"
   else
       colored_echo $RED "Error: Failed to download $deb_file. Please check the URL."
-      exit 1  # Exit the script with an error status
   fi
 }
 
@@ -51,5 +49,4 @@ for url in "${DEB_URLS[@]}"; do
 done
 
 # Output the count
-echo "$count/$total .deb packages downloaded."
-echo "$count"  # Print the count for the main setup script
+colored_echo $GREEN "$count/$total .deb packages downloaded."

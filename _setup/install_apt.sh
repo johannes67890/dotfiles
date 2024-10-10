@@ -23,7 +23,6 @@ APT_APPS=(
   zsh
 )
 
-
 # Initialize counter
 count=0
 total=${#APT_APPS[@]}
@@ -32,6 +31,7 @@ total=${#APT_APPS[@]}
 for app in "${APT_APPS[@]}"; do
     colored_echo $BLUE "Installing $app with APT..."
     if sudo apt-get install -y "$app"; then
+        colored_echo $GREEN "Installed $app."
         ((count++))  # Increment counter on successful installation
     else
         colored_echo $RED "Error: Failed to install $app."
@@ -39,5 +39,4 @@ for app in "${APT_APPS[@]}"; do
 done
 
 # Output the count
-echo "$count/$total APT packages downloaded."
-echo "$count"  # Print the count for the main setup script
+colored_echo $GREEN "$count/$total APT packages downloaded."

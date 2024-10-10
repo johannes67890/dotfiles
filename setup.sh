@@ -45,7 +45,7 @@ snap_count=$(bash _setup/install_snap.sh)
 tput sc # Save cursor position
 colored_echo $BLUE "Checking for file conflicts before stowing..."
 tput rc # Restore cursor position
-bash _setup/backup_conflicts.sh
+bash _setup/conflicts.sh
 
 # Stow dotfiles
 tput sc # Save cursor position
@@ -60,14 +60,13 @@ tput rc # Restore cursor position
 git config --global user.name "$GITHUB_USERNAME"
 git config --global user.email "$GITHUB_EMAIL"
 
-colored_echo $GREEN "Setup complete! Please log out and back in for the changes to take effect."
-
-
-# Set zsh as the default shell for the user
+# Install Zsh and plugins
 tput sc # Save cursor position
-colored_echo $BLUE "Setting zsh as the default shell..."
+colored_echo $BLUE "Installing Zsh and Oh My Zsh..."
 tput rc # Restore cursor position
-chsh -s $(which zsh)
+bash _setup/install_zsh.sh
+
+colored_echo $GREEN "Setup complete! Please log out and back in for the changes to take effect."
 
 # Summary of installs
 colored_echo $GREEN "Downloaded $snap_count Snap packages"
