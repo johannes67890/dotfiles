@@ -15,6 +15,7 @@ APT_APPS=(
   npm
   nodejs
   btop
+  wmctrl # Needed for ulauncher
   python3-pip
   flatpak
   pipx
