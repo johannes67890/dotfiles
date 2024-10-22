@@ -22,7 +22,7 @@ APT_APPS=(
   tree
   wget
   zsh
-apt install texlive-science texlive-latex-extra texlive-extra-utils latexmk texlive-publishers texlive-science # Latex
+  texlive-science texlive-latex-extra texlive-extra-utils latexmk texlive-publishers texlive-science # Latex
 )
 
 # Initialize counter
