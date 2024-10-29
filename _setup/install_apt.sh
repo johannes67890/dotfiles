@@ -8,6 +8,7 @@ source "$(dirname "$0")/colors.sh"
 # Define APT packages to install
 APT_APPS=(
   git
+  libreoffice
   neovim
   ulauncher
   curl
