@@ -117,3 +117,7 @@ if ! shopt -oq posix; then
 fi
 . "$HOME/.cargo/env"
 alias config='/usr/bin/git --git-dir=/home/johannes67890/.cfg/ --work-tree=/home/johannes67890'
+eval "$(/bin/brew shellenv)"
+eval "$(/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

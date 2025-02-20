@@ -11,6 +11,7 @@ SNAP_APPS=(
   "node --classic"
   "discord"
   "go --classic"
+  "obsidian --classic"
   "code --classic"
 )
 

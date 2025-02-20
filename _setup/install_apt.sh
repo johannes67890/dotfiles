@@ -16,6 +16,7 @@ APT_APPS=(
   npm
   nodejs
   btop
+  onedriver
   wmctrl # Needed for ulauncher
   python3-pip
   flatpak
