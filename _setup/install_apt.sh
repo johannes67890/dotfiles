@@ -21,6 +21,8 @@ APT_APPS=(
   python3-pip
   flatpak
   pipx
+  lazygit
+  lazydocker
   tree
   wget
   zsh
