@@ -41,13 +41,6 @@
         "last_commit": "2d51ff40fcbd501e64034f3c7be1cd35abc47d6b",
         "last_commit_time": "2023-04-14T22:57:18"
     },
-    "com.github.brpaz.ulauncher-github": {
-        "id": "com.github.brpaz.ulauncher-github",
-        "url": "https://github.com/brpaz/ulauncher-github",
-        "updated_at": "2025-02-28T15:35:43.509895",
-        "last_commit": "c2a4d8f651c326c13290eb9e28c076f14aaac704",
-        "last_commit_time": "2022-10-15T10:36:52"
-    },
     "com.github.iboyperson.ulauncher-system": {
         "id": "com.github.iboyperson.ulauncher-system",
         "url": "https://github.com/iboyperson/ulauncher-system",
