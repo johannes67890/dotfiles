@@ -11,6 +11,7 @@ return {
 	lazy = false,
 	keys = {
 		{ "\\", ":Neotree reveal<CR>", desc = "NeoTree reveal", silent = true },
+		{ "<leader>fr", ":Neotree reveal<CR>", desc = "NeoTree reveal current file", silent = true },
 	},
 	opts = {
 		filesystem = {
@@ -18,11 +19,16 @@ return {
 				hide_dotfiles = false, -- show hidden files
 				hide_gitignored = false, -- optional, show .gitignored files too
 			},
+			follow_current_file = {
+				enable = true,
+				leave_dirs_open = false,
+			},
 			window = {
 				mappings = {
 					["\\"] = "close_window",
 				},
 			},
 		},
+		buffers = { follow_current_file = { enable = true } },
 	},
 }
