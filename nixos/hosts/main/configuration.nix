@@ -55,6 +55,11 @@
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true; # or sddm/lightdm
+  services.xserver.desktopManager.gnome.enable = true; # or kde/plasma, xfce
+
+
   networking.hostName = "jgjo";
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
