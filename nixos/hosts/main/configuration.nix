@@ -11,7 +11,7 @@
   # You can import other NixOS modules here
   imports = [
     # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
+    /etc/nixos/hardware-configuration.nix
   ];
 
   nixpkgs = {
@@ -48,16 +48,12 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  # Bootloader configuration - choose ONE of these options:
-  
-  # Option 1: systemd-boot (UEFI systems)
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader configuration
   
   # Option 2: GRUB (if you prefer GRUB over systemd-boot)
-  # boot.loader.grub.enable = true;
-  # boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
-  # boot.loader.grub.useOSProber = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "jgjo";
 
