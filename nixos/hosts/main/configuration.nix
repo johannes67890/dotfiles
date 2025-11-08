@@ -1,5 +1,3 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
   outputs,
@@ -8,85 +6,86 @@
   pkgs,
   ...
 }: {
-  # You can import other NixOS modules here
+  # Import your hardware configuration file
   imports = [
-    # Import your generated (nixos-generate-config) hardware configuration
-    /etc/nixos/hardware-configuration.nix
+    ./hardware-configuration.nix
   ];
 
+  config = {
+  # Define nixpkgs options (place under config)
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
     ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
     };
   };
 
+  # Define Nix settings (this should go under `config.nix`)
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
     settings = {
-      # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
       flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
       nix-path = config.nix.nixPath;
     };
-    # Opinionated: disable channels
     channel.enable = false;
 
-    # Opinionated: make flake registry and nix path match flake inputs
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
+    registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  # Bootloader configuration
-  
-  # Option 2: GRUB (if you prefer GRUB over systemd-boot)
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
-
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true; # or sddm/lightdm
-  services.xserver.desktopManager.gnome.enable = true; # or kde/plasma, xfce
-
-
+  # Networking configuration goes under `config.networking`
   networking.hostName = "jgjo";
 
-  # Configure your system-wide user settings (groups, etc), add more users as needed.
+  # User configuration goes under `config.users`
   users.users = {
     jgjo = {
-      initialPassword = "correcthorsebatterystaple";
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+        # Add your SSH public key(s) here
       ];
       extraGroups = ["wheel"];
     };
   };
 
-  # This setups a SSH server. Very important if you're setting up a headless system.
-  # Feel free to remove if you don't need it.
+environment.systemPackages = [
+pkgs.vscode
+];
+
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      
+      "jgjo" = import ./home.nix;
+    };
+  };
+  
+  # SSH settings go under `config.services`
   services.openssh = {
     enable = true;
     settings = {
-      # Opinionated: forbid root login through SSH.
       PermitRootLogin = "no";
-      # Opinionated: use keys only.
-      # Remove if you want to SSH using passwords
       PasswordAuthentication = false;
     };
   };
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  # Home Manager configurati
+  # State version goes under `config.system`
   system.stateVersion = "23.05";
+
+  # Bootloader configuration goes under `config.boot`
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
+
+  # X server settings go under `config.services`
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  };
 }

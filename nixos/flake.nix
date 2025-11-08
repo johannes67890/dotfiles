@@ -3,12 +3,12 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -43,9 +43,13 @@
     nixosConfigurations = {
       jgjo = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
+        
         modules = [
           # > Our main nixos configuration file <
           ./hosts/main/configuration.nix
+          # > Home manager <
+          home-manager.nixosModules.home-manager
+
         ];
       };
     };
@@ -58,7 +62,7 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
-          ./home.nix
+          ./hosts/main/home.nix
         ];
       };
     };
