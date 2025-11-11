@@ -61,7 +61,7 @@
 
 console.font = "Lat2-Terminus16";
 
-programs.hyprland = {
+  programs.hyprland = {
     enable = true;
     # set the flake package
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
@@ -144,7 +144,7 @@ hardware.graphics.enable = true;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "Meslo" ]; }) ];
+fonts.packages = with pkgs; [ nerd-fonts.fira-code ];
 
   # X server settings go under `config.services`
   services.xserver.enable = true;

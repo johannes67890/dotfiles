@@ -56,6 +56,12 @@
   
   programs.home-manager.enable = true;
 
+
+  # hyprland enable
+    # Hyprland WM
+  programs.kitty.enable = true; # required for the default Hyprland config
+
+  wayland.windowManager.hyprland.enable = true;
   # Enable Neovim
   programs.neovim.enable = true;
 
