@@ -14,11 +14,6 @@
   config = {
   # Define nixpkgs options (place under config)
   nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-    ];
     config = {
       allowUnfree = true;
     };
@@ -63,7 +58,6 @@ programs.hyprland = {
     # make sure to also set the portal package, so that they are in sync
     portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
-
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
@@ -86,7 +80,7 @@ programs.hyprland = {
 
   # Bootloader configuration goes under `config.boot`
   boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.device = "nodev";
   boot.loader.grub.useOSProber = true;
 
   # X server settings go under `config.services`

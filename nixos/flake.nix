@@ -38,11 +38,7 @@
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-    # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
-
-
-    # NixOS configuration entrypoint
+    # Your custom packages and modifications,ration entrypoint
     # Available through 'nixos-rebuild --flake .#jgjo'
     nixosConfigurations = {
       jgjo = nixpkgs.lib.nixosSystem {
