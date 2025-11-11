@@ -37,7 +37,6 @@
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
     # Your custom packages and modifications,ration entrypoint
     # Available through 'nixos-rebuild --flake .#jgjo'
     nixosConfigurations = {

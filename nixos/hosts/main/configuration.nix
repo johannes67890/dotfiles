@@ -11,14 +11,25 @@
     ./hardware-configuration.nix
   ];
 
-  config = {
-  # Define nixpkgs options (place under config)
   nixpkgs = {
+    # You can add overlays here
+      # Add overlays your own flake exports (from overlays and pkgs dir):
+
+      # You can also add overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
+    # Configure your nixpkgs instance
     config = {
+      # Disable if you don't want unfree packages
       allowUnfree = true;
     };
   };
-
   # Define Nix settings (this should go under `config.nix`)
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
@@ -48,9 +59,6 @@
     };
   };
 
-environment.systemPackages = [
-pkgs.vscode
-];
 programs.hyprland = {
     enable = true;
     # set the flake package
@@ -83,9 +91,10 @@ programs.hyprland = {
   boot.loader.grub.device = "nodev";
   boot.loader.grub.useOSProber = true;
 
+fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "Meslo" ]; }) ];
+
   # X server settings go under `config.services`
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  };
 }
