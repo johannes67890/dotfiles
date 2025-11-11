@@ -3,10 +3,6 @@
 {
 
  nixpkgs = {
-    # You can add overlays here
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-
-      # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
       # Or define it inline, for example:
@@ -29,6 +25,8 @@
 
   # Add user-level packages
   home.packages = with pkgs; [
+      terminus_font
+  terminus_font_ttf
     lazygit    
     wget
     curl
@@ -39,9 +37,23 @@
     vscode
   ];
 
-
-
-
+  # Font configuration for home-manager
+  fonts.fontconfig.enable = true;
+  
+  # Example: Configure alacritty terminal font
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      font = {
+        normal = {
+          family = "Terminus";
+          style = "Regular";
+        };
+        size = 12;
+      };
+    };
+  };
+  
   programs.home-manager.enable = true;
 
   # Enable Neovim

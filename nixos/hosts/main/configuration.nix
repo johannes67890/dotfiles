@@ -59,6 +59,8 @@
     };
   };
 
+console.font = "Lat2-Terminus16";
+
 programs.hyprland = {
     enable = true;
     # set the flake package
