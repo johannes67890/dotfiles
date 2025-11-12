@@ -5,14 +5,21 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-
     # hyprland
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-
+    hyprland.url = "github:hyprwm/Hyprland";
 
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+
+    # for secure boot
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.3";
+
+      # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -22,6 +29,7 @@
     nixpkgs,
     home-manager,
     hyprland,
+    lanzaboote,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -50,6 +58,12 @@
           ./hosts/main/configuration.nix
           # > Home manager <
           home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
+
+          lanzaboote.nixosModules.lanzaboote        
         ];
       };
     };

@@ -51,14 +51,14 @@
 
   console.font = "Lat2-Terminus16";
 
-  # Enable XDG portal for proper Wayland integration - Fix the configuration
+  # Enable XDG portal for proper Wayland integration
   xdg.portal = {
     enable = true;
-    wlr.enable = true;  # Add this for Hyprland
-    extraPortals = with pkgs; [ 
-      xdg-desktop-portal-gtk 
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk 
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
     ];
-    config.common.default = "*";  # Add this line
+    config.common.default = "*";
   };
   
   home-manager = {
@@ -81,9 +81,19 @@
   system.stateVersion = "23.05";
 
   # Bootloader configuration goes under `config.boot`
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.useOSProber = true;
+ # boot.loader.grub.enable = true;
+ # boot.loader.grub.device = "nodev";
+ # boot.loader.grub.useOSProber = true;
+ # Lanzaboote currently replaces the systemd-boot module.
+ # This setting is usually set to true in configuration.nix
+ # generated at installation time. So we force it to false
+ # for now.
+            boot.loader.systemd-boot.enable = lib.mkForce false;
+
+            boot.lanzaboote = {
+              enable = true;
+              pkiBundle = "/var/lib/sbctl";
+            };
 
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
