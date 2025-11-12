@@ -10,7 +10,8 @@
   imports = [
     ./hardware-configuration.nix
     inputs.hyprland.nixosModules.default
-    inputs.home-manager.nixosModules.home-manager  # Add this line
+    inputs.home-manager.nixosModules.home-manager 
+    ./hypr.nix
   ];
 
   nixpkgs = {
@@ -51,15 +52,6 @@
 
   console.font = "Lat2-Terminus16";
 
-  # Enable XDG portal for proper Wayland integration
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ 
-      pkgs.xdg-desktop-portal-gtk 
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-    ];
-    config.common.default = "*";
-  };
   
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -80,15 +72,10 @@
   # State version goes under `config.system`
   system.stateVersion = "23.05";
 
-  # Bootloader configuration goes under `config.boot`
- # boot.loader.grub.enable = true;
- # boot.loader.grub.device = "nodev";
- # boot.loader.grub.useOSProber = true;
+
  # Lanzaboote currently replaces the systemd-boot module.
- # This setting is usually set to true in configuration.nix
- # generated at installation time. So we force it to false
- # for now.
-            boot.loader.systemd-boot.enable = lib.mkForce false;
+
+  boot.loader.systemd-boot.enable = lib.mkForce false;
 
             boot.lanzaboote = {
               enable = true;
@@ -158,13 +145,6 @@
   # Enable Wayland support in GDM
   services.xserver.displayManager.gdm.wayland = true;
   
-  # Add Hyprland configuration with basic settings
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  };
-
   # Keep the essential packages for Hyprland
   environment.systemPackages = with pkgs; [
     waybar           # Status bar
