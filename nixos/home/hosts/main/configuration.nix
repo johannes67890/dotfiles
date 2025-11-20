@@ -1,0 +1,106 @@
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  # Import your hardware configuration file
+  imports = [
+    ./hardware-configuration.nix
+    inputs.hyprland.nixosModules.default
+    ../../../system/modules/boot.nix
+    ../../../system/modules/hardware.nix
+    ../../../system/modules/hyprland.nix
+  ];
+
+  nixpkgs = {
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
+  };
+
+  # Define Nix settings (this should go under `config.nix`)
+  nix = let
+    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+  in {
+    settings = {
+      experimental-features = "nix-command flakes";
+      flake-registry = "";
+      nix-path = config.nix.nixPath;
+    };
+    channel.enable = false;
+
+    registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+  };
+
+  # Networking configuration goes under `config.networking`
+  networking.hostName = "jgjo";
+
+  # User configuration goes under `config.users`
+  users.users = {
+    jgjo = {
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = [
+        # Add your SSH public key(s) here
+      ];
+      extraGroups = ["wheel"];
+    };
+  };
+
+  console.font = "Lat2-Terminus16";
+
+  
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "jgjo" = import ./home.nix;
+    };
+  };
+  
+  # SSH settings go under `config.services`
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
+  };
+
+  # State version goes under `config.system`
+  system.stateVersion = "23.05";
+
+
+  # Set your time zone.
+  time.timeZone = "Europe/Copenhagen";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_DK.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "da_DK.UTF-8";
+    LC_IDENTIFICATION = "da_DK.UTF-8";
+    LC_MEASUREMENT = "da_DK.UTF-8";
+    LC_MONETARY = "da_DK.UTF-8";
+    LC_NAME = "da_DK.UTF-8";
+    LC_NUMERIC = "da_DK.UTF-8";
+    LC_PAPER = "da_DK.UTF-8";
+    LC_TELEPHONE = "da_DK.UTF-8";
+    LC_TIME = "da_DK.UTF-8";
+  };
+  console.keyMap = "dk-latin1";
+
+  fonts.packages = with pkgs; [ nerd-fonts.fira-code ];
+
+  # Enable sound (kept here as general system configuration)
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+}

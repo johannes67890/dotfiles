@@ -55,7 +55,7 @@
         
         modules = [
           # > Our main nixos configuration file <
-          ./hosts/main/configuration.nix
+          ./home/hosts/main/configuration.nix
           # > Home manager <
           home-manager.nixosModules.home-manager
           {
@@ -76,7 +76,7 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
-          ./hosts/main/home.nix
+          ./home/hosts/main/home.nix
         ];
       };
     };
