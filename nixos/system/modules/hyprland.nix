@@ -1,7 +1,7 @@
 { pkgs, ... }: {
-	  programs.hyprland = {
+	programs.hyprland = {
         enable = true;
-				xwayland.enable = true;
+		xwayland.enable = true;
     };
 	# Hyprland & graphical session related configuration
 	services.xserver = {
@@ -13,12 +13,18 @@
 
 	# Essential packages for Hyprland environment
 	environment.systemPackages = with pkgs; [
-		waybar           # Status bar
-		wofi             # Application launcher
-		dunst            # Notifications
-		grim             # Screenshot utility
-		slurp            # Screen area selection
-		wl-clipboard     # Clipboard utilities
+      hyprpaper
+      kitty
+      libnotify
+      mako
+      qt5.qtwayland
+      qt6.qtwayland
+      swayidle
+      swaylock-effects
+      wlogout
+      wl-clipboard
+      wofi
+      waybar
 	];
 
 	# Set default graphical session to Hyprland
