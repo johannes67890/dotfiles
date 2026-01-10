@@ -56,35 +56,4 @@
     userEmail = "johannes@orager.dk";
   };
 
-  # Add Hyprland configuration via home-manager, sourcing external files
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = let
-      hyprDir = ../../config/hypr;
-      files = [
-        "hyprland.conf"
-        "monitor.conf"
-        "input.conf"
-        "bind.conf"
-        "exec.conf"
-        "window.conf"
-        "windowrule.conf"
-        "hyprpaper.conf"
-      ];
-      readOrEmpty = name: builtins.readFile "${hyprDir}/${name}";
-    in builtins.concatStringsSep "\n\n" (map readOrEmpty files);
-  };
-
-  # Keep waybar configuration (files managed under home/config/waybar)
-  programs.waybar = {
-    enable = true;
-    systemd = {
-      enable = false;
-      target = "graphical-session.target";
-    };
-  };
-
-  # Install Waybar config files
-  xdg.configFile."waybar/config.jsonc".source = ../../config/waybar/config.jsonc;
-  xdg.configFile."waybar/style.css".source = ../../config/waybar/style.css;
 }

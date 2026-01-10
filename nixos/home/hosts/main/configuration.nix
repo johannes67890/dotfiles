@@ -9,10 +9,9 @@
   # Import your hardware configuration file
   imports = [
     ./hardware-configuration.nix
-    inputs.hyprland.nixosModules.default
     ../../../system/modules/boot.nix
     ../../../system/modules/hardware.nix
-    ../../../system/modules/hyprland.nix
+    ../../../system/modules/kde.nix
   ];
 
   nixpkgs = {

@@ -5,9 +5,6 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # hyprland
-    hyprland.url = "github:hyprwm/Hyprland";
-
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -28,7 +25,6 @@
     self,
     nixpkgs,
     home-manager,
-    hyprland,
     lanzaboote,
     ...
   } @ inputs: let
