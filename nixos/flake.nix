@@ -63,7 +63,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
+            home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
           }
 
           lanzaboote.nixosModules.lanzaboote        
@@ -75,11 +75,10 @@
     # Available through 'home-manager --flake .#jgjo@jgjo'
     homeConfigurations = {
       "jgjo@jgjo" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = { inherit inputs outputs; };
         modules = [
-          # > Our main home-manager configuration file <
-          inputs.plasma-manager.homeManagerModules.plasma-manager
+          inputs.plasma-manager.homeModules.plasma-manager
           ./home/hosts/main/home.nix
         ];
       };

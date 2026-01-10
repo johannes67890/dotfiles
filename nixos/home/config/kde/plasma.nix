@@ -7,11 +7,11 @@
     # Some high-level settings:
     #
     workspace = {
-      clickItemTo = "open"; # If you liked the click-to-open default from plasma 5
+      # Obvious change: dark look-and-feel and big cursor
       lookAndFeel = "org.kde.breezedark.desktop";
       cursor = {
-        theme = "Bibata-Modern-Ice";
-        size = 32;
+        theme = "Breeze";
+        size = 42;
       };
       iconTheme = "Papirus-Dark";
       wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/Patak/contents/images/1080x1920.png";
