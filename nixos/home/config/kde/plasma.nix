@@ -22,7 +22,7 @@
     };
 
 
-shortcuts = {
+      shortcuts = {
       ActivityManager.switch-to-activity-6b8b2169-b3af-4129-9b28-e8cebcccef4c = [ ];
       "KDE Keyboard Layout Switcher"."Switch keyboard layout to Danish" = [ ];
       "KDE Keyboard Layout Switcher"."Switch to Last-Used Keyboard Layout" = "Meta+Alt+L";
@@ -398,8 +398,7 @@ shortcuts = {
       kxkbrc.Layout.Use = true;
       plasma-localerc.Formats.LANG = "en_DK.UTF-8";
       plasmarc.Theme.name = "breeze-dark";
-
-    
+    };    
     dataFile = {
 
     };
