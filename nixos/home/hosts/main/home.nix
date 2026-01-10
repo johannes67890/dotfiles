@@ -1,6 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 {
+  imports = [
+    ./config.nix
+  ];
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -27,6 +30,7 @@
     vscode
     firefox
     grimblast
+    google-chrome
   ];
 
   fonts.fontconfig.enable = true;

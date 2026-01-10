@@ -1,7 +1,11 @@
-let configDir = ../../config;
+{ config, pkgs, inputs, ... }:
+let
+  configDir = ../../config;
 in
 {
-  home.file = {
-      ".config/kdee".source = "${configDir}/kde";
-  };
+  imports = [
+    ../../config/kde/plasma.nix
+  ];
+
+  home.file.".config/kde".source = "${configDir}/kde";
 }
