@@ -55,14 +55,15 @@
     enable = true;
 
     # Oh My Zsh
-    ohMyZsh = {
+    oh-my-zsh = {
       enable = true;
       theme = "agnoster"; # or "powerlevel10k/powerlevel10k"
       plugins = [ "git" "sudo" "z" ];
     };
 
     # Nice extras
-    autosuggestions.enable = true;
+    enableCompletion = true;
+    enableAutosuggestions = true;
     syntaxHighlighting.enable = true;
   };
   programs.tmux.enable = true;

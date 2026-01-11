@@ -1,25 +1,11 @@
 # qdbus org.kde.KWin /KWin reconfigure
 # systemctl --user restart plasma-plasmashell.service plasma-kglobalaccel.service
-
+{ config, lib, pkgs, ... }:
 {
-  programs.plasma = {
+  programs.plasma = let
+    wallpaper = pkgs.copyPathToStore ../../assets/wallpaper/686965.png;
+  in {
     enable = true;
-
-      workspace = {
-      lookAndFeel = "org.kde.breezedark.desktop";
-      cursor = {
-        theme = "Bibata-Modern-Ice";
-        size = 32;
-      };
-          iconTheme = "Papirus-Dark";
-    };
-
-        fonts = {
-      general = {
-        family = "JetBrains Mono";
-        pointSize = 12;
-      };
-    };
     shortcuts = {
       ActivityManager.switch-to-activity-6b8b2169-b3af-4129-9b28-e8cebcccef4c = [ ];
       "KDE Keyboard Layout Switcher"."Switch keyboard layout to Danish" = [ ];
@@ -411,9 +397,9 @@
       kxkbrc.Layout.Use = true;
       plasma-localerc.Formats.LANG = "en_DK.UTF-8";
       plasmarc.Theme.name = "breeze-dark";
-plasmarc.Wallpapers.usersWallpapers = "${../../../assets/686965.png}";
-      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".Image = "${../../../assets/686965.png}";
-      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".PreviewImage = "${../../../assets/686965.png}";
+      plasmarc.Wallpapers.usersWallpapers = wallpaper;
+      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".Image = wallpaper;
+      kscreenlockerrc."Greeter/Wallpaper/org.kde.image/General".PreviewImage = wallpaper;
       spectaclerc.ImageSave.translatedScreenshotsFolder = "Screenshots";
       spectaclerc.VideoSave.translatedScreencastsFolder = "Screencasts";
     };

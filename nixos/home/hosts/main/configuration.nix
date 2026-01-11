@@ -39,6 +39,9 @@
   # Networking configuration goes under `config.networking`
   networking.hostName = "jgjo";
 
+
+  programs.zsh.enable = true;
+
   # User configuration goes under `config.users`
   users.users = {
     jgjo = {
