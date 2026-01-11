@@ -63,7 +63,7 @@
 
     # Nice extras
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
   };
   programs.tmux.enable = true;

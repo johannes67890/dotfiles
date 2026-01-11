@@ -13,7 +13,6 @@
           size = 24;
         };
         iconTheme = "Win11-black-dark";
-        theme
         wallpaper = wallpaper;
       };
 
@@ -27,16 +26,22 @@
     panels = [
       # Windows-like panel at the bottom
         {   
-        height= "38";
+        height= 40;
         location = "bottom";
+        screen = 1;
+
         widgets = [
+          # Left spacer (expands)
+          {
+            name = "org.kde.plasma.panelspacer";
+            config = { General = { expanding = true; length = 0; }; };
+          }
           # Or you can configure the widgets by adding the widget-specific options for it.
           # See modules/widgets for supported widgets and options for these widgets.
           # For example:
           {
             kickoff = {
               sortAlphabetically = true;
-              icon = "nix-snowflake-white";
             };
           }
           # Adding configuration to the widgets can also for example be used to
@@ -44,48 +49,115 @@
           # pinning dolphin and konsole to the task-manager by default with widget-specific options.
           {
             iconTasks = {
+              # Find launchers with: 
+              # ls /etc/profiles/per-user/$USER/share/applications | sort
               launchers = [
                 "applications:org.kde.dolphin.desktop"
-                "applications:org.kde.konsole.desktop"
-
+                "applications:com.google.Chrome.desktop"
+                "applications:code.desktop"
               ];
             };
           }
-          # If no configuration is needed, specifying only the name of the
-          # widget will add them with the default configuration.
-          "org.kde.plasma.marginsseparator"
-          # If you need configuration for your widget, instead of specifying the
-          # the keys and values directly using the config attribute as shown
-          # above, plasma-manager also provides some higher-level interfaces for
-          # configuring the widgets. See modules/widgets for supported widgets
-          # and options for these widgets. The widgets below shows two examples
-          # of usage, one where we add a digital clock, setting 12h time and
-          # first day of the week to Sunday and another adding a systray with
-          # some modifications in which entries to show.
+
           {
-            digitalClock = {
-              calendar.firstDayOfWeek = "monday";
-              time.format = "24h";
-            };
+            name = "org.kde.plasma.panelspacer";
+            config = { General = { expanding = true; length = 0; }; };
           }
+
           {
             systemTray.items = {
               # We explicitly show bluetooth and battery
               shown = [
                 "org.kde.plasma.battery"
                 "org.kde.plasma.bluetooth"
+                "org.kde.plasma.volume"
               ];
               # And explicitly hide networkmanagement and volume
               hidden = [
+                "applicationstatus"
                 "org.kde.plasma.networkmanagement"
-                "org.kde.plasma.volume"
               ];
             };
           }
         ];
         hiding = "normalpanel";
       }
-     
+
+      {
+        location = "top"; 
+        height = 26;
+        screen = 1;
+        widgets = [
+          # virtual desktop switcher
+          {
+            name = "org.kde.plasma.virtualdesktopswitcher";
+            config = {
+              General = {
+                showOnlyCurrentScreen = true;
+                useRows = false;
+              };
+            };
+          }
+          
+          # spacer
+          {
+            name = "org.kde.plasma.panelspacer";
+            config = { General = { expanding = true; length = 0; }; };
+          }
+
+          # clock
+          {
+            name = "org.kde.plasma.digitalclock";
+            config = {
+              General = {
+                showDate = true;
+                showSeconds = false;
+              };
+              calendar = {
+                firstDayOfWeek = "monday";
+              };
+              time = {
+                format = "24h";
+              };
+            };
+          }
+
+          # spacer
+          {
+            name = "org.kde.plasma.panelspacer";
+            config = { General = { expanding = true; length = 0; }; };
+          }
+
+          # applicationstatus
+          {
+            name = "org.kde.plasma.applicationstatus";
+          }
+
+          # networkmanagement
+          {
+            name = "org.kde.plasma.networkmanagement";
+          }
+
+          # volume
+          {
+            name = "org.kde.plasma.volume";
+          }
+
+          # battery
+          {
+            name = "org.kde.plasma.battery";
+          }
+
+          # keyboard layout
+          {
+            name = "org.kde.plasma.keyboardlayout";
+          }
+
+        ];  
+          hiding = "normalpanel";
+      }
+          
+ 
     ];
 
     powerdevil = {
@@ -110,8 +182,6 @@
     };
     kwin = {
       edgeBarrier = 0; # Disables the edge-barriers introduced in plasma 6.1
-      cornerBarrier = false;
-
       scripts.polonium.enable = true;
     };
     kscreenlocker = {
