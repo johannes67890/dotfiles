@@ -43,6 +43,7 @@
   users.users = {
     jgjo = {
       isNormalUser = true;
+      shell = pkgs.zsh; # Use Zsh as login shell
       openssh.authorizedKeys.keys = [
         # Add your SSH public key(s) here
       ];

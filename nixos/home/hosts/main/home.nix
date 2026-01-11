@@ -51,7 +51,20 @@
   programs.home-manager.enable = true;
   programs.kitty.enable = true;
   programs.neovim.enable = true;
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+
+    # Oh My Zsh
+    ohMyZsh = {
+      enable = true;
+      theme = "agnoster"; # or "powerlevel10k/powerlevel10k"
+      plugins = [ "git" "sudo" "z" ];
+    };
+
+    # Nice extras
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+  };
   programs.tmux.enable = true;
 
   programs.git = {
