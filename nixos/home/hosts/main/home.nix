@@ -70,8 +70,9 @@
 
   programs.git = {
     enable = true;
-    userName = "johannes67890";
-    userEmail = "johannes@orager.dk";
+settings.user.name = "johannes67890"; 
+    settings.user.email = "johannes@orager.dk"; 
+
   };
 
 }
