@@ -33,7 +33,7 @@
     obs-studio
     pure-prompt
     bat
-    zsh-you-should-use
+    # zsh-you-should-use
     # stremio # Contain insecure package, qtwebengine-5.15.19
     libreoffice
     obsidian
@@ -76,11 +76,6 @@
         name = "bat";
         src = pkgs.bat;
       }
-      {
-            name = "you-should-use";
-            src = pkgs.zsh-you-should-use;
-            file = "you-should-use.plugin.zsh";  # adjust to the actual filename
-          }
     ];
 
     # Oh My Zsh
