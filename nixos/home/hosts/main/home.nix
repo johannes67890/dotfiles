@@ -32,6 +32,8 @@
     spotify
     obs-studio
     pure-prompt
+    bat
+    zsh-you-should-use
     # stremio # Contain insecure package, qtwebengine-5.15.19
     libreoffice
     obsidian
@@ -69,21 +71,31 @@
   programs.zsh = {
     enable = true;
 
+    plugins = [
+      {
+        name = "bat";
+        src = pkgs.bat;
+      }
+      {
+        name = "zsh-you-should-use";
+        src = pkgs.zsh-you-should-use;
+      }
+    ];
+
     # Oh My Zsh
     oh-my-zsh = {
       enable = true;
-      theme = "pure";
       plugins = [ "git" "sudo" "z" ];
     };
 
-    initExtra = ''
+    initContent = ''
       # Pure prompt (sindresorhus/pure)
-      fpath+=("${pkgs.zsh-pure-prompt}/share/zsh/site-functions")
+      fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
       autoload -U promptinit; promptinit
       prompt pure
     '';
 
-    # Nice extras
+    # Plugins
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
