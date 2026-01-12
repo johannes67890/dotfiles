@@ -77,9 +77,10 @@
         src = pkgs.bat;
       }
       {
-        name = "zsh-you-should-use";
-        src = pkgs.zsh-you-should-use;
-      }
+            name = "you-should-use";
+            src = pkgs.zsh-you-should-use;
+            file = "you-should-use.plugin.zsh";  # adjust to the actual filename
+          }
     ];
 
     # Oh My Zsh
