@@ -84,7 +84,12 @@
                 launchers = [
                   "applications:org.kde.dolphin.desktop"
                   "applications:com.google.Chrome.desktop"
+                  "applications:tor-browser.desktop"
                   "applications:code.desktop"
+                  "applications:obsidian.desktop"
+                  "applications:libreoffice.desktop"
+                  "applications:postman.desktop"
+                  "applications:veracrypt.desktop"
                 ];
               };
             };
@@ -125,14 +130,27 @@
         widgets = [
           # virtual desktop switcher
           {
-            name = "org.kde.plasma.pager";
+            name = "org.kde.plasma.plasm6desktopindicator";
             config = {
               General = {
-                showOnlyCurrentScreen = false;
-                
+                desktopWrapOn = true;
+                dotSizeCustom = 15;
+                spacingHorizontal = 12;
+                spacingVertical = 8;
+                showAddDesktop = true;
               };
             };
           }
+          # Default
+          # {
+          #   name = "org.kde.plasma.pager";
+          #   config = {
+          #     General = {
+          #       showOnlyCurrentScreen = false;
+                
+          #     };
+          #   };
+          # }
           
           # spacer
           {

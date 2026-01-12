@@ -31,6 +31,7 @@
     vlc
     spotify
     obs-studio
+    pure-prompt
     # stremio # Contain insecure package, qtwebengine-5.15.19
     libreoffice
     obsidian
@@ -60,43 +61,7 @@
   ];
 
   fonts.fontconfig.enable = true;
-  
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      font = {
-        normal = {
-          family = "Terminus";
-          style = "Regular";
-        };
-        size = 12;
-      };
-    };
-  };
-  
 
-  home.activation.pagerOpacity = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    set -e
-    src=/run/current-system/sw/share/plasma/plasmoids/org.kde.plasma.pager
-    dst=$HOME/.local/share/plasma/plasmoids/org.kde.plasma.pager
-
-    rm -rf "$dst"
-    cp -r "$src" "$dst"
-
-    # Lower selection highlight opacity in QML. This injects "opacity: 0.35"
-    # right after lines using the selection/highlight color.
-    for f in "$dst"/contents/ui/*.qml; do
-      if grep -q 'highlightColor' "$f"; then
-        awk '{
-          print
-          if ($0 ~ /highlightColor/ && injected == 0) {
-            print "    opacity: 0.35"
-            injected = 1
-          }
-        }' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
-      fi
-    done
-  '';
 
   programs.home-manager.enable = true;
   programs.kitty.enable = true;
@@ -107,9 +72,16 @@
     # Oh My Zsh
     oh-my-zsh = {
       enable = true;
-      theme = "agnoster"; # or "powerlevel10k/powerlevel10k"
+      theme = "pure";
       plugins = [ "git" "sudo" "z" ];
     };
+
+    initExtra = ''
+      # Pure prompt (sindresorhus/pure)
+      fpath+=("${pkgs.zsh-pure-prompt}/share/zsh/site-functions")
+      autoload -U promptinit; promptinit
+      prompt pure
+    '';
 
     # Nice extras
     enableCompletion = true;
