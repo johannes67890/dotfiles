@@ -15,6 +15,18 @@
         iconTheme = "Win11-black-dark";
         wallpaper = wallpaper;
       };
+    
+    input.mice = [
+      # Home pc mouse settings
+      {
+        name = "Finalmouse UltralightX dongle Mouse";
+        vendorId = "13853";
+        productId = "256";
+        enable = true;
+        acceleration = 0;
+        accelerationProfile = "none"; 
+      }
+    ];
 
     fonts = {
       general = {
@@ -23,12 +35,26 @@
       };
     };
 
+    krunner = {
+      historyBehavior = "enableSuggestions"; 
+      position = "center";
+      shortcuts.launch = [ "Alt+F" "Alt+Space" ]; 
+    };
+
+    kscreenlocker = {
+        lockOnResume = true;
+        lockOnStartup = true;
+      appearance = {
+        wallpaper = wallpaper;
+      };
+    };
+
     panels = [
       # Windows-like panel at the bottom
         {   
         height= 40;
         location = "bottom";
-        screen = 1;
+        screen = 0;
 
         widgets = [
           # Left spacer (expands)
@@ -48,14 +74,19 @@
           # pin apps to the task-manager, which this example illustrates by
           # pinning dolphin and konsole to the task-manager by default with widget-specific options.
           {
-            iconTasks = {
-              # Find launchers with: 
-              # ls /etc/profiles/per-user/$USER/share/applications | sort
-              launchers = [
-                "applications:org.kde.dolphin.desktop"
-                "applications:com.google.Chrome.desktop"
-                "applications:code.desktop"
-              ];
+            name = "org.kde.plasma.icontasks";
+            config = {
+              General = {
+                # Merge pinned launchers with running tasks
+                separateLaunchers = false;
+                # find launchers with:
+                # ls /run/current-system/sw/share/applications | sort
+                launchers = [
+                  "applications:org.kde.dolphin.desktop"
+                  "applications:com.google.Chrome.desktop"
+                  "applications:code.desktop"
+                ];
+              };
             };
           }
 
@@ -74,7 +105,7 @@
               ];
               # And explicitly hide networkmanagement and volume
               hidden = [
-                "applicationstatus"
+                "org.kde.plasma.applicationstatus"
                 "org.kde.plasma.networkmanagement"
               ];
             };
@@ -86,15 +117,19 @@
       {
         location = "top"; 
         height = 26;
-        screen = 1;
+        screen = 0;
+
+        # Find widgets with:
+        # ls /run/current-system/sw/share/plasma/plasmoids | sort
+        # ls ~/.local/share/plasma/plasmoids | sort
         widgets = [
           # virtual desktop switcher
           {
-            name = "org.kde.plasma.virtualdesktopswitcher";
+            name = "org.kde.plasma.pager";
             config = {
               General = {
-                showOnlyCurrentScreen = true;
-                useRows = false;
+                showOnlyCurrentScreen = false;
+                
               };
             };
           }
@@ -122,37 +157,37 @@
             };
           }
 
+
+          # spacer
+          {
+            name = "org.kde.plasma.panelspacer";
+            config = { General = { expanding = false; length = 10; }; };
+          }
+
+          # weather
+          { name = "org.kde.plasma.weather"; }
           # spacer
           {
             name = "org.kde.plasma.panelspacer";
             config = { General = { expanding = true; length = 0; }; };
           }
 
-          # applicationstatus
           {
-            name = "org.kde.plasma.applicationstatus";
+            systemTray.items = {
+              shown = [
+                "org.kde.plasma.colorpicker"
+                "org.kde.plasma.keyboardlayout"
+                "org.kde.plasma.systemmonitor.net"
+                "org.kde.plasma.networkmanagement"
+              ];
+              hidden = [ 
+                "org.kde.plasma.battery"
+                "org.kde.plasma.bluetooth"
+                "org.kde.plasma.volume"
+                "org.kde.plasma.applicationstatus"
+               ];
+            };
           }
-
-          # networkmanagement
-          {
-            name = "org.kde.plasma.networkmanagement";
-          }
-
-          # volume
-          {
-            name = "org.kde.plasma.volume";
-          }
-
-          # battery
-          {
-            name = "org.kde.plasma.battery";
-          }
-
-          # keyboard layout
-          {
-            name = "org.kde.plasma.keyboardlayout";
-          }
-
         ];  
           hiding = "normalpanel";
       }
@@ -182,11 +217,7 @@
     };
     kwin = {
       edgeBarrier = 0; # Disables the edge-barriers introduced in plasma 6.1
-      scripts.polonium.enable = true;
-    };
-    kscreenlocker = {
-     lockOnResume = true;
-     timeout = 10;
+
     };
 
     shortcuts = {
@@ -194,14 +225,6 @@
        "KDE Keyboard Layout Switcher"."Switch keyboard layout to Danish" = [ ];
        "KDE Keyboard Layout Switcher"."Switch to Last-Used Keyboard Layout" = "Meta+Alt+L";
        "KDE Keyboard Layout Switcher"."Switch to Next Keyboard Layout" = "Meta+Alt+K";
-       "com.google.Chrome".A80C068BB02BD9B371481A8C6614F461-addSite = [ ];
-       "com.google.Chrome".A80C068BB02BD9B371481A8C6614F461-switchEngine = [ ];
-       "com.google.Chrome".A80C068BB02BD9B371481A8C6614F461-toggle = [ ];
-       "com.google.Chrome".C4A3ACE80660D2BF17E04E24447D536B-default-action = [ ];
-       "com.google.Chrome".F0E87F7096D7577077FD284F33659E51-open-dashboard = [ ];
-       "com.google.Chrome".F0E87F7096D7577077FD284F33659E51-open-dashboard-with-running-scripts = [ ];
-       "com.google.Chrome".F0E87F7096D7577077FD284F33659E51-open-new-script = [ ];
-       "com.google.Chrome".F0E87F7096D7577077FD284F33659E51-toggle-enable = [ ];
        kaccess."Toggle Screen Reader On and Off" = "Meta+Alt+S";
        kmix.decrease_microphone_volume = "Microphone Volume Down";
        kmix.decrease_volume = "Volume Down";
@@ -444,7 +467,7 @@
        plasmashell."switch to next activity" = [ ];
        plasmashell."switch to previous activity" = [ ];
        plasmashell."toggle do not disturb" = [ ];
-       "services/org.kde.konsole.desktop"._launch = "Alt+T";
+       # "services/org.kde.konsole.desktop"._launch = "Alt+T";
        "services/org.kde.krunner.desktop"._launch = ["Search" "Alt+F2" "Alt+F" "Alt+Space"];
        "services/plasma-manager-commands.desktop".launch-konsole = "Alt+T";
      };
@@ -460,7 +483,8 @@
        dolphinrc."KFileDialog Settings"."Places Icons Static Size" = 22;
        kactivitymanagerdrc.activities."6b8b2169-b3af-4129-9b28-e8cebcccef4c" = "Default";
        kactivitymanagerdrc.main.currentActivity = "6b8b2169-b3af-4129-9b28-e8cebcccef4c";
-       kcminputrc."Libinput/13853/256/Finalmouse UltralightX dongle Mouse".PointerAcceleration = "-0.400";
+       kcminputrc."Libinput/Default".PointerAcceleration = "0";        
+       kcminputrc."Libinput/Default".PointerAccelerationProfile = "flat";    
        kded5rc.Module-browserintegrationreminder.autoload = false;
        kded5rc.Module-device_automounter.autoload = false;
        kdeglobals.General.UseSystemBell = true;
@@ -496,7 +520,6 @@
        krunnerrc."Plugins/Favorites".plugins = "krunner_sessions,krunner_powerdevil,krunner_services,krunner_systemsettings,krunner_placesrunner";
        kscreenlockerrc.Daemon.LockOnResume = true;
        kscreenlockerrc.Daemon.Timeout = 10;
-       kscreenlockerrc.Greeter.WallpaperPlugin = "org.kde.potd";
        kscreenlockerrc."Greeter/Wallpaper/org.kde.potd/General".Provider = "bing";
        kwalletrc.Wallet."First Use" = false;
        kwinrc.Desktops.Id_1 = "dc440660-b504-4aad-b53f-8cf2706ba5de";
@@ -568,8 +591,9 @@
        kwinrulesrc."1".maximizehorizrule = 3;
        kwinrulesrc."1".maximizevert = true;
        kwinrulesrc."1".maximizevertrule = 3;
-       kwinrulesrc."1".noborder = true;
-       kwinrulesrc."1".noborderrule = 2;
+      # Allow titlebar and buttons for Dolphin
+       kwinrulesrc."1".noborder = false;
+       kwinrulesrc."1".noborderrule = 0;
        kwinrulesrc."1".types = 1;
        kwinrulesrc."1".wmclass = "dolphin";
        kwinrulesrc."1".wmclasscomplete = true;
