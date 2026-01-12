@@ -31,7 +31,7 @@
     vlc
     spotify
     obs-studio
-    stremio # Contain insecure package, qtwebengine-5.15.19
+    # stremio # Contain insecure package, qtwebengine-5.15.19
     libreoffice
     obsidian
     calibre
