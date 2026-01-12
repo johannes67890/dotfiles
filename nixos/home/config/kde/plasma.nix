@@ -3,7 +3,7 @@
 { config, lib, pkgs, ... }:
 {
   programs.plasma = let
-    wallpaper = pkgs.copyPathToStore ../../assets/wallpaper/686965.png;
+    wallpaper = pkgs.copyPathToStore ../../assets/wallpaper/space.png;
   in {
     enable = true;
    
