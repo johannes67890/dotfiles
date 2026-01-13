@@ -1,9 +1,9 @@
 # qdbus org.kde.KWin /KWin reconfigure
 # systemctl --user restart plasma-plasmashell.service plasma-kglobalaccel.service
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 {
   programs.plasma = let
-    wallpaper = pkgs.copyPathToStore ../../assets/wallpaper/space.png;
+    wallpaper = "${inputs.self}/home/assets/wallpaper/space.png";
   in {
     enable = true;
    
@@ -84,10 +84,10 @@
                 launchers = [
                   "applications:org.kde.dolphin.desktop"
                   "applications:com.google.Chrome.desktop"
-                  "applications:tor-browser.desktop"
+                  "applications:tor.desktop"
                   "applications:code.desktop"
                   "applications:obsidian.desktop"
-                  "applications:libreoffice.desktop"
+                  "applications:libreoffice-startcenter.desktop"
                   "applications:postman.desktop"
                   "applications:veracrypt.desktop"
                 ];
