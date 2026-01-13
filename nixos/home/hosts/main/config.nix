@@ -1,6 +1,7 @@
 { config, pkgs, inputs, ... }:
 let
   configDir = ../../config;
+  avatarPath = "${configDir}/kde/avatar.jpg";
 in
 {
   imports = [
@@ -8,6 +9,14 @@ in
   ];
 
   home.file = {
+    # avatar for kde login and user account
+    ".face" = {
+      source = avatarPath;
+    };
+    ".face.icon" = {
+      source = avatarPath;
+    };
+
     # btop theme
     ".config/btop/themes/main.theme".source = "${configDir}/btop/main.theme";
     # Auto-select the "main" theme (matches main.theme filename)

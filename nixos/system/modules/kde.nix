@@ -1,10 +1,15 @@
-{ pkgs, ... }: {
+{ inputs, pkgs, ... }: {
   services = {
     desktopManager.plasma6.enable = true;
-
-    displayManager.sddm.enable = true;
-
-    displayManager.sddm.wayland.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      settings = {
+        Theme = {
+          Background = "${inputs.self}/home/assets/wallpaper/space.png";
+        };
+      };
+    };
+  displayManager.sddm.wayland.enable = true;
   };
 
   # Exclude certain default applications from being installed
@@ -14,6 +19,10 @@
 environment.systemPackages = with pkgs;
   [
     # KDE
+    kdePackages.kdeplasma-addons   # contains org.kde.plasma.weather, colorpicker, …
+    kdePackages.plasma-nm          # network management tray
+    plasma-panel-colorizer
+    kdePackages.kweather           # optional: KWeather app
     kdePackages.discover # Optional: Install if you use Flatpak or fwupd firmware update sevice
     kdePackages.kcalc # Calculator
     kdePackages.kcharselect # Tool to select and copy special characters from all installed fonts

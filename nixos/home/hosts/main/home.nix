@@ -55,11 +55,6 @@
     wireshark-qt
     postman
     neofetch
-    # kde plasma widgets
-    kdePackages.kdeplasma-addons   # contains org.kde.plasma.weather, colorpicker, …
-    kdePackages.plasma-nm          # network management tray
-    plasma-panel-colorizer
-    kdePackages.kweather           # optional: KWeather app
   ];
 
   fonts.fontconfig.enable = true;
