@@ -89,10 +89,8 @@
                 launchers = [
                   "applications:org.kde.dolphin.desktop"
                   "applications:com.google.Chrome.desktop"
-                  "applications:tor.desktop"
                   "applications:code.desktop"
                   "applications:obsidian.desktop"
-                  "applications:libreoffice-startcenter.desktop"
                   "applications:postman.desktop"
                   "applications:veracrypt.desktop"
                 ];

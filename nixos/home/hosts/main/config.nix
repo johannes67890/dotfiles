@@ -28,6 +28,9 @@ in
       force = true;
     };
 
+    # nvim config
+    ".config/nvim".source = "${configDir}/nvim/.config/nvim";
+
     ".config/kde".source = "${configDir}/kde";
   };
 }
