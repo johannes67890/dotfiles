@@ -35,6 +35,20 @@
     bat
     # zsh-you-should-use
     # stremio # Contain insecure package, qtwebengine-5.15.19
+    
+    # C and C++ compilers and tools 
+    gcc
+    clang-tools
+    cmake
+    codespell
+    conan
+    cppcheck
+    doxygen
+    gtest
+    lcov
+    vcpkg
+
+    # Office
     libreoffice
     obsidian
     calibre

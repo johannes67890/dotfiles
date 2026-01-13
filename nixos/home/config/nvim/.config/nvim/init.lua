@@ -166,6 +166,16 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Enable 24-bit RGB color in the TUI
+vim.opt.termguicolors = true
+
+-- Ensure vscode theme if anything overrides it later
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    pcall(vim.cmd.colorscheme, "vscode")
+  end,
+})
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
