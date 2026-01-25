@@ -13,15 +13,21 @@
 
   # Add user-level packages
   home.packages = with pkgs; [
+    # --- System Utilities ---
     terminus_font
     terminus_font_ttf
     lazygit    
     wget
     curl
     btop
-    git
-    vim
-    zsh
+    bat
+    zip       
+    unzip     
+    tree
+    ripgrep   
+    jq        
+    
+    # --- GUI Apps ---
     vscode
     firefox
     grimblast
@@ -31,12 +37,14 @@
     vlc
     spotify
     obs-studio
+    krita
+    ghidra
+    onedrive    
+    protonvpn-gui
+    # --- Shell Customization ---
     pure-prompt
-    bat
-    # zsh-you-should-use
-    # stremio # Contain insecure package, qtwebengine-5.15.19
     
-    # C and C++ compilers and tools 
+    # --- Development Tools ---
     gcc
     clang-tools
     cmake
@@ -47,12 +55,25 @@
     gtest
     lcov
     vcpkg
+    
+    # --- Languages & Runtimes ---
+    dotnet-sdk_8   # Added: You had dotnet-8 installed
+    jdk21          # Added: You had Java 17/21 installed
+    pnpm
+    yarn           # Added: Found in your Snap list
+    python3
+    rustup
+    go
 
-    # Office
+    # --- Office & Productivity ---
     libreoffice
     obsidian
     calibre
     krita
+    postman
+    neofetch
+    
+    # --- System Management (See Warnings Below) ---
     gparted
     flatpak
     qbittorrent
@@ -63,20 +84,26 @@
     python3
     rustup
     go
-    oh-my-zsh
-    docker
-    virtualbox
-    wireshark-qt
-    postman
-    neofetch
+    docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
+    virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
+    wireshark-qt # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
   ];
 
   fonts.fontconfig.enable = true;
 
-
   programs.home-manager.enable = true;
+  
   programs.kitty.enable = true;
-  programs.neovim.enable = true;
+  
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true; # Sets $EDITOR to nvim
+    viAlias = true;       # Aliases vi to nvim
+    vimAlias = true;      # Aliases vim to nvim
+  };
+
+  programs.tmux.enable = true;
+
   programs.zsh = {
     enable = true;
 
@@ -105,13 +132,10 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
   };
-  programs.tmux.enable = true;
 
   programs.git = {
     enable = true;
-settings.user.name = "johannes67890"; 
+    settings.user.name = "johannes67890"; 
     settings.user.email = "johannes@orager.dk"; 
-
   };
-
 }

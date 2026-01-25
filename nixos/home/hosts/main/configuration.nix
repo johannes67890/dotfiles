@@ -108,6 +108,20 @@
 
   fonts.packages = with pkgs; [ nerd-fonts.fira-code ];
 
+  # Enable Docker daemon
+  virtualisation.docker.enable = true;
+
+  # Enable VirtualBox
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "jgjo" ];
+
+  # Enable Wireshark (allows non-root packet capture)
+  programs.wireshark.enable = true;
+  users.extraGroups.wireshark.members = [ "jgjo" ];
+
+  # Enable Flatpak
+  services.flatpak.enable = true;
+
   # Enable sound (kept here as general system configuration)
   security.rtkit.enable = true;
   services.pipewire = {
