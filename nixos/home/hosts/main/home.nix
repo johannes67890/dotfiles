@@ -38,6 +38,7 @@
     spotify
     obs-studio
     krita
+    thunderbird
     ghidra
     onedrive    
     protonvpn-gui
