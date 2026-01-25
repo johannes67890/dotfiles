@@ -1,5 +1,7 @@
 # Set up the prompt
 
+
+
 autoload -Uz promptinit
 promptinit
 prompt adam1
@@ -49,3 +51,7 @@ function precmd() {
     unset timer
   fi
 }
+
+alias fslex="dotnet ~/repos/ProgramsAsDataCodeE2025/fsharp/FsLexYacc.11.3.0/build/fslex/net6.0/fslex.dll"
+alias fsyacc="dotnet ~/repos/ProgramsAsDataCodeE2025/fsharp/FsLexYacc.11.3.0/build/fsyacc/net6.0/fsyacc.dll"
+
