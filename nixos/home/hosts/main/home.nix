@@ -30,6 +30,7 @@
     # --- GUI Apps ---
     vscode
     firefox
+    chromium
     grimblast
     google-chrome
     discord
@@ -37,7 +38,6 @@
     vlc
     spotify
     obs-studio
-    krita
     thunderbird
     ghidra
     onedrive    
@@ -46,6 +46,7 @@
     pure-prompt
     
     # --- Development Tools ---
+    # C
     gcc
     clang-tools
     cmake
@@ -58,15 +59,42 @@
     vcpkg
     
     # --- Languages & Runtimes ---
+    # C#
     dotnet-sdk_8   # Added: You had dotnet-8 installed
-    jdk21          # Added: You had Java 17/21 installed
+    # Rust tools
+    clippy
+    rustc
+    # rustup
+    cargo
+    rustfmt
+
+    # Node
     pnpm
-    yarn           # Added: Found in your Snap list
+    nodejs
+    yarn
+
+    # Python
+    pipx
     python3
-    rustup
+
+    # Java (uses also package 'gcc')
+    jdk21          # Added: You had Java 17/21 installed
+    gradle
+    jdk
+    maven
+    ncurses
+    patchelf
+    zlib
+
+    # go
     go
 
-    # --- Office & Productivity ---
+    # Latex
+    # texlive.combined.scheme-full
+    texlab
+    tectonic
+
+    # Office
     libreoffice
     obsidian
     calibre
@@ -75,19 +103,21 @@
     neofetch
     
     # --- System Management (See Warnings Below) ---
+    # electrum
     gparted
     flatpak
     qbittorrent
     veracrypt
     gnupg
-    pnpm
-    nodejs
-    python3
-    rustup
-    go
     docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
     virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
     wireshark-qt # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
+    onionshare
+    appimage-run
+    keepassxc
+    metadata-cleaner
+    oh-my-zsh
+    libglibutil
   ];
 
   fonts.fontconfig.enable = true;

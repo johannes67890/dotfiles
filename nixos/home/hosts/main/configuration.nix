@@ -51,7 +51,7 @@
   networking.networkmanager.wifi.powersave = true;
 
   programs.zsh.enable = true;
-
+  programs.nix-ld.enable = true;
   # User configuration goes under `config.users`
   users.users = {
     jgjo = {

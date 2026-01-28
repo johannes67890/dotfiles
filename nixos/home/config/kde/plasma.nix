@@ -23,7 +23,7 @@
         vendorId = "13853";
         productId = "256";
         enable = true;
-        acceleration = 0;
+        acceleration = -0.33;
         accelerationProfile = "none"; 
       }
     ];
@@ -110,11 +110,11 @@
                 "org.kde.plasma.battery"
                 "org.kde.plasma.bluetooth"
                 "org.kde.plasma.volume"
+                "org.kde.plasma.keyboardlayout"
+                "org.kde.plasma.networkmanagement"
               ];
               # And explicitly hide networkmanagement and volume
               hidden = [
-                "org.kde.plasma.applicationstatus"
-                "org.kde.plasma.networkmanagement"
               ];
             };
           }
@@ -124,7 +124,7 @@
 
       {
         location = "top"; 
-        height = 26;
+        height = 20;
         screen = 0;
 
         # Find widgets with:
@@ -191,23 +191,6 @@
           {
             name = "org.kde.plasma.panelspacer";
             config = { General = { expanding = true; length = 0; }; };
-          }
-
-          {
-            systemTray.items = {
-              shown = [
-                "org.kde.plasma.colorpicker"
-                "org.kde.plasma.keyboardlayout"
-                "org.kde.plasma.systemmonitor.net"
-                "org.kde.plasma.networkmanagement"
-              ];
-              hidden = [ 
-                "org.kde.plasma.battery"
-                "org.kde.plasma.bluetooth"
-                "org.kde.plasma.volume"
-                "org.kde.plasma.applicationstatus"
-               ];
-            };
           }
         ];  
           hiding = "normalpanel";
@@ -511,7 +494,7 @@
         Icons = { Theme = "Win11-black-dark"; };
         KDE = {
           AnimationDurationFactor = 0.5;
-          SingleClick = true;
+          SingleClick = false;
         };
         "KFileDialog Settings" = {
           "Allow Expansion" = false;
@@ -575,6 +558,17 @@
           EdgeBarrier = 0;
         };
         "Effect-overview" = { BorderActivate = 0; };
+        # Disable hot corners/edges
+        ScreenEdges = {
+          Top = 0;
+          TopLeft = 0;
+          TopRight = 0;
+          Bottom = 0;
+          BottomLeft = 0;
+          BottomRight = 0;
+          Left = 0;
+          Right = 0;
+        };
         "Effect-zoom" = {
           PixelGridZoom = 12;
           ZoomFactor = 1.25;
@@ -608,9 +602,18 @@
           wmclasscomplete = true;
           wmclassmatch = 2;
         };
+
+        # New rule: prevent fullscreen on startup for all normal windows
+        "2" = {
+          Description = "No fullscreen on startup";
+          types = 1;             # normal windows
+          fullscreen = false;    # initial state
+          fullscreenrule = 2;    # Apply Initially
+        };
+
         General = {
-          count = 1;
-          rules = 1;
+          count = 2;
+          rules = 2;
         };
       };
 
