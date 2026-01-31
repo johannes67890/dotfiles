@@ -1,6 +1,11 @@
 { config, pkgs, ... }: {
 	# Graphics stack and NVIDIA driver configuration
 	hardware.graphics.enable = true;
+	hardware.bluetooth.enable = true;
+	hardware.bluetooth.powerOnBoot = true;
+
+	
+
 	services.xserver.videoDrivers = [ "nvidia" ];
 
 	hardware.nvidia = {

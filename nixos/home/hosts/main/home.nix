@@ -25,7 +25,11 @@
     unzip     
     tree
     ripgrep   
-    jq        
+    jq
+
+    # --- Bluetooth --- 
+    kdePackages.bluedevil
+    kdePackages.bluez-qt    
     
     # --- GUI Apps ---
     vscode
@@ -101,7 +105,8 @@
     krita
     postman
     neofetch
-    
+    rclone
+
     # --- System Management (See Warnings Below) ---
     # electrum
     gparted

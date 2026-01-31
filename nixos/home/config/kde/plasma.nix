@@ -62,11 +62,19 @@
         screen = 0;
 
         widgets = [
+          # spacer
+          {
+            name = "org.kde.plasma.panelspacer";
+            config = { General = { expanding = false; length = 10; }; };
+          }
+          # weather
+          { name = "org.kde.plasma.weather"; }
           # Left spacer (expands)
           {
             name = "org.kde.plasma.panelspacer";
             config = { General = { expanding = true; length = 0; }; };
           }
+
           # Or you can configure the widgets by adding the widget-specific options for it.
           # See modules/widgets for supported widgets and options for these widgets.
           # For example:
@@ -86,11 +94,16 @@
                 separateLaunchers = false;
                 # find launchers with:
                 # ls /run/current-system/sw/share/applications | sort
+                # Or with:
+                # nix build nixpkgs#<package-name> --no-link --print-out-paths
+                # ls "$(nix build nixpkgs#<package-name> --no-link --print-out-paths)/share/applications"  
                 launchers = [
                   "applications:org.kde.dolphin.desktop"
-                  "applications:com.google.Chrome.desktop"
+                  "applications:chromium-browser.desktop"
+                  "applications:torbrowser.desktop"
                   "applications:code.desktop"
                   "applications:obsidian.desktop"
+                  "applications:startcenter.desktop" # libreoffice
                   "applications:postman.desktop"
                   "applications:veracrypt.desktop"
                 ];
@@ -118,50 +131,11 @@
               ];
             };
           }
-        ];
-        hiding = "normalpanel";
-      }
-
-      {
-        location = "top"; 
-        height = 20;
-        screen = 0;
-
-        # Find widgets with:
-        # ls /run/current-system/sw/share/plasma/plasmoids | sort
-        # ls ~/.local/share/plasma/plasmoids | sort
-        widgets = [
-          # virtual desktop switcher
-          {
-            name = "org.kde.plasma.plasm6desktopindicator";
-            config = {
-              General = {
-                desktopWrapOn = true;
-                dotSizeCustom = 15;
-                spacingHorizontal = 12;
-                spacingVertical = 8;
-                showAddDesktop = true;
-              };
-            };
-          }
-          # Default
-          # {
-          #   name = "org.kde.plasma.pager";
-          #   config = {
-          #     General = {
-          #       showOnlyCurrentScreen = false;
-                
-          #     };
-          #   };
-          # }
-          
           # spacer
           {
             name = "org.kde.plasma.panelspacer";
-            config = { General = { expanding = true; length = 0; }; };
+            config = { General = { expanding = false; length = 10; }; };
           }
-
-          # clock
           {
             name = "org.kde.plasma.digitalclock";
             config = {
@@ -177,24 +151,83 @@
               };
             };
           }
-
-
-          # spacer
-          {
-            name = "org.kde.plasma.panelspacer";
-            config = { General = { expanding = false; length = 10; }; };
-          }
-
-          # weather
-          { name = "org.kde.plasma.weather"; }
-          # spacer
-          {
-            name = "org.kde.plasma.panelspacer";
-            config = { General = { expanding = true; length = 0; }; };
-          }
-        ];  
-          hiding = "normalpanel";
+        ];
+        hiding = "normalpanel";
       }
+
+      # {
+      #   location = "top"; 
+      #   height = 20;
+      #   screen = 0;
+
+      #   # Find widgets with:
+      #   # ls /run/current-system/sw/share/plasma/plasmoids | sort
+      #   # ls ~/.local/share/plasma/plasmoids | sort
+      #   widgets = [
+      #     # virtual desktop switcher
+      #     {
+      #       name = "org.kde.plasma.plasm6desktopindicator";
+      #       config = {
+      #         General = {
+      #           desktopWrapOn = true;
+      #           dotSizeCustom = 15;
+      #           spacingHorizontal = 12;
+      #           spacingVertical = 8;
+      #           showAddDesktop = true;
+      #         };
+      #       };
+      #     }
+      #     # Default
+      #     # {
+      #     #   name = "org.kde.plasma.pager";
+      #     #   config = {
+      #     #     General = {
+      #     #       showOnlyCurrentScreen = false;
+                
+      #     #     };
+      #     #   };
+      #     # }
+          
+      #     # spacer
+      #     {
+      #       name = "org.kde.plasma.panelspacer";
+      #       config = { General = { expanding = true; length = 0; }; };
+      #     }
+
+      #     # clock
+      #     {
+      #       name = "org.kde.plasma.digitalclock";
+      #       config = {
+      #         General = {
+      #           showDate = true;
+      #           showSeconds = false;
+      #         };
+      #         calendar = {
+      #           firstDayOfWeek = "monday";
+      #         };
+      #         time = {
+      #           format = "24h";
+      #         };
+      #       };
+      #     }
+
+
+      #     # spacer
+      #     {
+      #       name = "org.kde.plasma.panelspacer";
+      #       config = { General = { expanding = false; length = 10; }; };
+      #     }
+
+      #     # weather
+      #     { name = "org.kde.plasma.weather"; }
+      #     # spacer
+      #     {
+      #       name = "org.kde.plasma.panelspacer";
+      #       config = { General = { expanding = true; length = 0; }; };
+      #     }
+      #   ];  
+      #     hiding = "normalpanel";
+      # }
           
  
     ];
@@ -579,10 +612,6 @@
         };
         Tiling = { padding = 4; };
 
-        Windows = {
-          ElectricBorderDelay = 125;
-          Placement = "ZeroCornered";
-        };
         Xwayland = { Scale = 1; };
         "org.kde.kdecoration2" = { ButtonsOnLeft = "SF"; };
       };
