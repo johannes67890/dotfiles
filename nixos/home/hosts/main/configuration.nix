@@ -53,7 +53,6 @@
   # onedrive
   services.onedrive.enable = true;
 
-
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
   # User configuration goes under `config.users`

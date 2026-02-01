@@ -40,6 +40,7 @@
     discord
     tor-browser
     vlc
+    bitwarden-desktop
     spotify
     obs-studio
     thunderbird
