@@ -28,6 +28,19 @@
       }
     ];
 
+    input.touchpads = [
+      {
+        disableWhileTyping = true;
+        enable = true;
+        name = "Microsoft Surface 045E:09AF Touchpad";
+        naturalScroll = true;
+        pointerSpeed = 0.2;
+        productId = "09af";
+        tapToClick = true;
+        vendorId = "045e";
+      }
+    ];
+
     fonts = {
       # Use a UI font for general/menu/toolbar/window title
       general = { family = "Noto Sans"; pointSize = 10; };
@@ -302,7 +315,6 @@
         "Decrease Opacity" = [ ];
         "Edit Tiles" = "Meta+T";
         Expose = "Ctrl+F9";
-        "Launch Konsole" = "Alt+T";
         ExposeAll = ["Ctrl+F10" "Launch (C)"];
         ExposeClass = "Ctrl+F7";
         ExposeClassCurrentDesktop = [ ];
@@ -470,6 +482,7 @@
       "services/org.kde.krunner.desktop" = {
         _launch = ["Search" "Alt+F2" "Alt+F" "Alt+Space"];
       };
+      "services/org.kde.konsole.desktop"._launch = ["Alt+T" "Ctrl+Alt+T"];
 
       "services/plasma-manager-commands.desktop" = {
         launch-konsole = "Alt+T";
@@ -624,7 +637,7 @@
           Right = 0;
         };
           "Effect-overview" = {
-            BorderActivate = 0;
+            BorderActivate = 9; 
             BorderActivateAll = false;
           };
 

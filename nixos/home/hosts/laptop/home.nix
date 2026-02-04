@@ -26,7 +26,7 @@
     tree
     ripgrep   
     jq
-
+    touchegg
     # --- Bluetooth --- 
     kdePackages.bluedevil
     kdePackages.bluez-qt    

@@ -56,6 +56,7 @@
   # touchpad 
   services.libinput.enable = true;
   # multi-touch gesture recognizer
+  # if touche app cant see touchegg: "flatpak override --user --env=XDG_CONFIG_DIRS=/var/run/host/etc/xdg com.github.joseexposito.touche"
   services.touchegg.enable = true;
 
   programs.zsh.enable = true;
