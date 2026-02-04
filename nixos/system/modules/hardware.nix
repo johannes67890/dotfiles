@@ -4,7 +4,10 @@
 	hardware.bluetooth.enable = true;
 	hardware.bluetooth.powerOnBoot = true;
 
-	
+	# touchscreen
+	hardware.enableRedistributableFirmware = true;
+	hardware.enableAllFirmware = true;
+
 
 	services.xserver.videoDrivers = [ "nvidia" ];
 

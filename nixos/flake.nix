@@ -69,6 +69,21 @@
           lanzaboote.nixosModules.lanzaboote        
         ];
       };
+      laptop = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs outputs;};
+          modules = [
+            ./home/hosts/laptop/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.sharedModules = [
+                inputs.plasma-manager.homeModules.plasma-manager
+              ];
+            }
+            lanzaboote.nixosModules.lanzaboote
+          ];
+  };
     };
 
     # Standalone home-manager configuration entrypoint
@@ -82,6 +97,15 @@
           ./home/hosts/main/home.nix
         ];
       };
+
+       "jgjo@laptop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            inputs.plasma-manager.homeModules.plasma-manager
+            ./home/hosts/laptop/home.nix
+          ];
+        };
     };
   };
 }

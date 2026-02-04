@@ -1,5 +1,4 @@
 { config, pkgs, inputs, ... }:
-{ config, pkgs, inputs, ... }:
 let
   configDir = ../../config;
   avatarPath = "${configDir}/kde/avatar.jpg";

@@ -6,7 +6,7 @@
     wallpaper = "${inputs.self}/home/assets/wallpaper/space.png";
   in {
     enable = true;
-   
+   overrideConfig = true;
       workspace = {
         lookAndFeel = "org.kde.breezedark.desktop";
         cursor = {
@@ -255,11 +255,11 @@
       };
     };
 
-    kwin = {
+  kwin = {
       edgeBarrier = 0; # Disables the edge-barriers introduced in plasma 6.1
 
-      
     };
+
 
     shortcuts = {
       "KDE Keyboard Layout Switcher" = {
@@ -295,19 +295,21 @@
       };
 
       kwin = {
+
         "Activate Window Demanding Attention" = "Meta+Ctrl+A";
         "Cycle Overview" = [ ];
         "Cycle Overview Opposite" = [ ];
         "Decrease Opacity" = [ ];
         "Edit Tiles" = "Meta+T";
         Expose = "Ctrl+F9";
+        "Launch Konsole" = "Alt+T";
         ExposeAll = ["Ctrl+F10" "Launch (C)"];
         ExposeClass = "Ctrl+F7";
         ExposeClassCurrentDesktop = [ ];
         "Grid View" = "Meta+G";
         "Increase Opacity" = [ ];
         "Kill Window" = "Meta+Ctrl+Esc";
-        "Move Tablet to Next Output" = [ ];
+        "Move Tablet to Next Output" = [ ];   
         MoveMouseToCenter = "Meta+F6";
         MoveMouseToFocus = "Meta+F5";
         MoveZoomDown = [ ];
@@ -481,7 +483,11 @@
           "exclude filters version" = 9;
         };
       };
-
+      ksmserverrc = {
+        General = {
+          loginMode = "emptySession";
+        };
+      };
       dolphinrc = {
         DetailsMode = {
           IconSize = 32;
@@ -528,7 +534,6 @@
           forceFontDPI = 96;
           widgetStyle = "org.kde.breeze";
         };
-        Icons = { Theme = "Win11-black-dark"; };
         KDE = {
           AnimationDurationFactor = 0.5;
           SingleClick = false;
@@ -594,7 +599,6 @@
           CornerBarrier = false;
           EdgeBarrier = 0;
         };
-        "Effect-overview" = { BorderActivate = 0; };
         # Disable hot corners/edges
         ScreenEdges = {
           Top = 0;
@@ -609,11 +613,6 @@
         # Disable legacy edge actions (removes [ElectricBorders] Top=ShowDesktop)
         ElectricBorders = lib.mkForce {};
 
-        "Effect-zoom" = {
-          PixelGridZoom = 12;
-          ZoomFactor = 1.25;
-        };
-
                 TouchEdges = {
           Top = 0;
           TopLeft = 0;
@@ -624,15 +623,16 @@
           Left = 0;
           Right = 0;
         };
+          "Effect-overview" = {
+            BorderActivate = 0;
+            BorderActivateAll = false;
+          };
 
         Plugins = {
+              overviewEnabled = true;  # keep overview, just no edges
           poloniumEnabled = false;
           shakecursorEnabled = false;
         };
-        Tiling = { padding = 4; };
-
-        Xwayland = { Scale = 1; };
-        "org.kde.kdecoration2" = { ButtonsOnLeft = "SF"; };
       };
 
       kwinrulesrc = {
@@ -640,7 +640,7 @@
           Description = "Dolphin";
           maximizehoriz = true;
           maximizehorizrule = 3;
-          maximizevert = true;
+          maximizevert = true; 
           maximizevertrule = 3;
           # Allow titlebar and buttons for Dolphin
           noborder = false;

@@ -19,6 +19,7 @@
 environment.systemPackages = with pkgs;
   [
     # KDE
+    windows10-icons
     kdePackages.kleopatra      # KDE GUI for GnuPG
     kdePackages.kdeplasma-addons   # contains org.kde.plasma.weather, colorpicker, …
     kdePackages.plasma-nm          # network management tray
