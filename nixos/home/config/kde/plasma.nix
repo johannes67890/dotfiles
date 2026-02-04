@@ -99,8 +99,10 @@
                 # ls "$(nix build nixpkgs#<package-name> --no-link --print-out-paths)/share/applications"  
                 launchers = [
                   "applications:org.kde.dolphin.desktop"
-                  "applications:chromium-browser.desktop"
+                  "applications:org.kde.konsole.desktop"
+                  "applications:brave-browser.desktop"
                   "applications:torbrowser.desktop"
+                  "applications:discord.desktop"
                   "applications:code.desktop"
                   "applications:obsidian.desktop"
                   "applications:startcenter.desktop" # libreoffice
@@ -255,6 +257,8 @@
 
     kwin = {
       edgeBarrier = 0; # Disables the edge-barriers introduced in plasma 6.1
+
+      
     };
 
     shortcuts = {
@@ -602,12 +606,27 @@
           Left = 0;
           Right = 0;
         };
+        # Disable legacy edge actions (removes [ElectricBorders] Top=ShowDesktop)
+        ElectricBorders = lib.mkForce {};
+
         "Effect-zoom" = {
           PixelGridZoom = 12;
           ZoomFactor = 1.25;
         };
+
+                TouchEdges = {
+          Top = 0;
+          TopLeft = 0;
+          TopRight = 0;
+          Bottom = 0;
+          BottomLeft = 0;
+          BottomRight = 0;
+          Left = 0;
+          Right = 0;
+        };
+
         Plugins = {
-          poloniumEnabled = true;
+          poloniumEnabled = false;
           shakecursorEnabled = false;
         };
         Tiling = { padding = 4; };
@@ -637,7 +656,7 @@
           Description = "No fullscreen on startup";
           types = 1;             # normal windows
           fullscreen = false;    # initial state
-          fullscreenrule = 2;    # Apply Initially
+          fullscreenrule = 0;  
         };
 
         General = {

@@ -37,6 +37,7 @@
     chromium
     grimblast
     google-chrome
+    brave
     discord
     tor-browser
     vlc
