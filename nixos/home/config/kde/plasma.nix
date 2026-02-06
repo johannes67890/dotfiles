@@ -6,7 +6,7 @@
     wallpaper = "${inputs.self}/home/assets/wallpaper/space.png";
   in {
     enable = true;
-   overrideConfig = true;
+   overrideConfig = false;
       workspace = {
         lookAndFeel = "org.kde.breezedark.desktop";
         cursor = {

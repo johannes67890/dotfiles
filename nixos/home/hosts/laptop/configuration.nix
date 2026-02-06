@@ -12,7 +12,6 @@
     ../../../system/modules/boot.nix
     ../../../system/modules/hardware.nix
     ../../../system/modules/kde.nix
-    ./eduroam-patch.nix
   ];
 
   nixpkgs = {
@@ -20,6 +19,15 @@
       # Disable if you don't want unfree packages
       allowUnfree = true;
       permittedInsecurePackages = [ "qtwebengine-5.15.19" ];
+      packageOverrides = (
+      pkgs: {
+        # For patch ITU++
+        # ITU++ uses TTLS Auth and MSCHAP2 inner auth
+        wpa_supplicant = pkgs.wpa_supplicant.overrideAttrs (attrs: {
+          patches = attrs.patches ++ [ ./patches/itu++.patch ];
+        });
+      }
+    );
     };
   };
 
@@ -49,8 +57,8 @@
   # Networking configuration goes under `config.networking`
   networking.hostName = "jgjoLaptop";
   networking.networkmanager.enable = true;
-  networking.wireless.iwd.enable = false;
-  networking.networkmanager.wifi.backend = "wpa_supplicant";
+  # networking.wireless.iwd.enable = false;
+  # networking.networkmanager.wifi.backend = "wpa_supplicant";
   networking.networkmanager.wifi.powersave = true;
 
   # onedrive
