@@ -12,6 +12,7 @@
     ../../../system/modules/boot.nix
     ../../../system/modules/hardware.nix
     ../../../system/modules/kde.nix
+    ./eduroam-patch.nix
   ];
 
   nixpkgs = {
@@ -21,6 +22,8 @@
       permittedInsecurePackages = [ "qtwebengine-5.15.19" ];
     };
   };
+
+  
 
   # Define Nix settings (this should go under `config.nix`)
   nix = let
@@ -46,8 +49,8 @@
   # Networking configuration goes under `config.networking`
   networking.hostName = "jgjoLaptop";
   networking.networkmanager.enable = true;
-  networking.wireless.iwd.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
+  networking.wireless.iwd.enable = false;
+  networking.networkmanager.wifi.backend = "wpa_supplicant";
   networking.networkmanager.wifi.powersave = true;
 
   # onedrive
