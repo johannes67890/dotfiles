@@ -26,7 +26,6 @@
     tree
     ripgrep   
     jq
-    touchegg
     # --- Bluetooth --- 
     kdePackages.bluedevil
     kdePackages.bluez-qt    
@@ -64,6 +63,7 @@
     lcov
     vcpkg
     
+    android-studio
     # --- Languages & Runtimes ---
     # C#
     dotnet-sdk_8   # Added: You had dotnet-8 installed
