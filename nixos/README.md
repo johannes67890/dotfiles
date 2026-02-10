@@ -26,6 +26,10 @@ sudo nixos-rebuild switch --flake .#jgjo
 jgjo #desktop
 ```
 
+```sh
+laptop #laptop
+```
+
 ## Repo layout
 
 ```
@@ -41,7 +45,8 @@ pkgs/{default.nix}
 
 - Main entrypoint: [`home/hosts/main/configuration.nix`](home/hosts/main/configuration.nix)
 - Plasma setup: [`home/config/kde/plasma.nix`](home/config/kde/plasma.nix)
-- Secure boot: Lanzaboote via [`system/modules/boot.nix`](system/modules/boot.nix)
+- Secure boot: Lanzaboote via [`system/modules/bootSecure.nix`](system/modules/bootSecure.nix)
+- Normal boot: systemd-boot via [`system/modules/boot.nix`](system/modules/boot.nix)
 
 ## Boot entries and GC
 
