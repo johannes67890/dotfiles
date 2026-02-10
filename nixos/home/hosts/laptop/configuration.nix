@@ -78,7 +78,7 @@
       shell = pkgs.zsh; # Use Zsh as login shell
       openssh.authorizedKeys.keys = [
         # Add your SSH public key(s) here
-        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPZ/LKt2V0JEb06a34/ktDMWXF3p6+ENQp2uqBnlNc0 johannes@orager.dk
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPZ/LKt2V0JEb06a34/ktDMWXF3p6+ENQp2uqBnlNc0 johannes@orager.dk"
       ];
       extraGroups = ["wheel"];
     };
