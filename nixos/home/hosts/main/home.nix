@@ -26,6 +26,7 @@
     tree
     ripgrep   
     jq
+    libnotify # for plasma discovery application (with the use of flatpak)
 
     # --- Bluetooth --- 
     kdePackages.bluedevil
