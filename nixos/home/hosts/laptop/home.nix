@@ -46,7 +46,6 @@
     obs-studio
     thunderbird
     ghidra
-    onedrive    
     protonvpn-gui
     # --- Shell Customization ---
     pure-prompt

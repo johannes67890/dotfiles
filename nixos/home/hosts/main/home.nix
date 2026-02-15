@@ -14,6 +14,7 @@
   # Add user-level packages
   home.packages = with pkgs; [
     # --- System Utilities ---
+      balooPackages.disable # for krunner to run faster
     terminus_font
     terminus_font_ttf
     lazygit    
@@ -37,7 +38,6 @@
     firefox
     chromium
     grimblast
-    google-chrome
     brave
     discord
     tor-browser
