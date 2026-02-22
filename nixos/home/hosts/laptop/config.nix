@@ -36,5 +36,8 @@ in
         # ghostty config
     ".config/ghostty/config".source = "${configDir}/ghostty/config";
     ".config/ghostty/config".force = true;
+
+    # yazi config
+    ".config/yazi".source = "${configDir}/yazi";
   };
 }

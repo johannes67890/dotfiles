@@ -15,7 +15,7 @@
   home.packages = with pkgs; [
     # --- System Utilities ---
     ghostty
-
+    yazi
     terminus_font
     terminus_font_ttf
     lazygit    
