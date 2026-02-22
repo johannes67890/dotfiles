@@ -1,19 +1,59 @@
-theme = Black Metal (Dark Funeral)
+theme = Night Lion V2
+# Ultra Violent
+# Night Lion V2
+# Liquid Carbon Transparent
+# Hybrid
 
-font-family = FiraCode Nerd Font
-font-size = 9
+font-family = FiraCode Nerd Font Mono
+font-size = 10
 
 background-opacity = 0.9
 background-blur = false
 cursor-opacity = 0.2
 
 
-window-vsync = true
-window-decoration = none
 macos-titlebar-style = hidden
 mouse-hide-while-typing = true
 confirm-close-surface = false
+selection-clear-on-copy = true
 
+
+# Force the tab bar/titlebar to use your terminal theme colors
+window-vsync = true
+window-decoration = none
+window-theme = ghostty
+window-title-font-family = "Arial"
+window-padding-y = 0
+window-padding-balance = true
+
+
+# Dim unfocused splits to 70% opacity
+unfocused-split-opacity = 0.7
+
+# Use a specific color for the dimming (default is your background color)
+# Setting this explicitly to black can make the "dim" look more natural
+unfocused-split-fill = #000000
+
+# Reload config without restarting
+keybind = ctrl+shift+r=reload_config
+
+# Create a new tab
+keybind = ctrl+t=new_tab
+
+# Close the current split or tab
+keybind = ctrl+w=close_surface
+
+# Quick split management
+keybind = ctrl+shift+e=new_split:right
+keybind = ctrl+shift+o=new_split:down
+
+# Quick navigation between splits (similar to vim)
+keybind = ctrl+alt+h=goto_split:left
+keybind = ctrl+alt+l=goto_split:right
+keybind = ctrl+alt+k=goto_split:up
+keybind = ctrl+alt+j=goto_split:down
+
+# Copy and paste
 keybind = performable:ctrl+c=copy_to_clipboard
 keybind = performable:ctrl+v=paste_from_clipboard
 keybind = ctrl+enter=unbind
