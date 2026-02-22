@@ -14,6 +14,8 @@
   # Add user-level packages
   home.packages = with pkgs; [
     # --- System Utilities ---
+    ghostty
+
     terminus_font
     terminus_font_ttf
     lazygit    

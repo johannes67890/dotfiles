@@ -1,0 +1,19 @@
+theme = Black Metal (Dark Funeral)
+
+font-family = FiraCode Nerd Font
+font-size = 9
+
+background-opacity = 0.9
+background-blur = false
+cursor-opacity = 0.2
+
+
+window-vsync = true
+window-decoration = none
+macos-titlebar-style = hidden
+mouse-hide-while-typing = true
+confirm-close-surface = false
+
+keybind = performable:ctrl+c=copy_to_clipboard
+keybind = performable:ctrl+v=paste_from_clipboard
+keybind = ctrl+enter=unbind

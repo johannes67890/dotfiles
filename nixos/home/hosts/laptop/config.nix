@@ -32,5 +32,9 @@ in
     ".config/nvim".source = "${configDir}/nvim/.config/nvim";
 
     ".config/kde".source = "${configDir}/kde";
+
+        # ghostty config
+    ".config/ghostty/config".source = "${configDir}/ghostty/config";
+    ".config/ghostty/config".force = true;
   };
 }

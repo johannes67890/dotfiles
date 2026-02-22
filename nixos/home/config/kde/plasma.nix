@@ -112,7 +112,7 @@
                 # ls "$(nix build nixpkgs#<package-name> --no-link --print-out-paths)/share/applications"  
                 launchers = [
                   "applications:org.kde.dolphin.desktop"
-                  "applications:org.kde.konsole.desktop"
+                  "applications:com.mitchellh.ghostty.desktop"
                   "applications:brave-browser.desktop"
                   "applications:torbrowser.desktop"
                   "applications:discord.desktop"
@@ -482,11 +482,17 @@
       "services/org.kde.krunner.desktop" = {
         _launch = ["Search" "Alt+F2" "Alt+F" "Alt+Space"];
       };
-      "services/org.kde.konsole.desktop"._launch = ["Alt+T" "Ctrl+Alt+T"];
-
-      "services/plasma-manager-commands.desktop" = {
-        launch-konsole = "Alt+T";
-      };
+      # ghostyy 
+      "services/com.mitchellh.ghostty.desktop"._launch = ["Alt+T" "Ctrl+Alt+T"];
+      # "services/plasma-manager-commands.desktop" = {
+      #   launch-ghostyy = "Alt+T";
+      # };
+      # default konsole
+      
+      # "services/org.kde.konsole.desktop"._launch = ["Alt+T" "Ctrl+Alt+T"];
+      # "services/plasma-manager-commands.desktop" = {
+      #   launch-konsole = "Alt+T";
+      # };
     };
     configFile = {
       baloofilerc = {
@@ -546,11 +552,13 @@
           # Optionally force 96 DPI so apps don’t upscale fonts
           forceFontDPI = 96;
           widgetStyle = "org.kde.breeze";
+          TerminalApplication = "ghostyy.desktop";
         };
         KDE = {
           AnimationDurationFactor = 0.5;
           SingleClick = false;
         };
+
         "KFileDialog Settings" = {
           "Allow Expansion" = false;
           "Automatically select filename extension" = true;
@@ -602,7 +610,6 @@
       };
 
       kwalletrc = { Wallet = { "First Use" = false; }; };
-
       kwinrc = {
         Desktops = {
           Number = 2;

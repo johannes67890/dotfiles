@@ -14,7 +14,7 @@
   # Add user-level packages
   home.packages = with pkgs; [
     # --- System Utilities ---
-      balooPackages.disable # for krunner to run faster
+    ghostty
     terminus_font
     terminus_font_ttf
     lazygit    
@@ -28,7 +28,6 @@
     ripgrep   
     jq
     libnotify # for plasma discovery application (with the use of flatpak)
-
     # --- Bluetooth --- 
     kdePackages.bluedevil
     kdePackages.bluez-qt    
@@ -132,7 +131,6 @@
 
   programs.home-manager.enable = true;
   
-  programs.kitty.enable = true;
   
   programs.neovim = {
     enable = true;
@@ -141,7 +139,6 @@
     vimAlias = true;      # Aliases vim to nvim
   };
 
-  programs.tmux.enable = true;
 
   programs.zsh = {
     enable = true;

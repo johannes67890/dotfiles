@@ -12,9 +12,6 @@
   displayManager.sddm.wayland.enable = true;
   };
 
-  # Exclude certain default applications from being installed
-  # environment.plasma6.excludePackages = with pkgs; [ kdePackages.<package> ]; 
-
 
 environment.systemPackages = with pkgs;
   [

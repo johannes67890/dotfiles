@@ -66,7 +66,9 @@
             home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
           }
 
-          lanzaboote.nixosModules.lanzaboote        
+          lanzaboote.nixosModules.lanzaboote
+
+
         ];
       };
       laptop = nixpkgs.lib.nixosSystem {
