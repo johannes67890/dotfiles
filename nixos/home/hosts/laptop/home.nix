@@ -16,6 +16,7 @@
     # --- System Utilities ---
     ghostty
     yazi
+    sbctl # for secure boot
     terminus_font
     terminus_font_ttf
     lazygit    
