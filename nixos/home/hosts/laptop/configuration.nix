@@ -53,7 +53,10 @@
       options = "--delete-older-than 30d";
     };
   };
-
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024; # 16GB
+  }];
   # Networking configuration goes under `config.networking`
   networking.hostName = "jgjoLaptop";
   networking.networkmanager.enable = true;
@@ -141,7 +144,7 @@
 
   # Enable Flatpak
   services.flatpak.enable = true;
-
+  services.fwupd.enable = true;
   # Enable sound (kept here as general system configuration)
   security.rtkit.enable = true;
   services.pipewire = {
