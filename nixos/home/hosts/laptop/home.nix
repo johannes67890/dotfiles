@@ -14,7 +14,6 @@
   # Add user-level packages
   home.packages = with pkgs; [
     # --- System Utilities ---
-    opencode
 		ghostty
     yazi
     sbctl # for secure boot

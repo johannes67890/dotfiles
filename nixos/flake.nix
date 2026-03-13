@@ -17,6 +17,8 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    opencode-flake.url = "github:sst/opencode";
+
     # for secure boot
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.3";
@@ -29,6 +31,7 @@
   outputs = {
     self,
     nixpkgs,
+    opencode-flake,
     home-manager,
     plasma-manager,
     lanzaboote,

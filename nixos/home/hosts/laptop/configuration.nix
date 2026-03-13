@@ -31,7 +31,10 @@
     };
   };
 
-  
+
+  environment.systemPackages = with pkgs; [
+    inputs.opencode-flake.packages.${pkgs.system}.default
+  ];
 
   # Define Nix settings (this should go under `config.nix`)
   nix = let
