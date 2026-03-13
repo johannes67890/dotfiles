@@ -14,7 +14,8 @@
   # Add user-level packages
   home.packages = with pkgs; [
     # --- System Utilities ---
-    ghostty
+    opencode
+		ghostty
     yazi
     sbctl # for secure boot
     terminus_font
