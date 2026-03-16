@@ -19,7 +19,8 @@
     sbctl # for secure boot
     terminus_font
     terminus_font_ttf
-    lazygit    
+azure-cli
+		lazygit    
     wget
     curl
     btop
@@ -69,7 +70,7 @@
     android-studio
     # --- Languages & Runtimes ---
     # C#
-    dotnet-sdk_8   # Added: You had dotnet-8 installed
+    dotnet-sdk_9   # Added: You had dotnet-8 installed
     # Rust tools
     clippy
     rustc
@@ -147,6 +148,14 @@
 
   programs.zsh = {
     enable = true;
+
+    shellAliases = {
+      toolpack = "cd ~/repos/Toolpack_Finance/";
+      run-api = ''cd ~/repos/Toolpack_Finance/backend/Api && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --project ToolpackFinance.Api.csproj --urls "http://localhost:8080;https://localhost:5001"'';
+      run-api-debug = ''cd ~/repos/Toolpack_Finance/backend/Api && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --project ToolpackFinance.Api.csproj --urls "http://localhost:8080;https://localhost:5001" --configuration Debug'';
+      run-web = "cd ~/repos/Toolpack_Finance/web && pnpm run dev";
+      run-web-debug = "cd ~/repos/Toolpack_Finance/web && pnpm run dev --debug";
+    };
 
     plugins = [
       {

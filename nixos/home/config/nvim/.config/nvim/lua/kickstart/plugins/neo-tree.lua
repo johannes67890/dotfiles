@@ -25,4 +25,20 @@ return {
 			},
 		},
 	},
+	config = function(_, opts)
+		require("neo-tree").setup(opts)
+
+		vim.api.nvim_create_autocmd("FocusGained", {
+			desc = "Refresh neo-tree when Neovim regains focus (if visible)",
+			callback = function()
+				if not package.loaded["neo-tree"] then return end
+				local manager = require("neo-tree.sources.manager")
+				local renderer = require("neo-tree.ui.renderer")
+				local state = manager.get_state("filesystem")
+				if state and renderer.window_exists(state) then
+					require("neo-tree.sources.filesystem.commands").refresh(state)
+				end
+			end,
+		})
+	end,
 }

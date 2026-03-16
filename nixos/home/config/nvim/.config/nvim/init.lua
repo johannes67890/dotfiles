@@ -665,15 +665,17 @@ require("lazy").setup({
 					source = "if_many",
 					spacing = 2,
 					format = function(diagnostic)
-						local diagnostic_message = {
-							[vim.diagnostic.severity.ERROR] = diagnostic.message,
-							[vim.diagnostic.severity.WARN] = diagnostic.message,
-							[vim.diagnostic.severity.INFO] = diagnostic.message,
-							[vim.diagnostic.severity.HINT] = diagnostic.message,
-						}
-						return diagnostic_message[diagnostic.severity]
+						-- Show only the first line inline to keep it readable
+						return diagnostic.message:match("^[^\n]+")
 					end,
 				},
+			})
+
+			-- Auto-open the full diagnostic float when cursor rests on a line with an error
+			vim.api.nvim_create_autocmd("CursorHold", {
+				callback = function()
+					vim.diagnostic.open_float(nil, { focus = false })
+				end,
 			})
 
 			-- LSP servers and clients are able to communicate to each other what features they support.
@@ -695,7 +697,20 @@ require("lazy").setup({
 				-- clangd = {},
 				-- gopls = {},
 				-- pyright = {},
-				-- rust_analyzer = {},
+				rust_analyzer = {
+					settings = {
+						["rust-analyzer"] = {
+							completion = {
+								autoimport = { enable = true },
+								postfix = { enable = true },
+							},
+							imports = {
+								granularity = { group = "module" },
+								prefix = "self",
+							},
+						},
+					},
+				},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
 				-- Some languages (like typescript) have entire language plugins that can be useful:
@@ -869,9 +884,13 @@ require("lazy").setup({
 			},
 
 			completion = {
-				-- By default, you may press `<c-space>` to show the documentation.
-				-- Optionally, set `auto_show = true` to show the documentation after a delay.
-				documentation = { auto_show = false, auto_show_delay_ms = 500 },
+				trigger = {
+					-- Show completions automatically as you type any keyword character
+					show_on_keyword = true,
+					-- Also trigger on LSP-provided characters like '.', '::', '('
+					show_on_trigger_character = true,
+				},
+				documentation = { auto_show = true, auto_show_delay_ms = 200 },
 			},
 
 			sources = {

@@ -49,3 +49,8 @@ function precmd() {
     unset timer
   fi
 }
+
+# Toolpack aliases
+alias toolpack="cd ~/Documents/Toolpack/Toolpack_Finance/"
+alias run-api='cd ~/Documents/Toolpack/Toolpack_Finance/backend/Api && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --project ToolpackFinance.Api.csproj --urls "http://localhost:8080;https://localhost:5001"'
+alias run-web='cd ~/Documents/Toolpack/Toolpack_Finance/web && pnpm run dev'

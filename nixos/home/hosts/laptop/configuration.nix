@@ -69,7 +69,8 @@
 
   # onedrive
   services.onedrive.enable = true;
-
+  # power management
+	services.thermald.enable = true;
   # touchpad 
   services.libinput.enable = true;
   # multi-touch gesture recognizer
