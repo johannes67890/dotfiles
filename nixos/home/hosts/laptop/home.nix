@@ -20,8 +20,9 @@
     terminus_font
     terminus_font_ttf
 azure-cli
-		lazygit    
-    wget
+		lazygit   
+	lazydocker
+		wget
     curl
     btop
     bat
