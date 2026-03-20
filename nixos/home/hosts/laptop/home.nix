@@ -25,6 +25,7 @@ azure-cli
 		wget
     curl
     btop
+    opencode
     bat
     zip       
     unzip     
@@ -111,7 +112,7 @@ azure-cli
     calibre
     krita
     postman
-    neofetch
+    fastfetch
     rclone
 
     # --- System Management (See Warnings Below) ---

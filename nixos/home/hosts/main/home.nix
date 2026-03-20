@@ -107,7 +107,7 @@
     calibre
     krita
     postman
-    neofetch
+    fastfetch
     rclone
 
     # --- System Management (See Warnings Below) ---
@@ -119,7 +119,7 @@
     gnupg
     docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
     virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
-    wireshark-qt # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
+    wireshark    # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
     onionshare
     appimage-run
     keepassxc

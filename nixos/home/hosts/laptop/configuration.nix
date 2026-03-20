@@ -31,10 +31,6 @@
     };
   };
 
-
-  environment.systemPackages = with pkgs; [
-    inputs.opencode-flake.packages.${pkgs.system}.default
-  ];
 # prowlarr
 services.prowlarr = {
   enable = true;
