@@ -19,6 +19,12 @@ home-manager switch --flake .#jgjo@jgjo
 # Update inputs, then rebuild
 nix flake update
 sudo nixos-rebuild switch --flake .#jgjo
+
+# Garbage collect
+nix-collect-garbage
+
+# Garbage collect all old gens
+nix-collect-garbage -d
 ```
 
 ## Avaliable hosts

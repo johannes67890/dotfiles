@@ -8,7 +8,7 @@
   home = {
     username = "jgjo";
     homeDirectory = "/home/jgjo";
-    stateVersion = "24.11";
+    stateVersion = "25.11";
   };
 
   # Add user-level packages
@@ -19,9 +19,9 @@
     sbctl # for secure boot
     terminus_font
     terminus_font_ttf
-azure-cli
+    azure-cli
 		lazygit   
-	lazydocker
+	  lazydocker
 		wget
     curl
     btop
@@ -94,7 +94,7 @@ azure-cli
     gradle
     jdk
     maven
-    ncurses
+    ncurses.dev
     patchelf
     zlib
 

@@ -8,7 +8,7 @@
   home = {
     username = "jgjo";
     homeDirectory = "/home/jgjo";
-    stateVersion = "24.11";
+    stateVersion = "25.11";
   };
 
   # Add user-level packages
@@ -19,8 +19,10 @@
     terminus_font
     terminus_font_ttf
     lazygit    
+    azure-cli
     wget
     curl
+    opencode
     btop
     bat
     zip       
@@ -48,10 +50,10 @@
     thunderbird
     ghidra
     onedrive    
-    protonvpn-gui
+    proton-vpn
     # --- Shell Customization ---
     pure-prompt
-    
+   android-studio 
     # --- Development Tools ---
     # C
     gcc
@@ -67,7 +69,7 @@
     
     # --- Languages & Runtimes ---
     # C#
-    dotnet-sdk_8   # Added: You had dotnet-8 installed
+    dotnet-sdk_9   # Added: You had dotnet-8 installed
     # Rust tools
     clippy
     rustc
@@ -89,7 +91,7 @@
     gradle
     jdk
     maven
-    ncurses
+    ncurses.dev
     patchelf
     zlib
 
