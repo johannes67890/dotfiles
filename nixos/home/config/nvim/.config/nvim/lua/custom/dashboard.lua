@@ -456,6 +456,15 @@ function M.stats_card_block_lines(width)
 	return centered
 	end
 
+function M.stats_card_virtual_lines(width)
+	local lines = M.stats_card_block_lines(width)
+	local virt_lines = {}
+	for _, line in ipairs(lines) do
+		virt_lines[#virt_lines + 1] = { { line, "Special" } }
+	end
+	return virt_lines
+	end
+
 function M.stats_card_size()
 	local lines = M.stats_card_lines()
 	local width = 0
@@ -477,10 +486,39 @@ local header_art = {
 	"╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
 }
 
+local header_art_orange = {
+	"███╗   ██╗███████╗ ██████╗ ",
+	"████╗  ██║██╔════╝██╔═══██╗",
+	"██╔██╗ ██║█████╗  ██║   ██║",
+	"██║╚██╗██║██╔══╝  ██║   ██║",
+	"██║ ╚████║███████╗╚██████╔╝",
+	"╚═╝  ╚═══╝╚══════╝ ╚═════╝ ",
+}
+
+local header_art_rest = {
+	"██╗   ██╗██╗███╗   ███╗",
+	"██║   ██║██║████╗ ████║",
+	"██║   ██║██║██╔████╔██║",
+	"╚██╗ ██╔╝██║██║╚██╔╝██║",
+	" ╚████╔╝ ██║██║ ╚═╝ ██║",
+	"  ╚═══╝  ╚═╝╚═╝     ╚═╝",
+}
+
 function M.header()
 	local lines = vim.list_extend(vim.deepcopy(header_art), { "" })
 	table.insert(lines, info_line())
 	return table.concat(lines, "\n")
+	end
+
+function M.header_text()
+	local text = {}
+	for i = 1, #header_art_orange do
+		text[#text + 1] = { header_art_orange[i], hl = "Special" }
+		text[#text + 1] = { header_art_rest[i] .. "\n", hl = "Title" }
+	end
+	text[#text + 1] = { "\n", hl = "Title" }
+	text[#text + 1] = { info_line(), hl = "Title" }
+	return text
 	end
 
 function M.dotfiles_root()

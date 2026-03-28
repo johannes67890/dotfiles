@@ -31,11 +31,11 @@ return {
 						if not vim.api.nvim_buf_is_valid(self.buf) then
 							return
 						end
-						local lines = dashboard.stats_card_block_lines(pane_width)
+						local lines = dashboard.stats_card_virtual_lines(pane_width)
 						vim.api.nvim_buf_clear_namespace(self.buf, stats_ns, start_row, end_row)
-						for i, line in ipairs(lines) do
+						for i, chunks in ipairs(lines) do
 							vim.api.nvim_buf_set_extmark(self.buf, stats_ns, start_row + i - 1, start_col, {
-								virt_text = { { line, "SnacksDashboardTerminal" } },
+								virt_text = chunks,
 								virt_text_pos = "overlay",
 								hl_mode = "combine",
 							})
@@ -67,7 +67,6 @@ return {
 			dashboard = {
 				enabled = true,
 				preset = {
-					header = dashboard.header(),
 					keys = {
 						{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
 						{ icon = " ", key = "f", desc = "Find File", action = function() require("telescope.builtin").find_files() end },
@@ -80,7 +79,14 @@ return {
 					},
 				},
 				sections = {
-					{ section = "header", pane = 1 },
+					function()
+						return {
+							pane = 1,
+							text = dashboard.header_text(),
+							align = "center",
+							padding = 2,
+						}
+					end,
 					stats_section,
 					{ section = "startup", pane = 1, padding = 1 },
 					{ section = "keys", pane = 2, gap = 1, padding = 1 },
