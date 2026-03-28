@@ -28,7 +28,8 @@ in
     };
 
     # nvim config
-    ".config/nvim".source = "${configDir}/nvim/.config/nvim";
+    ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/dotfiles/nixos/home/config/nvim/.config/nvim";
 
     ".config/kde".source = "${configDir}/kde";
     
