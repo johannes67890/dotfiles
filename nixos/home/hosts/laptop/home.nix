@@ -75,7 +75,8 @@
     # C#
     dotnet-sdk_9   # Added: You had dotnet-8 installed
     # Rust tools
-    rustup
+		# run 'rustup default stable' to install relevant rust packages
+		rustup
 
     # Node
     pnpm
