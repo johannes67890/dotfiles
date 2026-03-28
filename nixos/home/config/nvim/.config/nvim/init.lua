@@ -132,7 +132,7 @@ vim.o.smartcase = true
 vim.o.signcolumn = "yes"
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 750
 
 -- Decrease mapped sequence wait time
 vim.o.timeoutlen = 300
@@ -171,9 +171,9 @@ vim.opt.termguicolors = true
 
 -- Ensure vscode theme if anything overrides it later
 vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    pcall(vim.cmd.colorscheme, "vscode")
-  end,
+	callback = function()
+		pcall(vim.cmd.colorscheme, "vscode")
+	end,
 })
 
 -- [[ Basic Keymaps ]]
@@ -260,13 +260,13 @@ rtp:prepend(lazypath)
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
-	require("lazy").setup({
-		-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-		"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
-		{
-			"rust-lang/rust.vim",
-			ft = { "rust" },
-		},
+require("lazy").setup({
+	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
+	{
+		"rust-lang/rust.vim",
+		ft = { "rust" },
+	},
 
 	-- NOTE: Plugins can also be added by using a table,
 	-- with the first argument being the link and the following
@@ -612,6 +612,30 @@ rtp:prepend(lazypath)
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if
 						client
+						and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_hover, event.buf)
+					then
+						local hover_augroup = vim.api.nvim_create_augroup("kickstart-lsp-hover", { clear = false })
+						vim.api.nvim_create_autocmd("CursorHold", {
+							buffer = event.buf,
+							group = hover_augroup,
+							callback = function()
+								if vim.fn.mode() ~= "n" then
+									return
+								end
+
+								for _, win in ipairs(vim.api.nvim_list_wins()) do
+									if vim.api.nvim_win_get_config(win).relative ~= "" then
+										return
+									end
+								end
+
+								vim.lsp.buf.hover()
+							end,
+						})
+					end
+
+					if
+						client
 						and client_supports_method(
 							client,
 							vim.lsp.protocol.Methods.textDocument_documentHighlight,
@@ -659,6 +683,7 @@ rtp:prepend(lazypath)
 			-- Diagnostic Config
 			-- See :help vim.diagnostic.Opts
 			vim.diagnostic.config({
+				update_in_insert = true,
 				severity_sort = true,
 				float = { border = "rounded", source = "if_many" },
 				underline = { severity = vim.diagnostic.severity.ERROR },
@@ -709,9 +734,14 @@ rtp:prepend(lazypath)
 				rust_analyzer = {
 					settings = {
 						["rust-analyzer"] = {
+							checkOnSave = false,
 							completion = {
 								autoimport = { enable = true },
 								postfix = { enable = true },
+							},
+							diagnostics = {
+								enable = true,
+								experimental = { enable = true },
 							},
 							imports = {
 								granularity = { group = "module" },
