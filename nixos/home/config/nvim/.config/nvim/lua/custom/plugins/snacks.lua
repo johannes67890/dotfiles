@@ -115,7 +115,6 @@ return {
 								pane = 2,
 								icon = " ",
 								title = dashboard.git_status_title(),
-								indent = 2,
 							},
 						}, items)
 					end,

@@ -553,6 +553,47 @@ local function git_code_hl(code)
 	return "Comment"
 	end
 
+local function append_diff_item(items, path, count, symbols)
+	local max_width = 48
+	local suffix_width = vim.api.nvim_strwidth("| " .. count .. " " .. symbols)
+	local path_width = vim.api.nvim_strwidth(path)
+	if path_width + 1 + suffix_width <= max_width then
+		local text = {
+			{ path .. " ", hl = "file" },
+			{ "| ", hl = "Comment" },
+			{ count .. " ", hl = "Number" },
+		}
+		vim.list_extend(text, diff_segments(symbols))
+		table.insert(items, { text = text, indent = 2 })
+		return
+	end
+
+	table.insert(items, { text = { { path, hl = "file" } }, indent = 2 })
+	local wrapped = {
+		{ "| ", hl = "Comment" },
+		{ count .. " ", hl = "Number" },
+	}
+	vim.list_extend(wrapped, diff_segments(symbols))
+	table.insert(items, { text = wrapped, indent = 4 })
+	end
+
+local function append_status_item(items, code, file)
+	local max_width = 48
+	if vim.api.nvim_strwidth(code .. " " .. file) <= max_width then
+		table.insert(items, {
+			text = {
+				{ code .. " ", hl = git_code_hl(code) },
+				{ file, hl = "file" },
+			},
+			indent = 2,
+		})
+		return
+	end
+
+	table.insert(items, { text = { { code, hl = git_code_hl(code) } }, indent = 2 })
+	table.insert(items, { text = { { file, hl = "file" } }, indent = 4 })
+	end
+
 function M.git_status_items()
 	local output = M.git_status_text()
 	if output == "Git status unavailable" or output == "Working tree clean" then
@@ -566,25 +607,13 @@ function M.git_status_items()
 	for _, line in ipairs(lines) do
 		local path, count, symbols = line:match("^(.-)%s+|%s+(%d+)%s+([+%-]+)$")
 		if path and count and symbols then
-			local text = {
-				{ path .. " ", hl = "file" },
-				{ "| ", hl = "Comment" },
-				{ count .. " ", hl = "Number" },
-			}
-			vim.list_extend(text, diff_segments(symbols))
-			table.insert(items, { text = text, indent = 2 })
+			append_diff_item(items, path, count, symbols)
 		elseif line:match("files? changed") then
 			table.insert(items, { text = { { line, hl = "Comment" } }, indent = 2 })
 		else
 			local code, file = line:match("^(%S+)%s+(.+)$")
 			if code and file then
-				table.insert(items, {
-					text = {
-						{ code .. " ", hl = git_code_hl(code) },
-						{ file, hl = "file" },
-					},
-					indent = 2,
-				})
+				append_status_item(items, code, file)
 			else
 				table.insert(items, { text = { { line, hl = "Comment" } }, indent = 2 })
 			end
