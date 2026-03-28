@@ -5,6 +5,7 @@ return {
 	opts = function()
 		local dashboard = require("custom.dashboard")
 		local uv = vim.uv or vim.loop
+		local stats_ns = vim.api.nvim_create_namespace("custom_dashboard_stats")
 
 		local function dotfiles_picker()
 			require("telescope.builtin").find_files({
@@ -20,35 +21,28 @@ return {
 				pane = 1,
 				padding = 1,
 				render = function(self, pos)
-					local buf = vim.api.nvim_create_buf(false, true)
-					local win
 					local timer = assert(uv.new_timer())
-					local col = pos[2] + math.floor((self.opts.width - size.width) / 2)
+					local start_row = pos[1] - 1
+					local end_row = start_row + size.height
+					local start_col = pos[2]
+					local pane_width = self.opts.width
 
 					local function render_card()
-						if not vim.api.nvim_buf_is_valid(buf) then
+						if not vim.api.nvim_buf_is_valid(self.buf) then
 							return
 						end
-						vim.bo[buf].modifiable = true
-						vim.api.nvim_buf_set_lines(buf, 0, -1, false, dashboard.stats_card_lines())
-						vim.bo[buf].modifiable = false
+						local lines = dashboard.stats_card_block_lines(pane_width)
+						vim.api.nvim_buf_clear_namespace(self.buf, stats_ns, start_row, end_row)
+						for i, line in ipairs(lines) do
+							vim.api.nvim_buf_set_extmark(self.buf, stats_ns, start_row + i - 1, start_col, {
+								virt_text = { { line, "SnacksDashboardTerminal" } },
+								virt_text_pos = "overlay",
+								hl_mode = "combine",
+							})
+						end
 					end
 
-					win = vim.api.nvim_open_win(buf, false, {
-						relative = "win",
-						win = self.win,
-						row = pos[1] - 1,
-						col = col,
-						width = size.width,
-						height = size.height,
-						style = "minimal",
-						border = "none",
-						focusable = false,
-						noautocmd = true,
-					})
-					vim.wo[win].wrap = false
-					vim.wo[win].winhighlight = "Normal:SnacksDashboardNormal,NormalFloat:SnacksDashboardNormal"
-					render_card()
+					vim.schedule(render_card)
 
 					timer:start(1000, 1000, vim.schedule_wrap(render_card))
 
@@ -57,8 +51,9 @@ return {
 							timer:stop()
 							timer:close()
 						end
-						pcall(vim.api.nvim_win_close, win, true)
-						pcall(vim.api.nvim_buf_delete, buf, { force = true })
+						if vim.api.nvim_buf_is_valid(self.buf) then
+							vim.api.nvim_buf_clear_namespace(self.buf, stats_ns, start_row, end_row)
+						end
 					end)
 
 					self.on("UpdatePre", close, self.augroup)
@@ -108,18 +103,21 @@ return {
 						limit = 5,
 					},
 					function()
-						return {
-							pane = 2,
-							icon = " ",
-							title = dashboard.git_status_title(),
-							section = "terminal",
-							enabled = dashboard.in_git_repo,
-							cmd = "git --no-pager diff --stat -B -M -C && git status --short --renames",
-							height = 5,
-							padding = 1,
-							indent = 2,
-							ttl = 300,
-						}
+						if not dashboard.in_git_repo() then
+							return nil
+						end
+						local items = dashboard.git_status_items()
+						for _, item in ipairs(items) do
+							item.pane = 2
+						end
+						return vim.list_extend({
+							{
+								pane = 2,
+								icon = " ",
+								title = dashboard.git_status_title(),
+								indent = 2,
+							},
+						}, items)
 					end,
 				},
 			},

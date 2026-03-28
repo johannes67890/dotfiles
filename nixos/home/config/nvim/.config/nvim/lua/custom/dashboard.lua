@@ -298,16 +298,6 @@ local function info_stat_row(label, value, icon)
 	end
 
 
-local function center_text(text, width)
-	width = width or 52
-	local len = line_width(text)
-	if len >= width then
-		return text
-	end
-	local left = math.floor((width - len) / 2)
-	return string.rep(" ", left) .. text
-	end
-
 local function memory_percent(stats)
 	if not stats.memory_used or not stats.memory_total or stats.memory_total == 0 then
 		return nil
@@ -440,12 +430,30 @@ function M.stats_card()
 
 	table.insert(lines, "╰────────┴─────────────────────┴──────────────────╯")
 	table.insert(lines, "")
-	table.insert(lines, center_text(os.date("%a. %d %b %Y %H:%M:%S")))
+	table.insert(lines, os.date("%a. %d %b %Y %H:%M:%S"))
 	return table.concat(lines, "\n")
 	end
 
 function M.stats_card_lines()
 	return vim.split(M.stats_card(), "\n", { plain = true })
+	end
+
+function M.stats_card_block_lines(width)
+	local lines = M.stats_card_lines()
+	local size = M.stats_card_size()
+	width = width or size.width
+	local centered = {}
+	for _, line in ipairs(lines) do
+		if line == "" then
+			centered[#centered + 1] = string.rep(" ", width)
+		else
+			local content_width = line_width(line)
+			local left = math.max(0, math.floor((width - content_width) / 2))
+			local right = math.max(0, width - content_width - left)
+			centered[#centered + 1] = string.rep(" ", left) .. line .. string.rep(" ", right)
+		end
+	end
+	return centered
 	end
 
 function M.stats_card_size()
@@ -499,6 +507,93 @@ function M.git_status_title()
 		return "Git Status [" .. branch .. "]"
 	end
 	return "Git Status"
+	end
+
+function M.git_status_text()
+	local output = vim.fn.system({ "sh", "-c", "git --no-pager diff --stat -B -M -C && git status --short --renames" })
+	if vim.v.shell_error ~= 0 then
+		return "Git status unavailable"
+	end
+	output = vim.trim(output)
+	if output == "" then
+		return "Working tree clean"
+	end
+	return output
+	end
+
+local function diff_segments(symbols)
+	local segments = {}
+	local current_hl
+	local chunk = ""
+	for char in symbols:gmatch(".") do
+		local hl = char == "+" and "Added" or char == "-" and "Error" or "Comment"
+		if current_hl and hl ~= current_hl then
+			table.insert(segments, { chunk, hl = current_hl })
+			chunk = ""
+		end
+		current_hl = hl
+		chunk = chunk .. char
+	end
+	if chunk ~= "" then
+		table.insert(segments, { chunk, hl = current_hl })
+	end
+	return segments
+	end
+
+local function git_code_hl(code)
+	if code:find("%?") or code:find("A") then
+		return "Added"
+	end
+	if code:find("D") then
+		return "Error"
+	end
+	if code:find("M") or code:find("R") then
+		return "Special"
+	end
+	return "Comment"
+	end
+
+function M.git_status_items()
+	local output = M.git_status_text()
+	if output == "Git status unavailable" or output == "Working tree clean" then
+		return {
+			{ text = { { output, hl = output == "Working tree clean" and "Special" or "Error" } }, indent = 2, padding = 1 },
+		}
+	end
+
+	local items = {}
+	local lines = vim.split(output, "\n", { plain = true })
+	for _, line in ipairs(lines) do
+		local path, count, symbols = line:match("^(.-)%s+|%s+(%d+)%s+([+%-]+)$")
+		if path and count and symbols then
+			local text = {
+				{ path .. " ", hl = "file" },
+				{ "| ", hl = "Comment" },
+				{ count .. " ", hl = "Number" },
+			}
+			vim.list_extend(text, diff_segments(symbols))
+			table.insert(items, { text = text, indent = 2 })
+		elseif line:match("files? changed") then
+			table.insert(items, { text = { { line, hl = "Comment" } }, indent = 2 })
+		else
+			local code, file = line:match("^(%S+)%s+(.+)$")
+			if code and file then
+				table.insert(items, {
+					text = {
+						{ code .. " ", hl = git_code_hl(code) },
+						{ file, hl = "file" },
+					},
+					indent = 2,
+				})
+			else
+				table.insert(items, { text = { { line, hl = "Comment" } }, indent = 2 })
+			end
+		end
+	end
+	if items[#items] then
+		items[#items].padding = 1
+	end
+	return items
 	end
 
 return M
