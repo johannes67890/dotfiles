@@ -9,6 +9,7 @@
     username = "jgjo";
     homeDirectory = "/home/jgjo";
     stateVersion = "25.11";
+    sessionPath = [ "$HOME/.cargo/bin" ];
   };
 
   # Add user-level packages
@@ -71,11 +72,7 @@
     # C#
     dotnet-sdk_9   # Added: You had dotnet-8 installed
     # Rust tools
-    clippy
-    rustc
-    # rustup
-    cargo
-    rustfmt
+    rustup
 
     # Node
     pnpm
