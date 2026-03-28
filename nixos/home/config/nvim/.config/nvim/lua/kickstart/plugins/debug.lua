@@ -94,6 +94,7 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
+        'codelldb',
         'delve',
       },
     }
@@ -135,6 +136,25 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+    dap.configurations.rust = {
+      {
+        name = 'Debug executable',
+        type = 'codelldb',
+        request = 'launch',
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        program = function()
+          local default_path = vim.fn.getcwd() .. '/target/debug/'
+          local path = vim.fn.input('Path to executable: ', default_path, 'file')
+          return (path and path ~= '') and path or require('dap').ABORT
+        end,
+        args = function()
+          local input = vim.fn.input('Arguments: ')
+          return vim.split(input, ' ', { trimempty = true })
+        end,
+      },
+    }
 
     -- Install golang specific config
     require('dap-go').setup {
