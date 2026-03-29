@@ -133,6 +133,17 @@
 
   fonts.fontconfig.enable = true;
 
+  xdg.desktopEntries."com.mitchellh.ghostty" = {
+    name = "Ghostty";
+    genericName = "Terminal";
+    exec = "env GTK_IM_MODULE=simple ghostty";
+    terminal = false;
+    type = "Application";
+    categories = [ "System" "TerminalEmulator" ];
+    icon = "com.mitchellh.ghostty";
+    startupNotify = true;
+  };
+
   programs.home-manager.enable = true;
   
   programs.kitty.enable = true;
