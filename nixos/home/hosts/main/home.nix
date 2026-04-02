@@ -62,7 +62,8 @@
     cmake
     codespell
     conan
-    cppcheck
+    google-chrome
+		cppcheck
     doxygen
     gtest
     lcov
