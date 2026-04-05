@@ -76,9 +76,14 @@ services.prowlarr = {
   services.libinput.enable = true;
   # multi-touch gesture recognizer
   # if touche app cant see touchegg: "flatpak override --user --env=XDG_CONFIG_DIRS=/var/run/host/etc/xdg com.github.joseexposito.touche"
+	
+	  programs.nix-ld.enable = true;
+
+  programs.nix-ld.libraries = with pkgs; [
+    icu
+  ];
 
   programs.zsh.enable = true;
-  programs.nix-ld.enable = true;
   # User configuration goes under `config.users`
   users.users = {
     jgjo = {

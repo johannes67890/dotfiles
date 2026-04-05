@@ -17,12 +17,14 @@
     # --- System Utilities ---
 		ghostty
     yazi
-    sbctl # for secure boot
+    icu
+		sbctl # for secure boot
     terminus_font
     terminus_font_ttf
     azure-cli
 		lazygit   
-	  lazydocker
+onionshare-gui
+		lazydocker
 		wget
     curl
     btop
@@ -73,7 +75,10 @@
     android-studio
     # --- Languages & Runtimes ---
     # C#
-    dotnet-sdk_9   # Added: You had dotnet-8 installed
+    (pkgs.dotnetCorePackages.combinePackages [
+      pkgs.dotnetCorePackages.sdk_9_0
+      pkgs.dotnetCorePackages.sdk_8_0
+    ])
     # Rust tools
 		# run 'rustup default stable' to install relevant rust packages
 		rustup
@@ -123,7 +128,6 @@
     docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
     virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
     wireshark-qt # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
-    onionshare
     appimage-run
     keepassxc
     metadata-cleaner
