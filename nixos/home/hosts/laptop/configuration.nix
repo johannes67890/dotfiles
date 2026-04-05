@@ -10,9 +10,11 @@
   imports = [
     ./hardware-configuration.nix
     ../../../system/modules/bootSecure.nix
-    ../../../system/modules/hardware.nix
+    ../../../system/modules/hardware-non-nvidia.nix
     ../../../system/modules/kde.nix
   ];
+
+  boot.kernelParams = lib.mkForce [ ];
 
   nixpkgs = {
     config = {
@@ -69,7 +71,7 @@ services.prowlarr = {
   networking.networkmanager.wifi.powersave = true;
 
   # onedrive
-  services.onedrive.enable = true;
+  services.onedrive.enable = false;
   # power management
 	services.thermald.enable = true;
   # touchpad 

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, ... }: {
 	# Graphics stack and NVIDIA driver configuration
 	hardware.graphics.enable = true;
 	hardware.bluetooth.enable = true;
