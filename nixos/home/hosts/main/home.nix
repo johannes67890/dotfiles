@@ -97,7 +97,12 @@
     go
 
     # Latex
-    # texlive.combined.scheme-full
+    (pkgs.texlive.combine {
+      inherit (pkgs.texlive) scheme-full
+        latexmk
+        wrapfig amsmath ulem hyperref capt-of
+        xifthen ifmtarg framed paralist titlesec;
+    })
     texlab
     tectonic
 
@@ -154,6 +159,14 @@
 
   programs.zsh = {
     enable = true;
+
+		shellAliases = {
+      toolpack = "cd ~/repos/Toolpack_Finance/";
+      run-api = ''cd ~/repos/Toolpack_Finance/backend/Api && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --project ToolpackFinance.Api.csproj --urls "http://localhost:8080;https://localhost:5001"'';
+      run-api-debug = ''cd ~/repos/Toolpack_Finance/backend/Api && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --project ToolpackFinance.Api.csproj --urls "http://localhost:8080;https://localhost:5001" --configuration Debug'';
+      run-web = "cd ~/repos/Toolpack_Finance/web && pnpm run dev";
+      run-web-debug = "cd ~/repos/Toolpack_Finance/web && pnpm run dev --debug";
+    };
 
     plugins = [
       {
