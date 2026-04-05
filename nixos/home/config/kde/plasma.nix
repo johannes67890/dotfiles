@@ -248,23 +248,78 @@
     ];
 
     powerdevil = {
+      general.pausePlayersOnSuspend = true;
+
+      batteryLevels = {
+        lowLevel = 20;
+        criticalLevel = 7;
+        criticalAction = "hibernate";
+      };
+
       AC = {
+        powerProfile = "balanced";
         powerButtonAction = "lockScreen";
-        autoSuspend = {
-          action = "shutDown";
-          idleTimeout = 1000;
+        whenLaptopLidClosed = "sleep";
+        inhibitLidActionWhenExternalMonitorConnected = true;
+
+        dimDisplay = {
+          enable = true;
+          idleTimeout = 300;
         };
+
         turnOffDisplay = {
-          idleTimeout = 1000;
+          idleTimeout = 900;
           idleTimeoutWhenLocked = "immediately";
         };
+
+        autoSuspend = {
+          action = "sleep";
+          idleTimeout = 1800;
+        };
       };
+
       battery = {
+        powerProfile = "powerSaving";
         powerButtonAction = "sleep";
+        whenLaptopLidClosed = "sleep";
         whenSleepingEnter = "standbyThenHibernate";
+        displayBrightness = 60;
+
+        dimDisplay = {
+          enable = true;
+          idleTimeout = 120;
+        };
+
+        turnOffDisplay = {
+          idleTimeout = 300;
+          idleTimeoutWhenLocked = 60;
+        };
+
+        autoSuspend = {
+          action = "sleep";
+          idleTimeout = 900;
+        };
       };
+
       lowBattery = {
+        powerProfile = "powerSaving";
         whenLaptopLidClosed = "hibernate";
+        displayBrightness = 40;
+
+        dimDisplay = {
+          enable = true;
+          idleTimeout = 60;
+        };
+
+        turnOffDisplay = {
+          idleTimeout = 120;
+          idleTimeoutWhenLocked = "immediately";
+        };
+
+        autoSuspend = {
+          action = "hibernate";
+          idleTimeout = 300;
+        };
       };
     };
 
@@ -704,4 +759,3 @@
     };
   };
 }
-
