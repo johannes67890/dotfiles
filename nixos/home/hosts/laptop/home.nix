@@ -39,6 +39,8 @@ onionshare-gui
     # --- Bluetooth --- 
     kdePackages.bluedevil
     kdePackages.bluez-qt    
+		claude-code
+
     
     # --- GUI Apps ---
     vscode
@@ -79,6 +81,8 @@ onionshare-gui
       pkgs.dotnetCorePackages.sdk_9_0
       pkgs.dotnetCorePackages.sdk_8_0
     ])
+    azure-functions-core-tools
+		dotnet-ef
     # Rust tools
 		# run 'rustup default stable' to install relevant rust packages
 		rustup
@@ -133,6 +137,7 @@ onionshare-gui
     metadata-cleaner
     oh-my-zsh
     libglibutil
+		prismlauncher
   ];
 
   fonts.fontconfig.enable = true;

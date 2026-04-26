@@ -46,5 +46,9 @@ in
       source = "${configDir}/opencode/agent/core/ask.md";
       force = true;
     };
+    ".config/opencode/tui.json" = {
+      source = "${configDir}/opencode/tui.json";
+      force = true;
+    };
   };
 }
