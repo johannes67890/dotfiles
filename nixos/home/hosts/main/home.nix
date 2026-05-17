@@ -63,6 +63,7 @@
     codespell
     conan
     google-chrome
+		easyeffects
 		cppcheck
     doxygen
     gtest
