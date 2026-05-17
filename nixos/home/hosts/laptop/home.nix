@@ -162,6 +162,7 @@ onionshare-gui
     defaultEditor = true; # Sets $EDITOR to nvim
     viAlias = true;       # Aliases vi to nvim
     vimAlias = true;      # Aliases vim to nvim
+    sideloadInitLua = true; 
   };
 
   programs.tmux.enable = true;
