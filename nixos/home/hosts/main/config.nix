@@ -40,6 +40,9 @@ in
     # yazi config
     ".config/yazi".source = "${configDir}/yazi";
 
+    # lazygit config
+    ".config/lazygit/config.yml".source = "${configDir}/lazygit/config.yml";
+
     # opencode config
     ".config/opencode/agent/core/ask.md" = {
       source = "${configDir}/opencode/agent/core/ask.md";
