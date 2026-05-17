@@ -610,29 +610,7 @@ require("lazy").setup({
 					--
 					-- When you move your cursor, the highlights will be cleared (the second autocommand).
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if
-						client
-						and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_hover, event.buf)
-					then
-						local hover_augroup = vim.api.nvim_create_augroup("kickstart-lsp-hover", { clear = false })
-						vim.api.nvim_create_autocmd("CursorHold", {
-							buffer = event.buf,
-							group = hover_augroup,
-							callback = function()
-								if vim.fn.mode() ~= "n" then
-									return
-								end
-
-								for _, win in ipairs(vim.api.nvim_list_wins()) do
-									if vim.api.nvim_win_get_config(win).relative ~= "" then
-										return
-									end
-								end
-
-								vim.lsp.buf.hover()
-							end,
-						})
-					end
+					-- Hover is triggered manually via 'K' (default Neovim LSP keybind)
 
 					if
 						client
@@ -705,10 +683,17 @@ require("lazy").setup({
 				},
 			})
 
-			-- Auto-open the full diagnostic float when cursor rests on a line with an error
+			-- Auto-open diagnostic float only for errors and warnings
 			vim.api.nvim_create_autocmd("CursorHold", {
 				callback = function()
-					vim.diagnostic.open_float(nil, { focus = false })
+					local line = vim.fn.line(".") - 1
+					local diagnostics = vim.diagnostic.get(0, { lnum = line })
+					for _, d in ipairs(diagnostics) do
+						if d.severity <= vim.diagnostic.severity.WARN then
+							vim.diagnostic.open_float(nil, { focus = false })
+							return
+						end
+					end
 				end,
 			})
 
