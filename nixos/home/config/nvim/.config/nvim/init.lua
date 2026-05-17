@@ -1060,8 +1060,8 @@ require("lazy").setup({
 			-- statusline
 			require("mini.statusline").setup()
 
-			-- tabline
-			require("mini.tabline").setup()
+			-- tabline disabled in favor of bufferline (see custom/plugins/bufferline.lua)
+			-- require("mini.tabline").setup()
 
 			-- ai/surround already loaded, so no need to repeat
 			require("mini.ai").setup({ n_lines = 500 })
