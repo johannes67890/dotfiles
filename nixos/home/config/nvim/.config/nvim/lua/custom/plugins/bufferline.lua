@@ -50,9 +50,6 @@ return {
 				vim.api.nvim_buf_delete(n, { force = false })
 			end,
 			diagnostics = "nvim_lsp",
-			indicator = {
-				style = "underline",
-			},
 			offsets = {
 				{
 					filetype = "neo-tree",
@@ -68,8 +65,6 @@ return {
 			},
 			error_selected = {
 				fg = { attribute = "fg", highlight = "DiagnosticError" },
-				underline = true,
-				sp = "#4D4030",
 			},
 			error_visible = {
 				fg = { attribute = "fg", highlight = "DiagnosticError" },
@@ -79,72 +74,11 @@ return {
 			},
 			error_diagnostic_selected = {
 				fg = { attribute = "fg", highlight = "DiagnosticError" },
-				underline = true,
-				sp = "#4D4030",
 			},
 			error_diagnostic_visible = {
 				fg = { attribute = "fg", highlight = "DiagnosticError" },
 			},
-			buffer_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			indicator_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			separator_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			close_button_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			modified_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			numbers_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			diagnostic_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			pick_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			duplicate_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			hint_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			info_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			warning_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			hint_diagnostic_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			info_diagnostic_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
-			warning_diagnostic_selected = {
-				underline = true,
-				sp = "#4D4030",
-			},
+			
 		},
 	},
 }
