@@ -9,7 +9,7 @@
   # Import your hardware configuration file
   imports = [
     ./hardware-configuration.nix
-    ../../../system/modules/bootSecure.nix
+    ../../../system/modules/boot.nix
     ../../../system/modules/hardware-non-nvidia.nix
     ../../../system/modules/kde.nix
   ];

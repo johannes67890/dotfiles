@@ -9,7 +9,7 @@
 	hardware.enableAllFirmware = true;
 
 
-	services.xserver.videoDrivers = [ "nvidia" ];
+	services.xserver.videoDrivers = [ "nvidia" "displaylink" "modesetting" ];
 
 	hardware.nvidia = {
 		modesetting.enable = true;
