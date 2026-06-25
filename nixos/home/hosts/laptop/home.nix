@@ -17,11 +17,14 @@
     # --- System Utilities ---
 		ghostty
     yazi
+    jackett
     icu
 		sbctl # for secure boot
     terminus_font
     terminus_font_ttf
     azure-cli
+    flaresolverr
+    whois
 		lazygit   
 		lazydocker
 		wget

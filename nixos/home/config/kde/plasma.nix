@@ -267,7 +267,7 @@
 
         turnOffDisplay = {
           idleTimeout = 900;
-          idleTimeoutWhenLocked = "immediately";
+          idleTimeoutWhenLocked = 300;
         };
 
         autoSuspend = {
@@ -277,7 +277,7 @@
       };
 
       battery = {
-        powerProfile = "powerSaving";
+        powerProfile = "balanced";
         powerButtonAction = "sleep";
         whenLaptopLidClosed = "sleep";
         whenSleepingEnter = "standbyThenHibernate";

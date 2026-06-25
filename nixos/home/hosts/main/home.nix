@@ -22,6 +22,7 @@
     lazygit    
     azure-cli
     wget
+    whois
     curl
     claude-code
     opencode
