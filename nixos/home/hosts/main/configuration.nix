@@ -54,7 +54,6 @@
   services.onedrive.enable = true;
 
   programs.zsh.enable = true;
-  programs.nix-ld.enable = true;
   # User configuration goes under `config.users`
   users.users = {
     jgjo = {
@@ -76,6 +75,10 @@
       jgjo = import ./home.nix;
     };
   };
+ programs.nix-ld.enable = true;
+    programs.nix-ld.libraries = with pkgs; [
+    icu
+  ];
   
   # SSH settings go under `config.services`
   services.openssh = {
