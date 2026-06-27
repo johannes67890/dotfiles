@@ -114,10 +114,8 @@
                   "applications:org.kde.dolphin.desktop"
                   "applications:com.mitchellh.ghostty.desktop"
                   "applications:brave-browser.desktop"
-                  "applications:torbrowser.desktop"
                   "applications:discord.desktop"
                   "applications:code.desktop"
-                  "applications:obsidian.desktop"
                   "applications:startcenter.desktop" # libreoffice
                   "applications:postman.desktop"
                   "applications:veracrypt.desktop"

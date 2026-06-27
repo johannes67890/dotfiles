@@ -23,12 +23,10 @@
     terminus_font_ttf
     azure-cli
 		lazygit   
-onionshare-gui
 		lazydocker
 		wget
     curl
     btop
-    opencode
     bat
     zip       
     unzip     
@@ -45,19 +43,16 @@ onionshare-gui
     # --- GUI Apps ---
     vscode
     firefox
-    chromium
     grimblast
     google-chrome
     brave
     discord
-    tor-browser
-    vlc
     bitwarden-desktop
     spotify
     obs-studio
     thunderbird
-    ghidra
-    protonvpn-gui
+    # ghidra
+    proton-vpn
     # --- Shell Customization ---
     pure-prompt
     
@@ -74,7 +69,6 @@ onionshare-gui
     lcov
     vcpkg
     
-    android-studio
     # --- Languages & Runtimes ---
     # C#
     (pkgs.dotnetCorePackages.combinePackages [
@@ -106,7 +100,6 @@ onionshare-gui
     zlib
 
     # go
-    go
 
     # Latex
     # texlive.combined.scheme-full
@@ -115,12 +108,9 @@ onionshare-gui
 
     # Office
     libreoffice
-    obsidian
-    calibre
     krita
     postman
     fastfetch
-    rclone
 
     # --- System Management (See Warnings Below) ---
     # electrum
@@ -135,10 +125,8 @@ onionshare-gui
     appimage-run
     keepassxc
     metadata-cleaner
-    oh-my-zsh
     libglibutil
-		prismlauncher
-  ];
+	];
 
   fonts.fontconfig.enable = true;
 
