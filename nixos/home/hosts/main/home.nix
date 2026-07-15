@@ -157,7 +157,9 @@
     defaultEditor = true; # Sets $EDITOR to nvim
     viAlias = true;       # Aliases vi to nvim
     vimAlias = true;      # Aliases vim to nvim
-    sideloadInitLua = true; 
+    sideloadInitLua = true;
+    withRuby = false;
+    withPython3 = false;
   };
 
   programs.zsh = {

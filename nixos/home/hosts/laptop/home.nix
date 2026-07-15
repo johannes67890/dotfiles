@@ -22,6 +22,7 @@
 		sbctl # for secure boot
     terminus_font
     terminus_font_ttf
+    signal-desktop
     azure-cli
     flaresolverr
     whois
@@ -31,6 +32,7 @@
     curl
     btop
     bat
+    opencode
     zip       
     unzip     
     tree
@@ -124,7 +126,7 @@
     gnupg
     docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
     virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
-    wireshark-qt # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
+    wireshark    # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
     appimage-run
     keepassxc
     metadata-cleaner
@@ -153,7 +155,9 @@
     defaultEditor = true; # Sets $EDITOR to nvim
     viAlias = true;       # Aliases vi to nvim
     vimAlias = true;      # Aliases vim to nvim
-    sideloadInitLua = true; 
+    sideloadInitLua = true;
+    withRuby = false;
+    withPython3 = false;
   };
 
   programs.tmux.enable = true;
