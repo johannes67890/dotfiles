@@ -24,8 +24,8 @@
     wget
     whois
     curl
+    lazydocker
     claude-code
-    opencode
     btop
     bat
     zip       
@@ -33,6 +33,7 @@
     tree
     ripgrep   
     jq
+    typst
     libnotify # for plasma discovery application (with the use of flatpak)
     # --- Bluetooth --- 
     kdePackages.bluedevil
@@ -41,22 +42,18 @@
     # --- GUI Apps ---
     vscode
     firefox
-    chromium
+    affine
     grimblast
     brave
     discord
     tor-browser
-    vlc
     bitwarden-desktop
     spotify
     obs-studio
     thunderbird
-    ghidra
-    onedrive    
     proton-vpn
     # --- Shell Customization ---
     pure-prompt
-   android-studio 
     # --- Development Tools ---
     # C
     gcc
@@ -74,7 +71,13 @@
     
     # --- Languages & Runtimes ---
     # C#
-    dotnet-sdk_9   # Added: You had dotnet-8 installed
+    icu
+        (pkgs.dotnetCorePackages.combinePackages [
+      pkgs.dotnetCorePackages.sdk_9_0
+      pkgs.dotnetCorePackages.sdk_8_0
+    ])
+    azure-functions-core-tools
+		dotnet-ef
     # Rust tools
     rustup
 
@@ -116,7 +119,6 @@
     krita
     postman
     fastfetch
-    rclone
 
     # --- System Management (See Warnings Below) ---
     # electrum
@@ -128,11 +130,9 @@
     docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
     virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
     wireshark    # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
-    onionshare
     appimage-run
     keepassxc
     metadata-cleaner
-    oh-my-zsh
     libglibutil
   ];
 
