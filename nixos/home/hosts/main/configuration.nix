@@ -12,13 +12,14 @@
     ../../../system/modules/bootSecure.nix
     ../../../system/modules/hardware.nix
     ../../../system/modules/kde.nix
+    ../../../system/modules/file-limits.nix
   ];
 
   nixpkgs = {
     config = {
       # Disable if you don't want unfree packages
       allowUnfree = true;
-      permittedInsecurePackages = [ "qtwebengine-5.15.19" ];
+      permittedInsecurePackages = [ "qtwebengine-5.15.19" "electron-39.8.10" ];
     };
   };
 

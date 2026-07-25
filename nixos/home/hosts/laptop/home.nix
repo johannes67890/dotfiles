@@ -52,7 +52,6 @@
     google-chrome
     brave
     discord
-    bitwarden-desktop
     spotify
     obs-studio
     thunderbird

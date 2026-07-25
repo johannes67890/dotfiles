@@ -47,7 +47,6 @@
     brave
     discord
     tor-browser
-    bitwarden-desktop
     spotify
     obs-studio
     thunderbird
@@ -103,12 +102,7 @@
     go
 
     # Latex
-    (pkgs.texlive.combine {
-      inherit (pkgs.texlive) scheme-full
-        latexmk
-        wrapfig amsmath ulem hyperref capt-of
-        xifthen ifmtarg framed paralist titlesec;
-    })
+    texliveFull
     texlab
     tectonic
 

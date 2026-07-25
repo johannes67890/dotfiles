@@ -12,6 +12,7 @@
     ../../../system/modules/boot.nix
     ../../../system/modules/hardware-non-nvidia.nix
     ../../../system/modules/kde.nix
+    ../../../system/modules/file-limits.nix
   ];
 
   boot.kernelParams = lib.mkForce [ ];
