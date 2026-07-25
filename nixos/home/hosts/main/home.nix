@@ -26,6 +26,7 @@
     curl
     lazydocker
     claude-code
+    jackett
     btop
     bat
     zip       
@@ -33,7 +34,9 @@
     tree
     ripgrep   
     jq
+    signal-desktop
     typst
+    opencode
     libnotify # for plasma discovery application (with the use of flatpak)
     # --- Bluetooth --- 
     kdePackages.bluedevil

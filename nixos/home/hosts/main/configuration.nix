@@ -53,6 +53,9 @@
   # onedrive
   services.onedrive.enable = true;
 
+  networking.firewall.allowedTCPPorts = [ 4000 ]; 
+  services.flaresolverr.enable = true;
+  
   programs.zsh.enable = true;
   # User configuration goes under `config.users`
   users.users = {
