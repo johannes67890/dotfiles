@@ -24,6 +24,7 @@
       permittedInsecurePackages = [ "qtwebengine-5.15.19" ];
       packageOverrides = (
       pkgs: {
+
         # For patch ITU++
         # ITU++ uses TTLS Auth and MSCHAP2 inner auth
         wpa_supplicant = pkgs.wpa_supplicant.overrideAttrs (attrs: {

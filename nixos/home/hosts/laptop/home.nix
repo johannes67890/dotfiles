@@ -91,7 +91,6 @@
     yarn
 
     # Python
-    pipx
     python3
 
     # Java (uses also package 'gcc')
