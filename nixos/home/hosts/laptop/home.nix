@@ -53,7 +53,6 @@
     brave
     discord
     spotify
-    obs-studio
     thunderbird
     # ghidra
     proton-vpn
@@ -105,7 +104,6 @@
     # go
 
     # Latex
-    # texlive.combined.scheme-full
     texlab
     tectonic
 
@@ -123,7 +121,6 @@
     veracrypt
     gnupg
     docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
-    virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
     wireshark    # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
     appimage-run
     keepassxc

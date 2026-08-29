@@ -121,10 +121,6 @@
   # Enable Docker daemon
   virtualisation.docker.enable = true;
 
-  # Enable VirtualBox
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "jgjo" ];
-
   # Enable Wireshark (allows non-root packet capture)
   programs.wireshark.enable = true;
   users.extraGroups.wireshark.members = [ "jgjo" ];

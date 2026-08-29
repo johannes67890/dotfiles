@@ -53,7 +53,6 @@
     discord
     tor-browser
     spotify
-    obs-studio
     thunderbird
     proton-vpn
     # --- Shell Customization ---
@@ -103,7 +102,6 @@
     # go
 
     # Latex
-    texliveFull
     texlab
     tectonic
 
@@ -123,7 +121,6 @@
     veracrypt
     gnupg
     docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
-    virtualbox   # Note: Requires virtualisation.virtualbox.host.enable = true in configuration.nix
     wireshark    # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
     appimage-run
     keepassxc
