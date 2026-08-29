@@ -42,10 +42,10 @@ laptop #laptop
 flake.nix
 home/
   hosts/main/{configuration.nix,hardware-configuration.nix,home.nix,config.nix}
-  config/kde/{plasma.nix,default.nix}
+  config/kde/plasma.nix
 system/
-  modules/{boot.nix,hardware.nix,kde.nix,default.nix}
-overlays/{default.nix}
+  config.nix
+  modules/{boot.nix,bootSecure.nix,hardware.nix,hardware-non-nvidia.nix,kde.nix,file-limits.nix}
 pkgs/{default.nix}
 ```
 
@@ -57,7 +57,7 @@ pkgs/{default.nix}
 ## Boot entries and GC
 
 - Keep boot menu lean via `configurationLimit` in [`system/modules/boot.nix`](system/modules/boot.nix).
-- Automatic store GC weekly, deleting paths older than 30 days is configured in [`home/hosts/main/configuration.nix`](home/hosts/main/configuration.nix).
+- Automatic store GC weekly, deleting paths older than 30 days is configured in [`system/config.nix`](system/config.nix).
 
 Run now:
 
@@ -103,4 +103,3 @@ sudo nixos-rebuild switch --flake .#jgjo --show-trace
 
 - Unfree allowed in [`home/hosts/main/configuration.nix`](home/hosts/main/configuration.nix).
 - NVIDIA and Wayland-ready in [`system/modules/hardware.nix`](system/modules/hardware.nix) and [`system/modules/kde.nix`](system/modules/kde.nix).
-- Overlays and unstable available via [`overlays/default.nix`](overlays/default.nix).

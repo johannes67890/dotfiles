@@ -169,13 +169,6 @@ vim.o.confirm = true
 -- Enable 24-bit RGB color in the TUI
 vim.opt.termguicolors = true
 
--- Ensure vscode theme if anything overrides it later
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = function()
-		pcall(vim.cmd.colorscheme, "vscode")
-	end,
-})
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -942,28 +935,6 @@ require("lazy").setup({
 		},
 	},
 
-	{ -- You can easily change to a different colorscheme.
-		-- Change the name of the colorscheme plugin below, and then
-		-- change the command in the config to whatever the name of that colorscheme is.
-		--
-		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-		"folke/tokyonight.nvim",
-		priority = 1000, -- Make sure to load this before all the other start plugins.
-		config = function()
-			---@diagnostic disable-next-line: missing-fields
-			require("tokyonight").setup({
-				styles = {
-					comments = { italic = false }, -- Disable italics in comments
-				},
-			})
-
-			-- Load the colorscheme here.
-			-- Like many other themes, this one has different styles, and you could load
-			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("tokyonight-night")
-		end,
-	},
-
 	-- Highlight todo, notes, etc in comments
 	{
 		"folke/todo-comments.nvim",
@@ -1055,20 +1026,9 @@ require("lazy").setup({
 	require("kickstart.plugins.autopairs"),
 	require("kickstart.plugins.neo-tree"),
 	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-	{
-		"echasnovski/mini.nvim",
-		config = function()
-			-- statusline
-			require("mini.statusline").setup()
 
-			-- tabline disabled in favor of bufferline (see custom/plugins/bufferline.lua)
-			-- require("mini.tabline").setup()
-
-			-- ai/surround already loaded, so no need to repeat
-			require("mini.ai").setup({ n_lines = 500 })
-			require("mini.surround").setup()
-		end,
-	},
+	-- tabline disabled in favor of bufferline (see custom/plugins/bufferline.lua)
+	-- require("mini.tabline").setup()
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.

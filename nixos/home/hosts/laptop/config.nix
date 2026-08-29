@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 let
   configDir = ../../config;
-  avatarPath = "${configDir}/kde/avatar.jpg";
+  avatarPath = ../../assets/avatar.jpg;
 in
 {
   imports = [

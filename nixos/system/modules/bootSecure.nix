@@ -3,7 +3,7 @@
 	boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
 	boot.loader.systemd-boot = {
     enable = lib.mkForce false;
-    configurationLimit = 5;   # only keep latest entry
+    configurationLimit = 5;   # keep the last 5 boot entries
   	};
 	boot.lanzaboote = {
 		enable = true;

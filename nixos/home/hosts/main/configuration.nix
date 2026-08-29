@@ -9,6 +9,7 @@
   # Import your hardware configuration file
   imports = [
     ./hardware-configuration.nix
+    ../../../system/config.nix
     ../../../system/modules/bootSecure.nix
     ../../../system/modules/hardware.nix
     ../../../system/modules/kde.nix
@@ -23,27 +24,6 @@
     };
   };
 
-  # Define Nix settings (this should go under `config.nix`)
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
-    settings = {
-      experimental-features = "nix-command flakes";
-      flake-registry = "";
-      nix-path = config.nix.nixPath;
-    };
-    channel.enable = false;
-
-    registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-    
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-  };
-
   # Networking configuration goes under `config.networking`
   networking.hostName = "jgjo";
   networking.networkmanager.enable = true;
@@ -54,7 +34,7 @@
   # onedrive
   services.onedrive.enable = true;
 
-  networking.firewall.allowedTCPPorts = [ 4000 ]; 
+  networking.firewall.allowedTCPPorts = [ 8191 ]; # FlareSolverr's actual listen port
   services.flaresolverr.enable = true;
   
   programs.zsh.enable = true;
@@ -64,7 +44,8 @@
       isNormalUser = true;
       shell = pkgs.zsh; # Use Zsh as login shell
       openssh.authorizedKeys.keys = [
-        # Add your SSH public key(s) here
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2t6qXGciRsEuUQ8rzw5tgeIHRrjwm0DCUmx90bIEaRFQnvCrjAkzLFtcM3k7ZU/U9kRlIYJjzDdZubF0UQkqyGUSqjlNpA+Yz8MHqL6ZQTNxyrMIXr0bHgdSX885rXPYC4+/cDZlFLribMA/bgsKiM2I02VaXKMuDFpEApAOnQVrCXxEECsxmSSFhS6XoUBKAvGomqlgrj3eCygBtzLpVPSQXykk+xKiRlj/r/+v4FiLEUwdT7Lz3eoiOt1j6uhDaE3h0/EWjSbr98U2I93mMyVrDE9O7XXDMu44DVDyMG1bJRjC7XeqMf3AtgLdwmJonhwhR+INbde/mleX3a3GZkqsC3JV/1c3dVMtnLzadau7XF6XtuzbaVKrkv0SVFOiIjV1ZScPIYbMjYek1wnDDDXz3aB9b7pXTMPU+SwNU+VcEpGK+EbP7kkblzTYnPhRqptXnJYVoGnf4ZEDbxq4bvBuu8TLsuoUUzzyfwIVHH2K4cvIGGl698gEvjZ+zIofSgAvkfSrievnSKrbKmwAzExpbvvpAhYmVC/kRVVGMZDAXgx6aQJbiQGhKWsXgkVYa1K7x4V8S4Tql77H1D8StbfGD0ONZpffHRfuSHngIarAcP3Cf0xhGP9I0YhEC8Gd48iJC2UagXUo7iJ4QMGsmBa4SQU6OS2ckaozGOomDSQ== johannes@orager.dk"
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCi1XdYAnbBOL/PYjWOz0PLwajQR2I8pnA52r/jhW2XTslPOvEVoFXzBs8f2M4EIfrubzrH6CE6rBoXgCHU0605ClxrExA/z74hsgwEI3hvTeSM9P1+h/eafr+yLh0/WyJQH1PPAmB8fp5S1j8UEKjWWofKQ8rHuac1ehL9mf99jdBboDHskTHFSen6uUxHDHW3za/caZMIzvzwvNNSs+sLgaLM+enU17B/lxNwSL86vWm+jLWKztUpKHGpJTDVU7OgMAhfXuqjywupF96XN+kSKAche9T+hhCPlNY2v52OGBNsU7i6mId4wr4lwDwj37ba6J6MFrSnumwRVEphX7UYKYjqOz9MrbbnXCR3BBApkoEEYftHkp+U+VrxVJsqaK+HmrmxiJorIdtYv/hy/UJZtmlxWeU35sdKZAgtoyD8TOz39S1r7H1Ah6qM2khpcDK58QnprRmZTIRcRFVn79VceZf2hiaS4TQXHYBHYeSx/FhATvQInoSMfQjLRYyad/23Vk6t40NLq9W+6Gd3KXzrRlq+79PBdQOd5RCiePxTD/xQSAsNV0NHSzhsggEvtPUlgXLx9B12zZjspu6V/0ofrLIzysF/XwuQnis6TIqoTpwZxjsMLgiy0UTiP+ROidb4Mzeq82KUaKVvh6Au5sFtO4eiQhQS9K2xdHO8CbhHTw== jgj@toolpack.one"
       ];
       extraGroups = ["wheel"];
     };

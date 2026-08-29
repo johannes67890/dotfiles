@@ -12,7 +12,7 @@
         cursor = {
           size = 24;
         };
-        iconTheme = "Win11-black-dark";
+        iconTheme = "Fluent-dark";
         wallpaper = wallpaper;
       };
     

@@ -32,13 +32,14 @@
     zip       
     unzip     
     tree
-    ripgrep   
+    ripgrep
+    fd        # used by telescope.nvim/neo-tree for fast file listing
+    gnumake   # needed to build telescope-fzf-native.nvim's native sorter
     jq
     outline
     signal-desktop
     typst
     opencode
-    davinci-resolve
     libnotify # for plasma discovery application (with the use of flatpak)
     # --- Bluetooth --- 
     kdePackages.bluedevil

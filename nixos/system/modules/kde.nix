@@ -16,7 +16,7 @@
 environment.systemPackages = with pkgs;
   [
     # KDE
-    windows10-icons
+    fluent-icon-theme # provides the Fluent-dark icon theme set in home/config/kde/plasma.nix
     kdePackages.kleopatra      # KDE GUI for GnuPG
     kdePackages.kdeplasma-addons   # contains org.kde.plasma.weather, colorpicker, …
     kdePackages.plasma-nm          # network management tray
