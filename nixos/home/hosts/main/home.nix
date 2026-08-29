@@ -34,9 +34,11 @@
     tree
     ripgrep   
     jq
+    outline
     signal-desktop
     typst
     opencode
+    davinci-resolve
     libnotify # for plasma discovery application (with the use of flatpak)
     # --- Bluetooth --- 
     kdePackages.bluedevil
@@ -88,10 +90,6 @@
     nodejs
     yarn
 
-    # Python
-    pipx
-    python3
-
     # Java (uses also package 'gcc')
     jdk21          # Added: You had Java 17/21 installed
     gradle
@@ -101,8 +99,8 @@
     patchelf
     zlib
 
+    python3
     # go
-    go
 
     # Latex
     texliveFull
