@@ -693,9 +693,9 @@ require("lazy").setup({
 
 			-- LSP servers and clients are able to communicate to each other what features they support.
 			--  By default, Neovim doesn't support everything that is in the LSP specification.
-			--  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
-			--  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
+			--  blink.cmp broadcasts its extra completion capabilities to every server on its
+			--  own (see its `plugin/blink-cmp.lua`, which calls `vim.lsp.config("*", ...)`),
+			--  so there is nothing to wire up here.
 
 			-- Enable the following language servers
 			--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -709,7 +709,7 @@ require("lazy").setup({
 			local servers = {
 				-- clangd = {},
 				-- gopls = {},
-				-- pyright = {},
+				basedpyright = {},
 				rust_analyzer = {
 					settings = {
 						["rust-analyzer"] = {
@@ -773,20 +773,40 @@ require("lazy").setup({
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+			-- Register each server's overrides. mason-lspconfig v2 dropped the `handlers`
+			-- and `automatic_installation` options, so configuration goes through
+			-- `vim.lsp.config()` and mason-lspconfig enables installed servers itself.
+			for server_name, server in pairs(servers) do
+				vim.lsp.config(server_name, server)
+			end
+
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-				automatic_installation = false,
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for ts_ls)
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
+				-- Every installed Mason package that maps to an lspconfig name gets enabled,
+				-- so exclude the formatters we only want conform.nvim to drive.
+				automatic_enable = { exclude = { "stylua" } },
 			})
+
+			-- Servers that Mason has no package for, so they come from the system
+			-- (Nix) instead. Keep them out of `servers` above: mason-tool-installer
+			-- would fail trying to install a package that does not exist.
+			--
+			--  - metals: the Scala language server. Mason ships no Scala LSP at all
+			--    (searching it for "Scala" only turns up linters like semgrep), so
+			--    install it with Nix: `metals` in your host's home.nix.
+			local external_servers = {
+				metals = {},
+			}
+			for server_name, server in pairs(external_servers) do
+				-- Only enable the server if its binary is actually on PATH, so the
+				-- shared config stays quiet on hosts where it is not installed.
+				local cmd = server.cmd or (vim.lsp.config[server_name] or {}).cmd
+				local exe = type(cmd) == "table" and cmd[1] or nil
+				if exe and vim.fn.executable(exe) == 1 then
+					vim.lsp.config(server_name, server)
+					vim.lsp.enable(server_name)
+				end
+			end
 		end,
 	},
 
@@ -984,29 +1004,85 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		branch = "main",
 		build = ":TSUpdate",
-		main = "nvim-treesitter",
+		lazy = false,
 		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
+		--
+		-- NOTE: this is the `main` branch rewrite, whose `setup()` understands
+		-- exactly one option: `install_dir`. The `ensure_installed` and
+		-- `auto_install` keys from the old `master` branch are silently ignored,
+		-- and `main` does not switch highlighting on by itself either -- both have
+		-- to be done by hand, which is what this `config` function is for.
+		config = function()
+			local ts = require("nvim-treesitter")
+			ts.setup({})
+
+			local ensure_installed = {
 				"bash",
 				"c",
+				"c_sharp",
 				"diff",
 				"html",
+				"java",
+				"javascript",
+				"json",
 				"lua",
 				"luadoc",
 				"markdown",
 				"markdown_inline",
+				"nix",
+				"python",
 				"query",
+				"rust",
+				"scala",
+				"toml",
+				"tsx",
+				"typescript",
 				"vim",
 				"vimdoc",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-		},
+				"yaml",
+			}
+			-- `install()` skips anything already present, so this is a no-op after
+			-- the first run. It is async: nothing blocks startup.
+			ts.install(ensure_installed)
+
+			-- Turn highlighting on per buffer, fetching the parser on demand (this
+			-- is what `auto_install = true` used to do).
+			local available ---@type string[]?
+			local function is_available(lang)
+				available = available or ts.get_available()
+				return vim.list_contains(available, lang)
+			end
+
+			local function start(buf, lang)
+				if vim.api.nvim_buf_is_valid(buf) then
+					pcall(vim.treesitter.start, buf, lang)
+				end
+			end
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("kickstart-treesitter", { clear = true }),
+				callback = function(args)
+					local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+					if not lang then
+						return
+					end
+					if vim.list_contains(ts.get_installed("parsers"), lang) then
+						start(args.buf, lang)
+					elseif is_available(lang) then
+						ts.install(lang):await(function(err)
+							if not err then
+								vim.schedule(function()
+									start(args.buf, lang)
+								end)
+							end
+						end)
+					end
+				end,
+			})
+		end,
 		-- There are additional nvim-treesitter modules that you can use to interact
 		-- with nvim-treesitter. You should go explore a few and see what interests you:
 		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
 		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
 		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},

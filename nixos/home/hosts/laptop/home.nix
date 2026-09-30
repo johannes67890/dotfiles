@@ -3,6 +3,7 @@
 {
   imports = [
     ./config.nix
+    ../../config/zsh/jetlink.nix
   ];
   
   home = {
@@ -37,8 +38,10 @@
     unzip     
     tree
     ripgrep
+    obsidian
     fd        # used by telescope.nvim/neo-tree for fast file listing
     gnumake   # needed to build telescope-fzf-native.nvim's native sorter
+    tree-sitter # CLI required by nvim-treesitter's `main` branch to build parsers
     libnotify # for plasma discovery application (with the use of flatpak)
     jq
     # --- Bluetooth --- 
@@ -64,6 +67,9 @@
     # --- Development Tools ---
     # C
     gcc
+    scala
+    scala-cli
+    metals         # Scala language server (Mason has no Scala LSP package)
     clang-tools
     cmake
     codespell
@@ -71,12 +77,15 @@
     cppcheck
     doxygen
     gtest
+    jetbrains.idea
+    jetbrains.gateway
     lcov
     vcpkg
     
     # --- Languages & Runtimes ---
     # C#
     (pkgs.dotnetCorePackages.combinePackages [
+      pkgs.dotnetCorePackages.sdk_10_0
       pkgs.dotnetCorePackages.sdk_9_0
       pkgs.dotnetCorePackages.sdk_8_0
     ])
@@ -85,6 +94,7 @@
     # Rust tools
 		# run 'rustup default stable' to install relevant rust packages
 		rustup
+		erlang
 
     # Node
     pnpm
@@ -188,12 +198,25 @@
       fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
       autoload -U promptinit; promptinit
       prompt pure
+
+      # Anaconda (installed imperatively to ~/anaconda3)
+      if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/anaconda3/etc/profile.d/conda.sh"
+      fi
     '';
 
     # Plugins
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+  };
+
+  # direnv: per-directory environments. Auto-hooks into zsh.
+  # Used by ~/repos/IML2026/.envrc to activate the `iml` conda env
+  # only inside that repo, instead of globally in every shell.
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 
   programs.git = {
