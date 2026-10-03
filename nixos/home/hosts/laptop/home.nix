@@ -13,132 +13,14 @@
     sessionPath = [ "$HOME/.cargo/bin" ];
   };
 
-  # Add user-level packages
+  # Host-specific packages only.
+  # The common list lives in home/shared/packages.nix and is applied to every
+  # host from flake.nix; home-manager merges both lists together.
   home.packages = with pkgs; [
-    # --- System Utilities ---
-		ghostty
-    yazi
-    jackett
-    icu
-		sbctl # for secure boot
-    terminus_font
-    terminus_font_ttf
-    signal-desktop
-    azure-cli
-    flaresolverr
-    whois
-		lazygit   
-		lazydocker
-		wget
-    curl
-    btop
-    bat
-    opencode
-    zip       
-    unzip     
-    tree
-    ripgrep
-    obsidian
-    fd        # used by telescope.nvim/neo-tree for fast file listing
-    gnumake   # needed to build telescope-fzf-native.nvim's native sorter
-    tree-sitter # CLI required by nvim-treesitter's `main` branch to build parsers
-    libnotify # for plasma discovery application (with the use of flatpak)
-    jq
-    # --- Bluetooth --- 
-    kdePackages.bluedevil
-    kdePackages.bluez-qt    
-		claude-code
-
-    
-    # --- GUI Apps ---
-    vscode
-    firefox
-    grimblast
-    google-chrome
-    brave
-    discord
-    spotify
-    thunderbird
-    # ghidra
-    proton-vpn
-    # --- Shell Customization ---
-    pure-prompt
-    
-    # --- Development Tools ---
-    # C
-    gcc
-    scala
-    scala-cli
-    metals         # Scala language server (Mason has no Scala LSP package)
-    clang-tools
-    cmake
-    codespell
-    conan
-    cppcheck
-    doxygen
-    gtest
+    # --- JetBrains ---
     jetbrains.idea
     jetbrains.gateway
-    lcov
-    vcpkg
-    
-    # --- Languages & Runtimes ---
-    # C#
-    (pkgs.dotnetCorePackages.combinePackages [
-      pkgs.dotnetCorePackages.sdk_10_0
-      pkgs.dotnetCorePackages.sdk_9_0
-      pkgs.dotnetCorePackages.sdk_8_0
-    ])
-    azure-functions-core-tools
-		dotnet-ef
-    # Rust tools
-		# run 'rustup default stable' to install relevant rust packages
-		rustup
-		erlang
-
-    # Node
-    pnpm
-    nodejs
-    yarn
-
-    # Python
-    python3
-
-    # Java (uses also package 'gcc')
-    jdk21          # Added: You had Java 17/21 installed
-    gradle
-    jdk
-    maven
-    ncurses.dev
-    patchelf
-    zlib
-
-    # go
-
-    # Latex
-    texlab
-    tectonic
-
-    # Office
-    libreoffice
-    krita
-    postman
-    fastfetch
-
-    # --- System Management (See Warnings Below) ---
-    # electrum
-    gparted
-    flatpak
-    qbittorrent
-    veracrypt
-    gnupg
-    docker       # Note: Requires virtualisation.docker.enable = true in configuration.nix
-    wireshark    # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
-    appimage-run
-    keepassxc
-    metadata-cleaner
-    libglibutil
-	];
+  ];
 
   fonts.fontconfig.enable = true;
 

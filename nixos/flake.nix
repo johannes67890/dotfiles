@@ -42,6 +42,14 @@
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
+
+    # Home-manager modules applied to every host. Add anything that should be
+    # present on all machines here; host-specific bits stay in
+    # ./home/hosts/<host>/home.nix.
+    sharedHomeModules = [
+      inputs.plasma-manager.homeModules.plasma-manager
+      ./home/shared/packages.nix
+    ];
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
@@ -64,7 +72,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
-            home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
+            home-manager.sharedModules = sharedHomeModules;
           }
 
           lanzaboote.nixosModules.lanzaboote
@@ -81,9 +89,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = [
-                inputs.plasma-manager.homeModules.plasma-manager
-              ];
+              home-manager.sharedModules = sharedHomeModules;
             }
             lanzaboote.nixosModules.lanzaboote
           ];
@@ -96,8 +102,7 @@
       "jgjo@jgjo" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = { inherit inputs outputs; };
-        modules = [
-          inputs.plasma-manager.homeModules.plasma-manager
+        modules = sharedHomeModules ++ [
           ./home/hosts/main/home.nix
         ];
       };
@@ -105,8 +110,7 @@
        "jgjo@laptop" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            inputs.plasma-manager.homeModules.plasma-manager
+          modules = sharedHomeModules ++ [
             ./home/hosts/laptop/home.nix
           ];
         };
