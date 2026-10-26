@@ -31,7 +31,7 @@ in
 
     # nvim config
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/dotfiles/nixos/home/config/nvim/.config/nvim";
+      "${config.home.homeDirectory}/dotfiles/home/config/nvim/.config/nvim";
 
     # ghostty config
     ".config/ghostty/config".source = "${configDir}/ghostty/config";
