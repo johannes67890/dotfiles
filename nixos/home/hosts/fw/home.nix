@@ -1,109 +1,11 @@
-{ config, pkgs, lib, inputs, ... }:
-
+{ pkgs, ... }:
 {
-  imports = [
-    ./config.nix
-    ../../config/zsh/jetlink.nix
-  ];
-  
-  home = {
-    username = "jgjo";
-    homeDirectory = "/home/jgjo";
-    stateVersion = "26.05";
-    sessionPath = [ "$HOME/.cargo/bin" ];
-  };
+  home.stateVersion = "26.05";
 
-  # Host-specific packages only.
-  # The common list lives in home/shared/packages.nix and is applied to every
-  # host from flake.nix; home-manager merges both lists together.
+  # Host-specific packages only; the common list is in home/shared/packages.nix.
   home.packages = with pkgs; [
     # --- JetBrains ---
     jetbrains.idea
     jetbrains.gateway
   ];
-
-  fonts.fontconfig.enable = true;
-
-  xdg.desktopEntries."com.mitchellh.ghostty" = {
-    name = "Ghostty";
-    genericName = "Terminal";
-    exec = "env GTK_IM_MODULE=simple ghostty";
-    terminal = false;
-    type = "Application";
-    categories = [ "System" "TerminalEmulator" ];
-    icon = "com.mitchellh.ghostty";
-    startupNotify = true;
-  };
-
-  programs.home-manager.enable = true;
-  
-  programs.kitty.enable = true;
-  
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true; # Sets $EDITOR to nvim
-    viAlias = true;       # Aliases vi to nvim
-    vimAlias = true;      # Aliases vim to nvim
-    sideloadInitLua = true;
-    withRuby = false;
-    withPython3 = false;
-  };
-
-  programs.tmux.enable = true;
-
-  programs.zsh = {
-    enable = true;
-
-    shellAliases = {
-      toolpack = "cd ~/repos/Toolpack_Finance/";
-      run-api = ''cd ~/repos/Toolpack_Finance/backend/Api && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --project ToolpackFinance.Api.csproj --urls "http://localhost:8080;https://localhost:5001"'';
-      run-api-debug = ''cd ~/repos/Toolpack_Finance/backend/Api && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --project ToolpackFinance.Api.csproj --urls "http://localhost:8080;https://localhost:5001" --configuration Debug'';
-      run-web = "cd ~/repos/Toolpack_Finance/web && pnpm run dev";
-      run-web-debug = "cd ~/repos/Toolpack_Finance/web && pnpm run dev --debug";
-    };
-
-    plugins = [
-      {
-        name = "bat";
-        src = pkgs.bat;
-      }
-    ];
-
-    # Oh My Zsh
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "sudo" "z" ];
-    };
-
-    initContent = ''
-      # Pure prompt (sindresorhus/pure)
-      fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
-      autoload -U promptinit; promptinit
-      prompt pure
-
-      # Anaconda (installed imperatively to ~/anaconda3)
-      if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "$HOME/anaconda3/etc/profile.d/conda.sh"
-      fi
-    '';
-
-    # Plugins
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-  };
-
-  # direnv: per-directory environments. Auto-hooks into zsh.
-  # Used by ~/repos/IML2026/.envrc to activate the `iml` conda env
-  # only inside that repo, instead of globally in every shell.
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  programs.git = {
-    enable = true;
-    settings.user.name = "johannes67890"; 
-    settings.user.email = "johannes@orager.dk"; 
-  };
 }

@@ -67,25 +67,20 @@
     # ./home/hosts/<host>/home.nix.
     sharedHomeModules = [
       inputs.plasma-manager.homeModules.plasma-manager
+      ./home/shared/home.nix
       ./home/shared/packages.nix
     ];
   in {
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-    # Your custom packages and modifications,ration entrypoint
-    # Available through 'nixos-rebuild --flake .#jgjo'
-    nixosConfigurations = {
-      jgjo = nixpkgs.lib.nixosSystem {
+
+    # One system per host; available through 'nixos-rebuild --flake .#<host>'.
+    # Home-manager runs as part of each system, so there is no standalone setup.
+    nixosConfigurations = nixpkgs.lib.mapAttrs (_: hostDir:
+      nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
-        
         modules = [
-          # > Our main nixos configuration file <
-          ./home/hosts/main/configuration.nix
-          # > Home manager <
+          ./home/hosts/${hostDir}/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -93,68 +88,12 @@
             home-manager.backupFileExtension = "backup";
             home-manager.sharedModules = sharedHomeModules;
           }
-
           lanzaboote.nixosModules.lanzaboote
-
-
         ];
-      };
-      surface = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs outputs;};
-          modules = [
-            ./home/hosts/surface/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = sharedHomeModules;
-            }
-            lanzaboote.nixosModules.lanzaboote
-          ];
-  };
-      fw = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs outputs;};
-          modules = [
-            ./home/hosts/fw/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = sharedHomeModules;
-            }
-            lanzaboote.nixosModules.lanzaboote
-          ];
-  };
-    };
-
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#jgjo@jgjo'
-    homeConfigurations = {
-      "jgjo@jgjo" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs; };
-        modules = sharedHomeModules ++ [
-          ./home/hosts/main/home.nix
-        ];
-      };
-
-       "jgjo@surface" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = sharedHomeModules ++ [
-            ./home/hosts/surface/home.nix
-          ];
-        };
-
-       "jgjo@fw" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = sharedHomeModules ++ [
-            ./home/hosts/fw/home.nix
-          ];
-        };
+      }) {
+      jgjo = "main"; # desktop
+      surface = "surface";
+      fw = "fw";
     };
   };
 }

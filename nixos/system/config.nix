@@ -1,4 +1,4 @@
-{ inputs, lib, config, ... }:
+{ inputs, lib, config, pkgs, ... }:
 {
   # Shared overlays (common to all hosts).
   nixpkgs.overlays = [
@@ -49,5 +49,69 @@
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
+  };
+
+  # --- Settings every host shares; host files keep only what differs. ---
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [ "qtwebengine-5.15.19" ];
+  };
+
+  networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = true;
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [ icu ];
+
+  programs.zsh.enable = true;
+  # authorized SSH keys are set per host: each machine trusts a different set
+  users.users.jgjo = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+    extraGroups = [ "wheel" ];
+  };
+
+  home-manager.extraSpecialArgs = { inherit inputs; inherit (config.networking) hostName; };
+
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
+  };
+
+  time.timeZone = "Europe/Copenhagen";
+  i18n.defaultLocale = "en_DK.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "da_DK.UTF-8";
+    LC_IDENTIFICATION = "da_DK.UTF-8";
+    LC_MEASUREMENT = "da_DK.UTF-8";
+    LC_MONETARY = "da_DK.UTF-8";
+    LC_NAME = "da_DK.UTF-8";
+    LC_NUMERIC = "da_DK.UTF-8";
+    LC_PAPER = "da_DK.UTF-8";
+    LC_TELEPHONE = "da_DK.UTF-8";
+    LC_TIME = "da_DK.UTF-8";
+  };
+  console.font = "Lat2-Terminus16";
+  console.keyMap = "dk-latin1";
+
+  fonts.packages = with pkgs; [ nerd-fonts.fira-code ];
+
+  virtualisation.docker.enable = true;
+
+  # Wireshark: allows non-root packet capture
+  programs.wireshark.enable = true;
+  users.extraGroups.wireshark.members = [ "jgjo" ];
+
+  services.flatpak.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
 }

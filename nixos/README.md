@@ -3,7 +3,7 @@
 Opinionated, reproducible NixOS with Plasma 6, Home Manager, Plasma Manager and Secure Boot (Lanzaboote).
 
 - System: [`nixosConfigurations.jgjo`](flake.nix)
-- Home: [`homeConfigurations."jgjo@jgjo"`](flake.nix)
+- Home: applied by each system through home-manager ([`home/shared`](home/shared), per-host `home/hosts/<host>/home.nix`)
 - Modules: [`system/modules`](system/modules)
 - Plasma config: [`home/config/kde/plasma.nix`](home/config/kde/plasma.nix)
 
@@ -12,9 +12,6 @@ Opinionated, reproducible NixOS with Plasma 6, Home Manager, Plasma Manager and 
 ```sh
 # Switch system (host: jgjo)
 sudo nixos-rebuild switch --flake .#jgjo
-
-# Switch only home (standalone)
-home-manager switch --flake .#jgjo@jgjo
 
 # Update inputs, then rebuild
 nix flake update
@@ -45,12 +42,13 @@ fw #Framework Laptop 13 Pro
 ```
 flake.nix
 home/
-  hosts/main/{configuration.nix,hardware-configuration.nix,home.nix,config.nix}
+  hosts/<host>/{configuration.nix,hardware-configuration.nix,home.nix}
+  shared/{home.nix,config.nix,packages.nix}
   config/kde/plasma.nix
 system/
   config.nix
-  modules/{boot.nix,bootSecure.nix,hardware.nix,hardware-non-nvidia.nix,kde.nix,file-limits.nix}
-pkgs/{default.nix}
+  modules/{boot.nix,bootSecure.nix,hardware.nix,hardware-non-nvidia.nix,kde.nix,file-limits.nix,itu-wifi.nix}
+pkgs/azure-functions-core-tools/
 ```
 
 - Main entrypoint: [`home/hosts/main/configuration.nix`](home/hosts/main/configuration.nix)
@@ -96,6 +94,9 @@ nix fmt
 # Search packages
 nix search nixpkgs firefox
 
+# Check every host still evaluates (run before committing shared changes)
+nix flake check --no-build
+
 # Build without switching
 nix build .#nixosConfigurations.jgjo.config.system.build.toplevel
 
@@ -105,5 +106,5 @@ sudo nixos-rebuild switch --flake .#jgjo --show-trace
 
 ## Notes
 
-- Unfree allowed in [`home/hosts/main/configuration.nix`](home/hosts/main/configuration.nix).
+- Unfree allowed in [`system/config.nix`](system/config.nix).
 - NVIDIA and Wayland-ready in [`system/modules/hardware.nix`](system/modules/hardware.nix) and [`system/modules/kde.nix`](system/modules/kde.nix).

@@ -30,10 +30,6 @@
     patchelf
     appimage-run
     libnotify   # for plasma discovery application (with the use of flatpak)
-    libglibutil
-    ncurses.dev
-    zlib
-    icu
     sbctl       # secure boot key management (lanzaboote)
     terminus_font
     terminus_font_ttf
@@ -80,11 +76,8 @@
 
     # --- System Management ---
     gparted
-    flatpak
     qbittorrent
     jackett
-    flaresolverr # main runs this as a service (services.flaresolverr.enable) too
-    docker    # Note: Requires virtualisation.docker.enable = true in configuration.nix
     wireshark # Note: Requires programs.wireshark.enable = true in configuration.nix for permissions
 
     # --- Development Tools ---

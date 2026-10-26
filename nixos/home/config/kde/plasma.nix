@@ -73,7 +73,7 @@
     krunner = {
       historyBehavior = "enableSuggestions"; 
       position = "center";
-      shortcuts.launch = [ "Alt+F" "Alt+Space" ]; 
+      shortcuts.launch = [ "Search" "Alt+F2" "Alt+F" "Alt+Space" ];
     };
 
     kscreenlocker = {
@@ -343,6 +343,7 @@
 
   kwin = {
       edgeBarrier = 0; # Disables the edge-barriers introduced in plasma 6.1
+      cornerBarrier = false;
 
     };
 
@@ -356,17 +357,6 @@
 
       kaccess = {
         "Toggle Screen Reader On and Off" = "Meta+Alt+S";
-      };
-
-      kmix = {
-        decrease_microphone_volume = "Microphone Volume Down";
-        decrease_volume = "Volume Down";
-        decrease_volume_small = "Shift+Volume Down";
-        increase_microphone_volume = "Microphone Volume Up";
-        increase_volume = "Volume Up";
-        increase_volume_small = "Shift+Volume Up";
-        mic_mute = ["Microphone Mute" "Meta+Volume Mute"];
-        mute = "Volume Mute";
       };
 
       ksmserver = {
@@ -402,26 +392,6 @@
         MoveZoomRight = [ ];
         MoveZoomUp = [ ];
         Overview = "Meta+W";
-        PoloniumCycleEngine = "Meta+|";
-        PoloniumFocusAbove = "Meta+K";
-        PoloniumFocusBelow = "Meta+J";
-        PoloniumFocusLeft = "Meta+H";
-        PoloniumFocusRight = [ ];
-        PoloniumInsertAbove = "Meta+Shift+K";
-        PoloniumInsertBelow = "Meta+Shift+J";
-        PoloniumInsertLeft = "Meta+Shift+H";
-        PoloniumInsertRight = "Meta+Shift+L";
-        PoloniumOpenSettings = "Meta+\\\\,none";
-        PoloniumResizeAbove = "Meta+Ctrl+K";
-        PoloniumResizeBelow = "Meta+Ctrl+J";
-        PoloniumResizeLeft = "Meta+Ctrl+H";
-        PoloniumResizeRight = "Meta+Ctrl+L";
-        PoloniumRetileWindow = "Meta+Shift+Space";
-        PoloniumSwitchBTree = [ ];
-        PoloniumSwitchHalf = [ ];
-        PoloniumSwitchKwin = [ ];
-        PoloniumSwitchMonocle = [ ];
-        PoloniumSwitchThreeColumn = [ ];
         "Setup Window Shortcut" = [ ];
         "Show Desktop" = "Meta+D";
         "Switch One Desktop Down" = "Meta+Ctrl+Down";
@@ -552,9 +522,6 @@
         "toggle do not disturb" = [ ];
       };
 
-      "services/org.kde.krunner.desktop" = {
-        _launch = ["Search" "Alt+F2" "Alt+F" "Alt+Space"];
-      };
       # ghostyy 
       "services/com.mitchellh.ghostty.desktop"._launch = ["Alt+T" "Ctrl+Alt+T"];
       # "services/plasma-manager-commands.desktop" = {
@@ -625,7 +592,8 @@
           # Optionally force 96 DPI so apps don’t upscale fonts
           forceFontDPI = 96;
           widgetStyle = "org.kde.breeze";
-          TerminalApplication = "ghostyy.desktop";
+          TerminalApplication = "ghostty";
+          TerminalService = "com.mitchellh.ghostty.desktop";
         };
         KDE = {
           AnimationDurationFactor = 0.5;
@@ -672,14 +640,9 @@
 
       kscreenlockerrc = {
         Daemon = {
-          LockOnResume = true;
           Timeout = 10;
         };
         "Greeter/Wallpaper/org.kde.potd/General" = { Provider = "bing"; };
-        "Greeter/Wallpaper/org.kde.image/General" = {
-          Image = wallpaper;
-          PreviewImage = wallpaper;
-        };
       };
 
       kwalletrc = { Wallet = { "First Use" = false; }; };
@@ -687,10 +650,6 @@
         Desktops = {
           Number = 2;
           Rows = 1;
-        };
-        EdgeBarrier = {
-          CornerBarrier = false;
-          EdgeBarrier = 0;
         };
         # Disable hot corners/edges
         ScreenEdges = {
@@ -723,7 +682,6 @@
 
         Plugins = {
               overviewEnabled = true;  # keep overview, just no edges
-          poloniumEnabled = false;
           shakecursorEnabled = false;
         };
       };
@@ -744,17 +702,9 @@
           wmclassmatch = 2;
         };
 
-        # New rule: prevent fullscreen on startup for all normal windows
-        "2" = {
-          Description = "No fullscreen on startup";
-          types = 1;             # normal windows
-          fullscreen = false;    # initial state
-          fullscreenrule = 0;  
-        };
-
         General = {
-          count = 2;
-          rules = 2;
+          count = 1;
+          rules = "1";
         };
       };
 

@@ -1,7 +1,8 @@
+# Dotfiles linked into $HOME on every host (wired in via sharedHomeModules).
 { config, pkgs, inputs, ... }:
 let
-  configDir = ../../config;
-  avatarPath = ../../assets/avatar.jpg;
+  configDir = ../config;
+  avatarPath = ../assets/avatar.jpg;
 in
 {
   imports = [
@@ -19,6 +20,7 @@ in
 
     # btop theme
     ".config/btop/themes/main.theme".source = "${configDir}/btop/main.theme";
+    # Auto-select the "main" theme (matches main.theme filename)
     ".config/btop/btop.conf" = {
       text = ''
         # Managed by Home Manager
@@ -31,8 +33,6 @@ in
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/dotfiles/nixos/home/config/nvim/.config/nvim";
 
-    ".config/kde".source = "${configDir}/kde";
-    
     # ghostty config
     ".config/ghostty/config".source = "${configDir}/ghostty/config";
     ".config/ghostty/config".force = true;
