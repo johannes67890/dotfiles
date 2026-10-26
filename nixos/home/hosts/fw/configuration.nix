@@ -57,7 +57,37 @@ services.prowlarr = {
   services.onedrive.enable = false;
   # power management
 	services.thermald.enable = true;
-  # touchpad 
+  # fingerprint reader (Framework 13 uses a standard fprintd-supported sensor,
+  # no proprietary TOD driver needed). Enroll with `fprintd-enroll`, check with
+  # `fprintd-verify`.
+  services.fprintd.enable = true;
+
+  # enablePam defaults to true, which turns on fingerprint auth for *every* PAM
+  # service, including ones that authorize in the background with no user
+  # present. Upstream warns against that (nixpkgs#442117), so opt out of the
+  # blanket default and enable it only where a human is clearly at the machine.
+  services.fprintd.enablePam = false;
+
+  security.pam.services = {
+    # SDDM substacks `login`, so fingerprint here makes the login screen wait for
+    # fprintd's 30s timeout before it checks the password. A fingerprint can't
+    # unlock KWallet anyway, so keep the first login password-only.
+    login.fprintAuth = false;
+    sudo.fprintAuth = true;    # sudo
+  };
+  # Lock screen is already handled by the plasma6 module: it defines a separate
+  # `kde-fingerprint` PAM service with fprintAuth = true, gated only on
+  # services.fprintd.enable. It also force-disables fprintAuth on the plain
+  # `kde` service, because fingerprint there can block password login
+  # (nixpkgs#239770) -- so don't set security.pam.services.kde.fprintAuth here.
+  # power button: a short press shouldn't power off. Inside a Plasma session
+  # PowerDevil takes over the short press (see powerdevil in plasma.nix); this
+  # covers the login screen and anywhere PowerDevil isn't running.
+  services.logind.settings.Login = {
+    HandlePowerKey = "ignore";
+    HandlePowerKeyLongPress = "poweroff";
+  };
+  # touchpad
   services.libinput.enable = true;
   # multi-touch gesture recognizer
   # if touche app cant see touchegg: "flatpak override --user --env=XDG_CONFIG_DIRS=/var/run/host/etc/xdg com.github.joseexposito.touche"
@@ -86,7 +116,7 @@ services.prowlarr = {
 
   
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs; inherit (config.networking) hostName; };
     users = {
       jgjo = import ./home.nix;
     };

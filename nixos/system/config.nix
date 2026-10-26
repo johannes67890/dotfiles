@@ -8,6 +8,24 @@
       # binds against. 4.15.1 targets net10.0. See pkgs/azure-functions-core-tools.
       azure-functions-core-tools =
         final.callPackage ../pkgs/azure-functions-core-tools/package.nix { };
+
+      # azure-cli on nixos-unstable needs fabric, which nixpkgs marks broken
+      # whenever invoke >= 3. See the nixpkgs-azure input in flake.nix for the
+      # full reasoning; short version: unstable has invoke 3.0.3, fabric only
+      # supports invoke 2.x, and the incompatibility is real (fabric fails 20
+      # of its own tests against invoke 3). So take azure-cli from 25.11, which
+      # still has invoke 2.2.0 and a working fabric.
+      #
+      # Two alternatives were tried and rejected:
+      #  - pinning invoke to 2.2.0 via pythonPackagesExtensions: correct, but
+      #    invoke is in the closure of torch/django/pyarrow/alembic/starlette,
+      #    so it forces all of them to rebuild from source and OOMs this box.
+      #  - relaxing fabric's invoke pin: builds only if you also skip its test
+      #    suite, which is hiding a genuine runtime break, not fixing it.
+      azure-cli = (import inputs.nixpkgs-azure {
+        inherit (prev.stdenv.hostPlatform) system;
+        config.allowUnfree = true;
+      }).azure-cli;
     })
   ];
 

@@ -1,6 +1,6 @@
 # qdbus org.kde.KWin /KWin reconfigure
 # systemctl --user restart plasma-plasmashell.service plasma-kglobalaccel.service
-{ inputs, config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, hostName ? "main", ... }:
 {
   programs.plasma = let
     wallpaperMap = {
@@ -8,8 +8,7 @@
       main = "${inputs.self}/home/assets/wallpaper/space.png";
       surface = "${inputs.self}/home/assets/wallpaper/space.png";
     };
-    hostname = config.networking.hostName;
-    wallpaper = wallpaperMap.${hostname} or wallpaperMap.main;
+    wallpaper = wallpaperMap.${hostName} or wallpaperMap.main;
   in {
     enable = true;
    overrideConfig = false;
@@ -44,6 +43,18 @@
         productId = "09af";
         tapToClick = true;
         vendorId = "045e";
+      }
+      # Framework 13 touchpad
+      {
+        disableWhileTyping = true;
+        enable = true;
+        name = "PIXA3854:00 093A:1343 Touchpad";
+        naturalScroll = true;
+        pointerSpeed = 0.2;
+        productId = "1343";
+        scrollSpeed = 0.5;
+        tapToClick = true;
+        vendorId = "093a";
       }
     ];
 
@@ -284,7 +295,9 @@
 
       battery = {
         powerProfile = "balanced";
-        powerButtonAction = "sleep";
+        # fw's fingerprint reader sits in the power button, so a press while
+        # reaching for it should only lock, never sleep or shut down
+        powerButtonAction = "lockScreen";
         whenLaptopLidClosed = "sleep";
         whenSleepingEnter = "standbyThenHibernate";
         displayBrightness = 60;
@@ -307,6 +320,7 @@
 
       lowBattery = {
         powerProfile = "powerSaving";
+        powerButtonAction = "lockScreen";
         whenLaptopLidClosed = "hibernate";
         displayBrightness = 40;
 

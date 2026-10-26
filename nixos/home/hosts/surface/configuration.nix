@@ -84,7 +84,7 @@ services.prowlarr = {
 
   
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs; inherit (config.networking) hostName; };
     users = {
       jgjo = import ./home.nix;
     };

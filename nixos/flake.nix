@@ -5,6 +5,19 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # azure-cli is unbuildable on nixos-unstable: it needs fabric, and nixpkgs
+    # marks fabric broken whenever invoke >= 3 (fabric upstream doesn't support
+    # invoke 3.x -- https://github.com/fabric/fabric/issues/2376). Forcing it
+    # through produces a fabric that fails 20 of its own tests with
+    # "ConnectionCall.make_context() got an unexpected keyword argument", so
+    # it's a real incompatibility, not a packaging nit.
+    #
+    # 25.11 still ships invoke 2.2.0, where fabric is supported and unbroken,
+    # so azure-cli is pulled from there (see the overlay in system/config.nix).
+    # Being a release channel it comes from the binary cache. Revisit once
+    # fabric gains invoke 3.x support upstream.
+    nixpkgs-azure.url = "github:nixos/nixpkgs/nixos-25.11";
+
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";
