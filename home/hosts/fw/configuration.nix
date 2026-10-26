@@ -12,7 +12,7 @@
     # Framework 13 Pro quirks (Intel Core Ultra Series 3); see the Framework NixOS guide
     inputs.nixos-hardware.nixosModules.framework-intel-core-ultra-series3
     ../../../system/config.nix
-    ../../../system/modules/boot.nix
+    ../../../system/modules/bootSecure.nix
     ../../../system/modules/hardware-non-nvidia.nix
     ../../../system/modules/kde.nix
     ../../../system/modules/file-limits.nix

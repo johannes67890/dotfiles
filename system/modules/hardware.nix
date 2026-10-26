@@ -9,6 +9,7 @@
 	hardware.enableAllFirmware = true;
 
 
+	boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
 	services.xserver.videoDrivers = [ "nvidia" "modesetting" ];
 
 	hardware.nvidia = {
