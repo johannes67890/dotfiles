@@ -16,8 +16,6 @@
     ../../../system/modules/file-limits.nix
   ];
 
-  boot.kernelParams = lib.mkForce [ ];
-
   nixpkgs = {
     config = {
       # Disable if you don't want unfree packages

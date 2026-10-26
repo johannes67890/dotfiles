@@ -33,7 +33,11 @@ jgjo #desktop
 ```
 
 ```sh
-laptop #laptop
+surface #Surface Laptop 3
+```
+
+```sh
+fw #Framework Laptop 13 Pro
 ```
 
 ## Repo layout

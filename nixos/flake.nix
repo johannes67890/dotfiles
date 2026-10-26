@@ -17,6 +17,12 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    # Hardware quirks (Framework etc.)
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # for secure boot
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
@@ -80,10 +86,24 @@
 
         ];
       };
-      laptop = nixpkgs.lib.nixosSystem {
+      surface = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs outputs;};
           modules = [
-            ./home/hosts/laptop/configuration.nix
+            ./home/hosts/surface/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
+              home-manager.sharedModules = sharedHomeModules;
+            }
+            lanzaboote.nixosModules.lanzaboote
+          ];
+  };
+      fw = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs outputs;};
+          modules = [
+            ./home/hosts/fw/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -107,11 +127,19 @@
         ];
       };
 
-       "jgjo@laptop" = home-manager.lib.homeManagerConfiguration {
+       "jgjo@surface" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
           modules = sharedHomeModules ++ [
-            ./home/hosts/laptop/home.nix
+            ./home/hosts/surface/home.nix
+          ];
+        };
+
+       "jgjo@fw" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = sharedHomeModules ++ [
+            ./home/hosts/fw/home.nix
           ];
         };
     };
