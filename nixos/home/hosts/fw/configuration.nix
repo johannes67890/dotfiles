@@ -61,6 +61,9 @@
     HandlePowerKey = "ignore";
     HandlePowerKeyLongPress = "poweroff";
   };
+  # udev autoloads this next to `button`; it signals init to power off on every
+  # press (SIGRTMIN+4), bypassing logind and PowerDevil entirely
+  boot.blacklistedKernelModules = [ "tiny_power_button" ];
   # touchpad
   services.libinput.enable = true;
   # multi-touch gesture recognizer
