@@ -3,7 +3,13 @@
 { inputs, config, lib, pkgs, ... }:
 {
   programs.plasma = let
-    wallpaper = "${inputs.self}/home/assets/wallpaper/space.png";
+    wallpaperMap = {
+      fw = "${inputs.self}/home/assets/wallpaper/FW13.png";
+      main = "${inputs.self}/home/assets/wallpaper/space.png";
+      surface = "${inputs.self}/home/assets/wallpaper/space.png";
+    };
+    hostname = config.networking.hostName;
+    wallpaper = wallpaperMap.${hostname} or wallpaperMap.main;
   in {
     enable = true;
    overrideConfig = false;
@@ -15,7 +21,7 @@
         iconTheme = "Fluent-dark";
         wallpaper = wallpaper;
       };
-    
+
     input.mice = [
       # Home pc mouse settings
       {
@@ -24,7 +30,7 @@
         productId = "256";
         enable = true;
         acceleration = -0.33;
-        accelerationProfile = "none"; 
+        accelerationProfile = "none";
       }
     ];
 
