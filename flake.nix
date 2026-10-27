@@ -93,6 +93,7 @@
       }) {
       jgjo = "main"; # desktop
       surface = "surface";
+      surface-server = "surface-server";
       fw = "fw";
     };
   };
