@@ -7,7 +7,7 @@
   # packages. Switch an existing surface install with
   # `nixos-rebuild switch --flake .#surface-server`.
   imports = [
-    ../surface/hardware-configuration.nix
+    ./hardware-configuration.nix
     ../../../system/config.nix
     ../../../system/modules/boot.nix
     ../../../system/modules/hardware-non-nvidia.nix
@@ -47,7 +47,33 @@
   services.jellyfin = {
     enable = true;
     openFirewall = true;
+    # Transcode on the Ice Lake iGPU instead of the CPU.
+    hardwareAcceleration = {
+      enable = true;
+      type = "vaapi";
+      device = "/dev/dri/renderD128";
+    };
+    forceEncodingConfig = true; # this file, not the dashboard, owns transcoding settings
+    transcoding = {
+      enableHardwareEncoding = true;
+      hardwareDecodingCodecs = {
+        h264 = true;
+        hevc = true;
+        hevc10bit = true;
+        vp9 = true;
+        mpeg2 = true;
+        vc1 = true;
+        vp8 = true;
+      };
+      hardwareEncodingCodecs.hevc = true;
+    };
   };
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver # VAAPI (iHD)
+    intel-compute-runtime-legacy1 # OpenCL for HDR tone mapping; Gen11 needs the legacy runtime
+  ];
+  # Steady throughput for streams; shared config turns Wi-Fi powersave on.
+  networking.networkmanager.wifi.powersave = lib.mkForce false;
 
   # NAS: \\surface-server\share. Set the SMB password once: `sudo smbpasswd -a jgjo`.
   services.samba = {
@@ -57,6 +83,8 @@
       global = {
         "server string" = "surface-server";
         "map to guest" = "never";
+        # No anonymous sessions: clients (Dolphin) must prompt for a login.
+        "restrict anonymous" = 2;
       };
       share = {
         path = "/srv/share";
@@ -65,6 +93,12 @@
         "force user" = "jgjo";
       };
     };
+  };
+
+  # Shows the server under Network in Dolphin and Windows Explorer.
+  services.samba-wsdd = {
+    enable = true;
+    openFirewall = true;
   };
 
   # Private network. Join once with `sudo tailscale up`; then reach this box as
@@ -82,5 +116,5 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPZ/LKt2V0JEb06a34/ktDMWXF3p6+ENQp2uqBnlNc0 johannes@orager.dk"
   ];
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "26.05";
 }
