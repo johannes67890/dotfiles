@@ -40,6 +40,9 @@ in
     # yazi config
     ".config/yazi".source = "${configDir}/yazi";
 
+    # fastfetch config
+    ".config/fastfetch".source = "${configDir}/fastfetch";
+
     # lazygit config
     ".config/lazygit/config.yml".source = "${configDir}/lazygit/config.yml";
 
