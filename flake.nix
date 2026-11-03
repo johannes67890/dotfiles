@@ -36,6 +36,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Themed Spotify (see home/config/spicetify)
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # for secure boot
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
@@ -67,6 +73,7 @@
     # ./home/hosts/<host>/home.nix.
     sharedHomeModules = [
       inputs.plasma-manager.homeModules.plasma-manager
+      inputs.spicetify-nix.homeManagerModules.spicetify
       ./home/shared/home.nix
       ./home/shared/packages.nix
     ];

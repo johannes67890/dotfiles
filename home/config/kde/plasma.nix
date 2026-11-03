@@ -90,7 +90,7 @@
       };
       rofi-calc = {
         name = "Rofi calculator";
-        key = "Meta+C";
+        key = "Alt+C";
         command = "${rofi} -show calc -no-show-match -no-sort";
       };
     };
@@ -150,7 +150,7 @@
                   "applications:org.kde.dolphin.desktop"
                   "applications:com.mitchellh.ghostty.desktop"
                   "applications:brave-browser.desktop"
-                  "applications:discord.desktop"
+                  "applications:vesktop.desktop"
                   "applications:code.desktop"
                   "applications:startcenter.desktop" # libreoffice
                   "applications:postman.desktop"
@@ -721,9 +721,19 @@
           wmclassmatch = 2;
         };
 
+        "2" = {
+          Description = "Spotify";
+          # No KDE titlebar, like Vesktop (move with Meta+drag, close with Ctrl+Q)
+          noborder = true;
+          noborderrule = 2;
+          types = 1;
+          wmclass = "spotify";
+          wmclassmatch = 2;
+        };
+
         General = {
-          count = 1;
-          rules = "1";
+          count = 2;
+          rules = "1,2";
         };
       };
 
