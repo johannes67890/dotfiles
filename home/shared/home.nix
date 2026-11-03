@@ -6,6 +6,7 @@
   imports = [
     ./config.nix
     ../config/zsh/jetlink.nix
+    ../config/spicetify/spicetify.nix
   ];
   
   home = {

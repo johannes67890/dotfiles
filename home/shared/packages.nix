@@ -54,7 +54,6 @@
     thunderbird
     discord
     signal-desktop
-    spotify
     proton-vpn
     grimblast
     easyeffects
