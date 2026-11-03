@@ -73,7 +73,26 @@
     krunner = {
       historyBehavior = "enableSuggestions"; 
       position = "center";
-      shortcuts.launch = [ "Search" "Alt+F2" "Alt+F" "Alt+Space" ];
+      shortcuts.launch = [ "Alt+F2" ]; # fallback; rofi owns the rest
+    };
+
+    # rofi (home/shared/home.nix). Same key again closes it. Enter in calc copies the result.
+    hotkeys.commands = let
+      rofi = pkgs.writeShellScript "rofi-toggle" ''
+        ${pkgs.procps}/bin/pkill -x rofi || exec ${config.programs.rofi.finalPackage}/bin/rofi "$@" \
+          -calc-command "echo -n '{result}' | ${pkgs.wl-clipboard}/bin/wl-copy"
+      '';
+    in {
+      rofi-launcher = {
+        name = "Rofi launcher";
+        keys = [ "Search" "Alt+F" "Alt+Space" ];
+        command = "${rofi} -show drun";
+      };
+      rofi-calc = {
+        name = "Rofi calculator";
+        key = "Meta+C";
+        command = "${rofi} -show calc -no-show-match -no-sort";
+      };
     };
 
     kscreenlocker = {

@@ -30,6 +30,27 @@
   programs.home-manager.enable = true;
   
   programs.kitty.enable = true;
+
+  # Launcher replacing krunner (hotkeys in config/kde/plasma.nix).
+  # rofi-calc uses qalc: math + currency ("100 usd to dkk"), rates refresh daily.
+  programs.rofi = {
+    enable = true;
+    plugins = [ pkgs.rofi-calc ];
+    theme = ../config/rofi/theme.rasi;
+    settings = {
+      modes = "drun,calc";
+      terminal = "ghostty";
+      font = "FiraCode Nerd Font 13";
+      show-icons = true;
+      drun-display-format = "{name}";
+      matching = "fuzzy";
+      sort = true;
+      sorting-method = "fzf";
+      click-to-exit = true;
+      display-drun = "";
+      display-calc = "";
+    };
+  };
   
   programs.neovim = {
     enable = true;
