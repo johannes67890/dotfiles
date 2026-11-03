@@ -22,7 +22,7 @@
 
 window {
     location: center;
-    width: 420px;
+    width: 600px;
     height: 290px;
     background-color: @bg;
     border: 1px;
