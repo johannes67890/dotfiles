@@ -70,7 +70,9 @@
         vc1 = true;
         vp8 = true;
       };
-      hardwareEncodingCodecs.hevc = true;
+      # Transcode to H.264 only: the Apple TV HD (A1625) can't decode HEVC, and
+      # every other client direct-plays, so HEVC output gains nothing here.
+      hardwareEncodingCodecs.hevc = false;
       # Needs HuC (kernel param above). If transcodes fail, check `dmesg | grep -i huc`.
       enableIntelLowPowerEncoding = true;
     };
