@@ -42,6 +42,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Zen Browser, the default browser (see home/config/zen)
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     # for secure boot
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
@@ -74,6 +81,7 @@
     sharedHomeModules = [
       inputs.plasma-manager.homeModules.plasma-manager
       inputs.spicetify-nix.homeManagerModules.spicetify
+      inputs.zen-browser.homeModules.beta
       ./home/shared/home.nix
       ./home/shared/packages.nix
     ];

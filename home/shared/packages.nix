@@ -48,7 +48,6 @@
 
     # --- GUI Apps ---
     firefox
-    brave
     google-chrome
     tor-browser
     thunderbird
@@ -117,6 +116,7 @@
     nodejs
     pnpm
     yarn
+    bun
 
     # Python
     python3

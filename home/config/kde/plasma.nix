@@ -76,22 +76,28 @@
       shortcuts.launch = [ "Alt+F2" ]; # fallback; rofi owns the rest
     };
 
-    # rofi (home/shared/home.nix). Same key again closes it. Enter in calc copies the result.
+    # The quickshell menu is the launcher (search, calculator, currency). The rofi hotkeys below are disabled,
+    # not removed: rofi itself is still configured in home/shared/home.nix. Same key again closes rofi.
     hotkeys.commands = let
       rofi = pkgs.writeShellScript "rofi-toggle" ''
         ${pkgs.procps}/bin/pkill -x rofi || exec ${config.programs.rofi.finalPackage}/bin/rofi "$@" \
           -calc-command "echo -n '{result}' | ${pkgs.wl-clipboard}/bin/wl-copy"
       '';
     in {
-      rofi-launcher = {
-        name = "Rofi launcher";
-        keys = [ "Search" "Alt+F" "Alt+Space" ];
-        command = "${rofi} -show drun";
-      };
-      rofi-calc = {
-        name = "Rofi calculator";
-        key = "Alt+C";
-        command = "${rofi} -show calc -no-show-match -no-sort";
+      # rofi-launcher = {
+      #   name = "Rofi launcher";
+      #   keys = [ "Search" "Alt+F" "Alt+Space" ];
+      #   command = "${rofi} -show drun";
+      # };
+      # rofi-calc = {
+      #   name = "Rofi calculator";
+      #   key = "Alt+C";
+      #   command = "${rofi} -show calc -no-show-match -no-sort";
+      # };
+      quick-menu = {
+        name = "Quick settings menu";
+        key = "Alt+F";
+        command = "${config.programs.quickshell.package}/bin/qs -c menu ipc call menu toggle";
       };
     };
 
@@ -149,7 +155,7 @@
                 launchers = [
                   "applications:org.kde.dolphin.desktop"
                   "applications:com.mitchellh.ghostty.desktop"
-                  "applications:brave-browser.desktop"
+                  "applications:zen-beta.desktop"
                   "applications:vesktop.desktop"
                   "applications:code.desktop"
                   "applications:startcenter.desktop" # libreoffice

@@ -2,7 +2,12 @@
 {
   # Shared overlays (common to all hosts).
   nixpkgs.overlays = [
-    (final: prev: {
+    (final: prev: let
+      stable = import inputs.nixpkgs-azure {
+        inherit (prev.stdenv.hostPlatform) system;
+        config.allowUnfree = true;
+      };
+    in {
       # nixpkgs ships 4.8.0, whose host targets net8.0 and cannot load the
       # Microsoft.Extensions.* 10.x assemblies a .NET 10 isolated worker app
       # binds against. 4.15.1 targets net10.0. See pkgs/azure-functions-core-tools.
@@ -22,10 +27,12 @@
       #    so it forces all of them to rebuild from source and OOMs this box.
       #  - relaxing fabric's invoke pin: builds only if you also skip its test
       #    suite, which is hiding a genuine runtime break, not fixing it.
-      azure-cli = (import inputs.nixpkgs-azure {
-        inherit (prev.stdenv.hostPlatform) system;
-        config.allowUnfree = true;
-      }).azure-cli;
+      azure-cli = stable.azure-cli;
+
+      # tectonic 0.17 on unstable fails to build: its aws-lc-sys is told to use a
+      # system AWS-LC that nixpkgs doesn't provide. 25.11's 0.15 is cached.
+      # Drop this once unstable builds again.
+      tectonic = stable.tectonic;
     })
   ];
 
@@ -52,10 +59,7 @@
   };
 
   # --- Settings every host shares; host files keep only what differs. ---
-  nixpkgs.config = {
-    allowUnfree = true;
-    permittedInsecurePackages = [ "qtwebengine-5.15.19" ];
-  };
+  nixpkgs.config.allowUnfree = true;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = true;
@@ -68,7 +72,7 @@
   users.users.jgjo = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ]; # docker: the quickshell menu lists/starts containers (root-equivalent access)
   };
 
   home-manager.extraSpecialArgs = { inherit inputs; inherit (config.networking) hostName; };

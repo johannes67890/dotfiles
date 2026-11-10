@@ -30,11 +30,14 @@
 
   # Desktop-only bits from system/config.nix.
   services.flatpak.enable = lib.mkForce false;
+  # The docker group (for the desktop menu's Docker page) is root without the sudo password; not here.
+  users.users.jgjo.extraGroups = lib.mkForce [ "wheel" ];
 
   # Idle power: blank the console after 60s, runtime-PM for devices.
   # ponytail: powertop autotune also autosuspends USB; if a USB disk/NIC drops
   # out, drop this line or exempt the device.
-  boot.kernelParams = ["consoleblank=60"];
+  # enable_guc=2: load HuC firmware, which Ice Lake's low-power (VDENC) encoders need.
+  boot.kernelParams = ["consoleblank=60" "i915.enable_guc=2"];
   powerManagement.powertop.enable = true;
 
   services.thermald.enable = true;
@@ -47,7 +50,8 @@
   services.jellyfin = {
     enable = true;
     openFirewall = true;
-    # Transcode on the Ice Lake iGPU instead of the CPU.
+    # Transcode on the Ice Lake iGPU instead of the CPU. VAAPI, not QSV: QSV on
+    # Gen11 needs the EOL, insecure-flagged intel-media-sdk runtime.
     hardwareAcceleration = {
       enable = true;
       type = "vaapi";
@@ -60,12 +64,15 @@
         h264 = true;
         hevc = true;
         hevc10bit = true;
+        hevcRExt10bit = true; # 4:2:2/4:4:4 HEVC; Gen11 can, 12-bit and AV1 need Gen12+
         vp9 = true;
         mpeg2 = true;
         vc1 = true;
         vp8 = true;
       };
       hardwareEncodingCodecs.hevc = true;
+      # Needs HuC (kernel param above). If transcodes fail, check `dmesg | grep -i huc`.
+      enableIntelLowPowerEncoding = true;
     };
   };
   hardware.graphics.extraPackages = with pkgs; [

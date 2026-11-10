@@ -34,9 +34,10 @@ return {
 						local lines = dashboard.stats_card_virtual_lines(pane_width)
 						vim.api.nvim_buf_clear_namespace(self.buf, stats_ns, start_row, end_row)
 						for i, chunks in ipairs(lines) do
-							vim.api.nvim_buf_set_extmark(self.buf, stats_ns, start_row + i - 1, start_col, {
+							vim.api.nvim_buf_set_extmark(self.buf, stats_ns, start_row + i - 1, 0, {
+								-- padding lines can be shorter than start_col; place by window column instead
 								virt_text = chunks,
-								virt_text_pos = "overlay",
+								virt_text_win_col = start_col,
 								hl_mode = "combine",
 							})
 						end

@@ -8,6 +8,8 @@
     ../config/zsh/jetlink.nix
     ../config/spicetify/spicetify.nix
     ../config/vesktop/vesktop.nix
+    ../config/zen/zen.nix
+    ../config/quickshell/quickshell.nix
   ];
   
   home = {
@@ -65,6 +67,13 @@
   };
 
   programs.tmux.enable = true;
+
+  # Adds ls/ll/la/lt/lla aliases to zsh.
+  programs.eza = {
+    enable = true;
+    icons = "auto";
+    git = true;
+  };
 
   programs.zsh = {
     enable = true;

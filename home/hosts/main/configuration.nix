@@ -16,8 +16,6 @@
     ../../../system/modules/file-limits.nix
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
-
   networking.hostName = "jgjo";
   networking.wireless.iwd.enable = true;
   networking.networkmanager.wifi.backend = "iwd";

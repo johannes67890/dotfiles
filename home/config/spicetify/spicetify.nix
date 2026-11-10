@@ -58,6 +58,19 @@ in
         .Root__right-sidebar:has(aside:not(:empty)):hover {
           border-color: var(--spice-border-inactive);
         }
+        /* connect bar (Jam / device): upstream draws it at 25% opacity in
+           #555 with a difference blend over the progress bar; make it solid */
+        .main-connectBar-connectBar {
+          opacity: 1;
+          mix-blend-mode: normal;
+          background-color: var(--spice-main) !important;
+        }
+        .main-connectBar-connectBar span {
+          color: var(--spice-text);
+        }
+        .main-connectBar-connectBar svg {
+          fill: var(--spice-text);
+        }
         .player-controls__buttons,
         .main-nowPlayingBar-extraControls {
           opacity: 0.7;
