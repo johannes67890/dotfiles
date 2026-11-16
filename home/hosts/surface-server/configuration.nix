@@ -77,6 +77,14 @@
       enableIntelLowPowerEncoding = true;
     };
   };
+  # http://surface-server.home (or any name/IP for this box) -> Jellyfin, no :8096.
+  # Plain HTTP on :80, so Caddy skips auto-HTTPS.
+  services.caddy = {
+    enable = true;
+    virtualHosts.":80".extraConfig = "reverse_proxy localhost:8096";
+  };
+  networking.firewall.allowedTCPPorts = [80];
+
   hardware.graphics.extraPackages = with pkgs; [
     intel-media-driver # VAAPI (iHD)
     intel-compute-runtime-legacy1 # OpenCL for HDR tone mapping; Gen11 needs the legacy runtime

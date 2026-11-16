@@ -16,6 +16,71 @@
     username = "jgjo";
     homeDirectory = "/home/jgjo";
     sessionPath = [ "$HOME/.cargo/bin" ];
+
+    # Toolpack function apps against local Azurite; Ctrl-C stops all of them.
+    packages = let
+      # Shared start: Ctrl-C cleanup, port check, and Azurite unless it already runs.
+      funcPreamble = ''
+        set -euo pipefail
+        fn=~/repos/Toolpack_Finance/AzureFunctions
+        trap 'trap "" TERM; kill 0' EXIT  # kill children, keep our own exit code
+        up() { (exec 3<>"/dev/tcp/127.0.0.1/$1") 2>/dev/null; }
+        if ! up 10001; then
+          azurite --silent --location ~/.local/share/azurite 2>&1 | sed -u 's/^/[azurite] /' &
+          until up 10001; do sleep 0.5; done
+        fi
+      '';
+    in [
+      (pkgs.writeShellScriptBin "run-dbfunc" ''
+        ${funcPreamble}
+        app="$fn/ToolpackOne.Azure.dbFunctions"
+        [ -f "$app/local.settings.json" ] || { echo "missing $app/local.settings.json"; exit 1; }
+
+        # Azurite's well-known dev key; az rejects the UseDevelopmentStorage=true shortcut.
+        conn="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;"
+        az_q() { az storage "$@" --only-show-errors --connection-string "$conn" -o none; }
+
+        if [ $# -eq 1 ] && [ "$1" = --clear ]; then
+          az_q queue create -n t1-db-queue
+          az_q message clear -q t1-db-queue
+          echo "Cleared t1-db-queue"; exit 0
+        fi
+
+        if [ $# -gt 0 ]; then
+          if [ $# -eq 2 ] && [ "$1" = --migration ]; then
+            body=$(printf '"Type":"UpgradeDatabase","CNumber":"%s"' "$2")
+          elif [ $# -eq 4 ] && [ "$1" = --migration ] && [ "$2" = --down ]; then
+            # Version = migration id to roll back to; Down() runs for every migration after it.
+            body=$(printf '"Type":"DowngradeDatabase","CNumber":"%s","Version":"%s"' "$3" "$4")
+          else
+            echo "usage: run-dbfunc [--clear] [--migration <CNumber>] [--migration --down <CNumber> <Version>]"; exit 1
+          fi
+          token=$(az keyvault secret show --vault-name toolpackonevault-test --name PortalToken --query value -o tsv)
+          # dbFunctions expects base64 messages, like the API sends.
+          msg=$(printf '{%s,"Token":"%s"}' "$body" "$token" | base64 -w0)
+          az_q queue create -n t1-db-queue
+          az_q message put -q t1-db-queue --content "$msg"
+          echo "Queued {$body}"
+          if up 7073; then echo "dbFunctions is already running and will pick it up."; exit 0; fi
+        fi
+
+        cd "$app" && func start --port 7073
+      '')
+      (pkgs.writeShellScriptBin "run-func" ''
+        ${funcPreamble}
+        for app in jobManager integrationFunctions; do
+          [ -f "$fn/ToolpackOne.Azure.$app/local.settings.json" ] || { echo "missing $fn/ToolpackOne.Azure.$app/local.settings.json"; exit 1; }
+        done
+
+        # jobManager first: it creates the queues.
+        (cd "$fn/ToolpackOne.Azure.jobManager" && func start 2>&1 | sed -u 's/^/[jobManager] /') &
+        jm=$!
+        until up 7071; do kill -0 "$jm" 2>/dev/null || exit 1; sleep 2; done
+
+        (cd "$fn/ToolpackOne.Azure.integrationFunctions" && func start --port 7072 2>&1 | sed -u 's/^/[integration] /') &
+        wait
+      '')
+    ];
   };
 
   fonts.fontconfig.enable = true;

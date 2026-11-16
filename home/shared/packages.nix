@@ -24,6 +24,7 @@
     zip
     unzip
     ripgrep
+    azurite
     fd          # used by telescope.nvim/neo-tree for fast file listing
     gnumake     # needed to build telescope-fzf-native.nvim's native sorter
     tree-sitter # CLI required by nvim-treesitter's `main` branch to build parsers
